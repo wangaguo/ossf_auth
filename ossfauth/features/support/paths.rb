@@ -12,7 +12,8 @@ module NavigationHelpers
       '/'
     when /the new site page/
       new_site_path
-
+    when /site regist page/
+      '/site/regist'
     
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

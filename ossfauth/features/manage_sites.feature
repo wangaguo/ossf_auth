@@ -3,11 +3,24 @@ Feature: Manage sites
   Boss 
   wants Site Manager Module
   
-  Scenario: As a Centralized Site
-    Given a key, IP, site name and URLs 
-    When The Browser POST to regSite action
-    Then I should receive a regist key
+  Scenario: Test Associated Site Register to a Centralized Site
+    When I go to site regist page
+    When I fill in the following:
+	|ip			|1.2.3.4|
+	|name			|test-sp|
+	|create_session_url	|crt_url|
+	|destroy_session_url	|dsry_url|
+    When I press "submit"
+    Then I should see /your key is:/
 
+  Scenario: Test Associated Site Deregister to a Centralized Site
+    Given the fellowing sites:
+    	|ip	|name	|regist_key|
+	|1.1.1.1|kerker	|1234567890|
+    When I go to site deregist page
+    When I fill in "regist_key" with "1234567890"
+    When I press "submit"
+    Then I should see /site deregisted/ 
   # Rails generates Delete links that use Javascript to pop up a confirmation
   # dialog and then do a HTTP POST request (emulated DELETE request).
   #

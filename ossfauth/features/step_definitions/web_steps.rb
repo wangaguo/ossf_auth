@@ -10,7 +10,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "pat
 
 module WithinHelpers
   def with_scope(locator)
-    within(locator || 'html') { yield }
+    within(locator || 'body') { yield }
   end
 end
 World(WithinHelpers)
@@ -58,12 +58,12 @@ end
 # TODO: Add support for checkbox, select og option
 # based on naming conventions.
 #
-When /^(?:|I )fill in the following(?: within "([^\"]*)"|)?:$/ do |fields, selector|
-  with_scope(selector) do
+When /^(?:|I )fill in the following(?: within "([^\"]*)"|)?:$/ do |selector, fields|
+  #with_scope(selector) do
     fields.rows_hash.each do |name, value|
       When %{I fill in "#{name}" with "#{value}"}
     end
-  end
+  #end
 end
 
 When /^(?:|I )select "([^\"]*)" from "([^\"]*)"(?: within "([^\"]*)")?$/ do |value, field, selector|

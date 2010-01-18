@@ -1,0 +1,17 @@
+<%form_tag '/site/regist' do%>
+<h3>Regist a new site</h3>
+<br/>
+ip:
+<%= text_field_tag :ip%>
+<br/>
+name:
+<%= text_field_tag :name%>
+<br/>
+Session create url:
+<%= text_field_tag :create_session_url%>
+<br/>
+Session destory url:
+<%= text_field_tag :destroy_session_url%>
+<br/>
+<%= submit_tag :submit %>
+<%end%>
