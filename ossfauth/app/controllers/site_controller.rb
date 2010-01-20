@@ -22,10 +22,20 @@ def regist
   end
 end
 def deregist
-  if request.port?
-    Site.find_by_regist_key(params[:key]).delete 
+  if request.post?
+    s = Site.find_by_regist_key(params[:regist_key]).delete 
+    render :text => "site: #{s.name} deregisted"
   end
 end
+  def fetch
+    if request.post?
+      s = Site.find_by_regist_key(params[:regist_key])
+      (render :text => 'Error, no such key';return) unless s
+      s = Session.find_by_session_key(params[:session_key])
+      (render :text => 'Error, no such session';return) unless s
+      render :text => "user_id: #{s.user.id} , email: #{s.user.email}"    
+    end
+  end
   private
   def generate_regist_key
     UUID.new.generate

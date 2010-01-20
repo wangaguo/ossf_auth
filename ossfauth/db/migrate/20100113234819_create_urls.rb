@@ -3,7 +3,6 @@ class CreateUrls < ActiveRecord::Migration
     create_table :urls do |t|
       t.string :type
       t.string :content
-      t.int :site_id
 
       t.timestamps
     end

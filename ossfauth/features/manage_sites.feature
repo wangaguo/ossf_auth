@@ -14,13 +14,30 @@ Feature: Manage sites
     Then I should see /your key is:/
 
   Scenario: Test Associated Site Deregister to a Centralized Site
-    Given the fellowing sites:
+    Given the following sites:
     	|ip	|name	|regist_key|
 	|1.1.1.1|kerker	|1234567890|
     When I go to site deregist page
     When I fill in "regist_key" with "1234567890"
     When I press "submit"
-    Then I should see /site deregisted/ 
+    Then I should see /site: kerker deregisted/ 
+
+  Scenario: Test Session Fetch
+    Given the following sites:
+        |ip     |name   |regist_key|
+        |1.1.1.1|kerker |1234567890|
+    Given the following sessions:
+        |ip     |user_id|session_key     |
+        |2.2.2.2|10001  |abcd223456789def|
+    Given the following users:
+        |id     |name     |email           |
+        |10001  |test_user|tim@iis.ccc.xd  |
+    When I go to session fetch page
+    When I fill in the following:
+	|regist_key |1234567890|
+	|session_key|abcd223456789def|
+    When I press "submit"
+    Then I should see /10001/	
   # Rails generates Delete links that use Javascript to pop up a confirmation
   # dialog and then do a HTTP POST request (emulated DELETE request).
   #

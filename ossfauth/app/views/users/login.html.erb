@@ -1,0 +1,12 @@
+<%form_tag '/users/login' do%>
+<h3>User login</h3>
+<br/>
+name:
+<%= text_field_tag :name%>
+<br/>
+password:
+<%= text_field_tag :password%>
+<br/>
+<%= submit_tag :submit %>
+<%end%>
+

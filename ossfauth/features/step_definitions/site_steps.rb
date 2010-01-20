@@ -1,5 +1,12 @@
 Given /^the following sites:$/ do |sites|
-  Site.create!(sites.hashes)
+  sites.hashes.each do |site| 
+    Site.create!(site) 
+  end
+end
+Given /^the following sessions:$/ do |sessions|
+  sessions.hashes.each do |session| 
+    Session.create!(session) 
+  end
 end
 
 When /^I delete the (\d+)(?:st|nd|rd|th) site$/ do |pos|
