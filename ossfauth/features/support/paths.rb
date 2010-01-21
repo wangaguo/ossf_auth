@@ -10,11 +10,12 @@ module NavigationHelpers
     
     when /the home\s?page/
       '/'
-    when /the new user page/
-      new_user_path
-
-    when /the new site page/
-      new_site_path
+    when /the user logout page/
+      '/users/logout'
+    when /the user login page/
+      '/users/login'
+    when /the user signup page/
+      '/users/signup'
     when /site regist page/
       '/site/regist'
     when /site deregist page/

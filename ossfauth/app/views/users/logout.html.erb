@@ -1,2 +1,4 @@
 <h1>Users#logout</h1>
-<p>Find me in app/views/users/logout.html.erb</p>
+<%form_tag '/users/logout' do %>
+  <%= submit_tag 'logout'%>
+<%end%>

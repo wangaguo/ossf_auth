@@ -18,14 +18,15 @@ class UsersController < ApplicationController
       s = u.sessions.new
       s.session_key = cookies[:_ossfauth_session]
       s.save
-      render :text => "Welcome #{u.name}<br/>your sid is: #{s.session_key}"
+      render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
     end   
   end
 
   def logout
     if request.post?
-      s = Session.find_by_session_key(params[:session_key])
-      s
+      s = Session.find_by_session_key(cookies[:_ossfauth_session_])
+      (render :text => 'Session error';return) unless s
+      render :text => "Goodbye #{s.user.name}"
     end
   end
 

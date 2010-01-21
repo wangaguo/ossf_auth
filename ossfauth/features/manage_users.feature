@@ -3,14 +3,33 @@ Feature: Manage users
   boss
   wants user manager module
   
-  Scenario: Register new user
-    Given I am on the new user page
-    When I fill in "Name" with "name 1"
-      And I fill in "Email" with "email 1"
+  Scenario: New user Signup
+    Given I am on the user signup page
+    When I fill in "name" with "name 1"
+      And I fill in "email" with "email 1"
       And I press "submit"
     Then I should see "name 1"
     And I should see "email 1"
 
+  Scenario: User Login
+    Given the following users:
+	|name  |password|email   |
+	|kerker|kerker  |k@kk.ker|
+    Given I am on the user login page
+    When I fill in "name" with "kerker"
+      And I fill in "password" with "kerker"
+      And I press "submit"
+    Then I should see "Welcome, kerker"
+    #And I should have cookie "session"
+
+  Scenario: User Logout
+    Given the following users:
+	|id    |name  |password|email   |
+	|10001 |kerker|kerker  |k@kk.ker|
+    Given I am login as "kerker" with password "kerer"
+    Given I am on the user logout page
+    When I press "logout"
+    Then I should see "Goobye kerker"
   # Rails generates Delete links that use Javascript to pop up a confirmation
   # dialog and then do a HTTP POST request (emulated DELETE request).
   #
@@ -32,17 +51,3 @@ Feature: Manage users
   # the onclick javascript and emulate its behaviour without a real Javascript
   # interpreter.
   #
-  @culerity
-  Scenario: Delete user
-    Given the following users:
-      |name|email|
-      |name 1|email 1|
-      |name 2|email 2|
-      |name 3|email 3|
-      |name 4|email 4|
-    When I delete the 3rd user
-    Then I should see the following users:
-      |Name|Email|
-      |name 1|email 1|
-      |name 2|email 2|
-      |name 4|email 4|
