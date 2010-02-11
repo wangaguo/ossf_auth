@@ -18,7 +18,11 @@ class UsersController < ApplicationController
       s = u.sessions.new
       s.session_key = cookies[:_ossfauth_session]
       s.save
-      render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
+      if params[:return_url]
+        redirect_to params[:return_url] 
+      else
+        render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
+      end
     end   
   end
 
@@ -26,7 +30,11 @@ class UsersController < ApplicationController
     if request.post?
       s = Session.find_by_session_key(cookies[:_ossfauth_session_])
       (render :text => 'Session error';return) unless s
-      render :text => "Goodbye #{s.user.name}"
+      if params[:return_url]
+        redirect_to params[:return_url] 
+      else
+        render :text => "Goodbye #{s.user.name}"
+      end
     end
   end
 
