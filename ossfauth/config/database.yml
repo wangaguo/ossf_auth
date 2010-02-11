@@ -2,7 +2,7 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development: &DEVELOPMENT
   adapter: mysql
-  database: development
+  database: sso 
   username: ossfdev
   password: ossfdev
   host:     localhost
