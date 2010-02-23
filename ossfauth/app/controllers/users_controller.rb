@@ -28,11 +28,12 @@ class UsersController < ApplicationController
 
   def logout
     if request.post?
-      s = Session.find_by_session_key(cookies[:_ossfauth_session_])
-      (render :text => 'Session error';return) unless s
+      s = Session.find_by_session_key(cookies[:_ossfauth_session])
+      (render :text => "Session error cookie= #{cookies[:_ossfauth_session]}";return) unless s
       if params[:return_url]
         redirect_to params[:return_url] 
       else
+        s.delete
         render :text => "Goodbye #{s.user.name}"
       end
     end
