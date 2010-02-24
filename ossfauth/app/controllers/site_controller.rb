@@ -1,4 +1,5 @@
 class SiteController < ApplicationController
+skip_before_filter :verify_authenticity_token
 def regist
   if request.get?
     @site = Site.new
@@ -33,7 +34,7 @@ end
       (render :text => 'Error, no such key';return) unless s
       s = Session.find_by_session_key(params[:session_key])
       (render :text => 'Error, no such session';return) unless s
-      render :text => "user_id: #{s.user.id} , email: #{s.user.email}"    
+      render :text => "id: #{s.user.id}, email: #{s.user.email}, name: #{s.user.name}"    
     end
   end
   private
