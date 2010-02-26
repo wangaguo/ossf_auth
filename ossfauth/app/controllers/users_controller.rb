@@ -33,6 +33,12 @@ class UsersController < ApplicationController
       if params[:return_url]
         redirect_to params[:return_url] 
       else
+        #cookies.delete(:key => '372ab5bf1e2d05e2490fab9c7e8f731b')
+        cookies.delete(:key => '_ossfauth_session')
+        begin
+        require 'curb'
+        Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{s.user.name}"
+        end
         s.delete
         render :text => "Goodbye #{s.user.name}"
       end

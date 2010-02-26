@@ -1,4 +1,5 @@
 <%form_tag (:action =>:login) do%>
+<%= hidden_field_tag :return_url, params[:return_url]%>
 <h3>User login</h3>
 <br/>
 name:
