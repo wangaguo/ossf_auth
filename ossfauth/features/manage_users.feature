@@ -29,7 +29,7 @@ Feature: Manage users
     Given I am login as "kerker" with password "kerer"
     Given I am on the user logout page
     When I press "logout"
-    Then I should see "Goobye kerker"
+    Then I should see "Goodbye"
   # Rails generates Delete links that use Javascript to pop up a confirmation
   # dialog and then do a HTTP POST request (emulated DELETE request).
   #
