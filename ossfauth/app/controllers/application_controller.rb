@@ -7,5 +7,6 @@ class ApplicationController < ActionController::Base
   #self.allow_forgery_protection = false
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
+  layout 'default'
 end
