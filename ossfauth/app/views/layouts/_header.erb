@@ -1,11 +1,10 @@
 <div style='float:left'> 
   <h2>
-    OpenFoundry Account 
+    <%= t 'OpenFoundry Account' %> 
   </h2>
-  <%#= %>
 </div>
 <div style='float:right'> 
-  <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
+  Language Selection: <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
 </div>
 
 <div>

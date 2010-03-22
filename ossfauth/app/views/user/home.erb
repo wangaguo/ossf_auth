@@ -1,0 +1,10 @@
+<%= render :partial => 'partials/user_avatar'%>
+<br/>
+<%= "#{t 'Welcome'}, #{@user.name}" %>
+<br/>
+
+<%=link_to t('Logout'), logout_user_path%> 
+|
+<%=link_to t('Edit Profile'), edit_user_path%> 
+|
+<%=link_to t('Control Privacy'), privacy_user_path%>

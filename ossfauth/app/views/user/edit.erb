@@ -1,0 +1,17 @@
+<% form_for :user, @user, :url => edit_user_path do |f| %>
+<table>
+  <% User.editable_columns.each do |col| %>
+  <tr>
+    <td>
+      <label>
+        <%= col.human_name%>:
+      </label>
+    </td>
+    <td>
+      <%= f.text_field col %>
+    </td>
+  </tr> 
+  <%-end%>
+</table>
+<%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick=""/> 
+<%-end%>
