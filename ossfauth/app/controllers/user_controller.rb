@@ -1,14 +1,18 @@
 class UserController < ApplicationController
   
-  def home
-    unless(cookies[:_ossfauth_session]) #no cookie, no session, go to login
-      redirect_to login_user_path
-      return 
-    end 
+  def edit
+  
+  end
 
-    s = Session.find_by_session_key(cookies[:_ossfauth_session])
+  def privacy
+  end
+
+  def update
+  end
+  
+  def home
     @user = session[:user];
-    unless(s and s.user_id == @user.id) #force logout, clean cookie
+    unless(@user) #force logout, clean cookie
       @user = cookies[:_ossfauth_session] = nil
       redirect_to login_user_path
       return
@@ -30,6 +34,8 @@ class UserController < ApplicationController
     if request.post?
       u = User.authenticate(params[:name], params[:password])
       (render :text => 'Login error';return) unless u
+      reset_session
+      session[:user] = u
       cookies[:double_check_id] = 'Q_Q'
       s = u.sessions.new
       s.session_key = cookies[:_ossfauth_session]
@@ -37,7 +43,8 @@ class UserController < ApplicationController
       if params[:return_url]
         redirect_to params[:return_url] 
       else
-        render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
+        #render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
+        redirect_to home_user_path
       end
     end   
   end
