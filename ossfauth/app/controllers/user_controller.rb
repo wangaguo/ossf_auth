@@ -1,17 +1,18 @@
 class UserController < ApplicationController
   
   def home
-    #no cookie, no session, go to login
-    {redirect_to :login ;return} unless(cookies[:_ossfauth_session]) 
+    unless(cookies[:_ossfauth_session]) #no cookie, no session, go to login
+      redirect_to login_user_path
+      return 
+    end 
 
     s = Session.find_by_session_key(cookies[:_ossfauth_session])
     @user = session[:user];
-    
-    { #force logout, clean cookie
+    unless(s and s.user_id == @user.id) #force logout, clean cookie
       @user = cookies[:_ossfauth_session] = nil
-      redirect_to :login 
+      redirect_to login_user_path
       return
-    } unless(s.user_id == @user.id) 
+    end 
   end
 
   def signup
