@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   private
   def set_locale  
-    @locales = [t('en'), t('zh-TW')]
+    @locales = ['English', '繁體中文']
+    
   end
 end
