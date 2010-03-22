@@ -1,6 +1,12 @@
 zh_TW:
-  zh_TW: 繁體中文
+  OpenFoundry Account: OpenFoundry帳號管理中心
   Login: 登入
+  Logout: 登出
+  Welcome: 歡迎
+  Save: 儲存
+  Cancel: 取消
+  Edit Profile: 編輯個人檔案
+  Control Privacy: 個人隱私項目設定
   User Login: 使用者登入
   User Name: 帳號名稱
   Password: 密碼 
