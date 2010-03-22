@@ -1,19 +1,23 @@
-<div style='float:right'> 
-  <h5>
+<div style='float:left'> 
+  <h2>
     OpenFoundry Account 
-  </h5>
+  </h2>
   <%#= %>
 </div>
-<div style='float:left'> 
-  <%= "1"%>
+<div style='float:right'> 
+  <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
 </div>
 
 <div>
-  <h5>
-    Center Panel
-  </h5>
+  <p>
+    <h3>
+      [Center Panel]
+    </h3>
+    <h5>
+      [Put Something Here]
+    </h5>
+  </p>
 <div>
-<br/>
 <hr/>
 
 

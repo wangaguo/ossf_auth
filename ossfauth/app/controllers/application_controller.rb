@@ -9,4 +9,9 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
   layout 'default'
+  before_filter :set_locale
+  private
+  def set_locale  
+    @locales = [t('en'), t('zh-TW')]
+  end
 end
