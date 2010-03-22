@@ -41,7 +41,12 @@ ActionController::Routing::Routes.draw do |map|
   # consider removing or commenting them out if you're using named routes and resources.
   #map.connect ':controller/:action/:id'
   #map.connect ':controller/:action/:id.:format'
-  map.resource :user, :only => [:login, :logout], :controller => :user, :member => {:login => :any, :logout => :any}
+  map.resource :user, 
+    :only => [:signup, :login, :logout, :home, :edit, :update, :destroy, :privacy],
+    :controller => :user, 
+    :member => {:signup => :any,
+                :login => :any, :logout => :any, :home => :get, :edit => :get, :destroy => :post,
+                :update => :post, :privacy => :any}
   #map.resources :sites
 
 end
