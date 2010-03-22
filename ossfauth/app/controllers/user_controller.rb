@@ -1,4 +1,19 @@
-class UsersController < ApplicationController
+class UserController < ApplicationController
+  
+  def home
+    #no cookie, no session, go to login
+    {redirect_to :login ;return} unless(cookies[:_ossfauth_session]) 
+
+    s = Session.find_by_session_key(cookies[:_ossfauth_session])
+    @user = session[:user];
+    
+    { #force logout, clean cookie
+      @user = cookies[:_ossfauth_session] = nil
+      redirect_to :login 
+      return
+    } unless(s.user_id == @user.id) 
+  end
+
   def signup
     if request.post?
       u = User.create(:attributes => {
