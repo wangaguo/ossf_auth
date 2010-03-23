@@ -1,17 +1,17 @@
-<% form_for :user, @user, :url => edit_user_path do |f| %>
+<% form_for :user, @user, :url => update_user_path do |f| %>
 <table>
   <% User.editable_columns.each do |col| %>
   <tr>
     <td>
       <label>
-        <%= col.human_name%>:
+        <%= User.human_attribute_name col.name%>:
       </label>
     </td>
     <td>
-      <%= f.text_field col %>
+      <%= f.text_field col.name %>
     </td>
   </tr> 
   <%-end%>
 </table>
-<%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick=""/> 
+<%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
 <%-end%>

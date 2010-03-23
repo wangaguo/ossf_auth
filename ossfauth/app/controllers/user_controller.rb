@@ -1,13 +1,16 @@
 class UserController < ApplicationController
   
   def edit
-  
+    #do nothing
   end
 
   def privacy
   end
 
   def update
+    session[:user].update_attributes params['user']
+    #flash[:message] = t('Update User Infomation Successfully.')
+    redirect_to home_user_path
   end
   
   def home

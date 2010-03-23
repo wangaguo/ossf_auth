@@ -1,0 +1,9 @@
+'zh_TW':
+  activerecord:
+    models:
+      user:  使用者
+    attributes: 
+      user: 
+        first_name: 姓
+        last_name: 名 
+        autobiography: 自傳
