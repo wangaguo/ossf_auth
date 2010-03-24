@@ -9,7 +9,7 @@ Given /^the following users:$/ do |users|
 end
 
 Given /^I am login as "([^\"]*)" with password "([^\"]*)"$/ do |user, password|
-  visit "/users/login"
+  visit login_user_path
   fill_in 'name',user
   fill_in 'password', password
   click_button 'submit'

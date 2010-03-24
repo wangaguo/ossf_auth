@@ -9,13 +9,13 @@ module NavigationHelpers
     case page_name
     
     when /the home\s?page/
-      '/'
+      root_path
     when /the user logout page/
-      '/users/logout'
+      logout_user_path
     when /the user login page/
-      '/users/login'
+      login_user_path
     when /the user signup page/
-      '/users/signup'
+      signup_user_path
     when /site regist page/
       '/site/regist'
     when /site deregist page/
