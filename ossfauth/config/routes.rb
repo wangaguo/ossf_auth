@@ -42,9 +42,10 @@ ActionController::Routing::Routes.draw do |map|
   #map.connect ':controller/:action/:id'
   #map.connect ':controller/:action/:id.:format'
   map.resource :user, 
-    :only => [:signup, :login, :logout, :home, :edit, :update, :destroy, :privacy],
+    :only => [:signup, :login, :logout, :home, :edit, :update,
+             :destroy, :privacy, :passwd, :email],
     :controller => :user, 
-    :member => {:signup => :any,
+    :member => {:signup => :any, :passwd => :any, :email => :any, 
                 :login => :any, :logout => :any, :home => :get, :edit => :get, :destroy => :post,
                 :update => :post, :privacy => :any}
   #map.resources :sites
