@@ -1,6 +1,24 @@
 class UserController < ApplicationController
+
+  def check_session 
+    Session.find_by_session_key(cookies[SITE_SESSION_ID]) || Session.new
+  end
+  protected :check_session
+
+  def check_user
+    check_session.user 
+  end
+  protected :check_user
   
   def edit
+    #do nothing
+  end
+
+  def passwd
+    #do nothing
+  end
+
+  def email
     #do nothing
   end
 
@@ -14,9 +32,9 @@ class UserController < ApplicationController
   end
   
   def home
-    @user = session[:user];
+    @user = check_user
     unless(@user) #force logout, clean cookie
-      @user = cookies[:_ossfauth_session] = nil
+      @user = cookies[SITE_SESSION_ID] = nil
       redirect_to login_user_path
       return
     end 
@@ -37,13 +55,12 @@ class UserController < ApplicationController
     if request.post?
       u = User.authenticate(params[:name], params[:password])
       (render :text => 'Login error';return) unless u
-      reset_session
-      session[:user] = u
+      #reset_session
       cookies[:double_check_id] = 'Q_Q'
       s = u.sessions.new
-      s.session_key = cookies[:_ossfauth_session]
+      s.session_key = cookies[SITE_SESSION_ID]
       s.save
-      if params[:return_url]
+      if params[:return_url] and !params[:return_url].empty?
         redirect_to params[:return_url] 
       else
         #render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
@@ -54,9 +71,9 @@ class UserController < ApplicationController
 
   def logout
     if request.post?
-      s = Session.find_by_session_key(cookies[:_ossfauth_session])
-      (render :text => "Session error cookie= #{cookies[:_ossfauth_session]}";return) unless s
-      cookies.delete(:key => '_ossfauth_session')
+      s = Session.find_by_session_key(cookies[SITE_SESSION_ID])
+      (render :text => "Session error cookie= #{cookies[SITE_SESSION_ID]}";return) unless s
+      cookies.delete(:key => SITE_SESSION_ID)
       begin
         require 'curb'
         c = Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{s.user.name}"
