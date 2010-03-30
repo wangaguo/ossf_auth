@@ -14,9 +14,9 @@ development:
     # login: ""
     # passcode: ""
     host: 140.109.17.79
-    #port: 61613
-    # reliable: true
-    # reconnectDelay: 5
+    port: 61613
+    reliable: true
+    reconnectDelay: 5
 
     # NEW! enable stomp retry logic
     #  will resend errored out messages to be retried when on_error throws ActiveMessaging::AbortMessageException

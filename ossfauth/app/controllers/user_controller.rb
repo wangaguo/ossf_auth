@@ -47,7 +47,11 @@ class UserController < ApplicationController
         :password => params[:password],
         :email => params[:email]
       })
+      publish :ossf_message, "#{YAML::dump(
+          {'resource' => :user, 'action' => :signup, 
+            'data' => {:name => u.name, :email => u.email}})}"
       render :text => "User name: #{u.name}, email: #{u.email}"
+      
     end   
   end
 
