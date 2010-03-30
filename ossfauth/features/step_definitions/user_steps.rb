@@ -12,7 +12,7 @@ Given /^I am login as "([^\"]*)" with password "([^\"]*)"$/ do |user, password|
   visit login_user_path
   fill_in 'name',user
   fill_in 'password', password
-  click_button 'submit'
+  click_button 'login'
 end
 
 Then /^I should have cookie "([^\"]*)"$/ do |arg1|
