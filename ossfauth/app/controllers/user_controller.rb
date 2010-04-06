@@ -1,5 +1,6 @@
 class UserController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token, :only => [:logout]
   def check_session 
     Session.find_by_session_key(cookies[SITE_SESSION_ID]) || Session.new
   end
@@ -47,9 +48,9 @@ class UserController < ApplicationController
         :password => params[:password],
         :email => params[:email]
       })
-      publish :ossf_message, "#{YAML::dump(
-          {'resource' => :user, 'action' => :signup, 
-            'data' => {:name => u.name, :email => u.email}})}"
+      msg = { 'resource' => 'user', 'action' => 'create', 
+            'description' => {:name => u.name, :email => u.email} }
+      publish msg
       render :text => "User name: #{u.name}, email: #{u.email}"
       
     end   

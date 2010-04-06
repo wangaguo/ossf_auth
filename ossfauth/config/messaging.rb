@@ -8,5 +8,6 @@ ActiveMessaging::Gateway.define do |s|
   #s.processor_group :group1, :order_processor
   
   s.destination :ossf_message, '/queue/ossf_message'
+  s.destination :joomla_message, '/queue/joomla_message'
   
 end

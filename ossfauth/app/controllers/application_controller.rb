@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'activemessaging/processor'
-include ActiveMessaging::MessageSender
+require 'yaml'
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
@@ -14,7 +14,13 @@ class ApplicationController < ActionController::Base
   layout 'default'
   before_filter :set_locale
  
-  require 'yaml'
+  include ActiveMessaging::MessageSender
+  def publish_with_yaml(body, header = {}, timeout = 10)
+    yaml_str = YAML.dump(body)
+    publish_without_yaml(:ossf_message, yaml_str, header, timeout)
+    publish_without_yaml(:joomla_message, yaml_str, header, timeout)
+  end
+  alias_method_chain :publish, :yaml
 
   private
   def set_locale  
