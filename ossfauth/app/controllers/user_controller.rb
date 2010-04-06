@@ -51,12 +51,14 @@ class UserController < ApplicationController
       msg = { 'resource' => 'user', 'action' => 'create', 
             'description' => {:name => u.name, :email => u.email} }
       publish msg
-      render :text => "User name: #{u.name}, email: #{u.email}"
-      
+      #render :text => "User name: #{u.name}, email: #{u.email}"
+      redirect_to login_user_path
     end   
   end
 
   def login
+    redirect_to home_user_path if check_user
+      
     if request.post?
       u = User.authenticate(params[:name], params[:password])
       (render :text => 'Login error';return) unless u
@@ -87,7 +89,8 @@ class UserController < ApplicationController
       if params[:return_url]
         redirect_to params[:return_url] 
       else
-        render :text => "Goodbye"
+        #render :text => "Goodbye"
+        redirect_to home_user_path
       end
     end
   end
