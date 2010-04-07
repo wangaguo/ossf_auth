@@ -30,6 +30,7 @@ def deregist
 end
   def fetch
     if request.post?
+      (render :text => 'Error, no such session';return) if params[:session_key].empty?
       s = Site.find_by_regist_key(params[:regist_key])
       (render :text => 'Error, no such key';return) unless s
       s = Session.find_by_session_key(params[:session_key])
