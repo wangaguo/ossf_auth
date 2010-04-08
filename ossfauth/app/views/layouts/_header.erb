@@ -7,7 +7,6 @@
 <div style='float:right'> 
   Language Selection: <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
 </div>
-
 <div>
   <p>
     <h3>
@@ -21,4 +20,5 @@
 <br/>
 <hr/>
 
+<%= show_flash%>
 

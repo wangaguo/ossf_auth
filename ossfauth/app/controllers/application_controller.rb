@@ -25,6 +25,10 @@ class ApplicationController < ActionController::Base
   private
   def set_locale  
     @locales = ['English', '繁體中文']
-    
+  end
+
+  def login_require
+    @user = check_user
+    redirect_to login_user_path unless @user
   end
 end

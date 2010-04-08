@@ -1,6 +1,7 @@
 class UserController < ApplicationController
-
   skip_before_filter :verify_authenticity_token, :only => [:logout]
+  before_filter :login_require, :except => [:signup, :login]
+
   def check_session 
     sid = cookies[SITE_SESSION_ID]
     if(sid and !sid.empty?)
@@ -31,8 +32,13 @@ class UserController < ApplicationController
   end
 
   def update
-    session[:user].update_attributes params['user']
-    #flash[:message] = t('Update User Infomation Successfully.')
+    @u = check_user
+    @u.update_attributes params['user']
+    msg = { 'resource' => 'user', 'action' => 'update', 
+            'description' => @u.changes }
+    publish msg
+    @u.save
+    flash[:message] = 'Update User Infomation Successfully.'
     redirect_to home_user_path
   end
   
@@ -62,43 +68,54 @@ class UserController < ApplicationController
   end
 
   def login
-    redirect_to home_user_path if check_user
+    #if already login, go home
+    (redirect_to home_user_path;return) if check_user
       
     if request.post?
-      u = User.authenticate(params[:name], params[:password])
-      (render :text => 'Login error';return) unless u
-      cookies[:double_check_id] = 'Q_Q'
-      s = u.sessions.new
-      s.session_key = cookies[SITE_SESSION_ID]
-      if(s.session_key.nil? || s.session_key.empty?)
-        reset_session
-        redirect_to login_user_path
-      end
-      s.save
-      if params[:return_url] and !params[:return_url].empty?
-        redirect_to params[:return_url] 
-      else
-        #render :text => "Welcome, #{u.name}<br/>your sid is: #{s.session_key}"
-        redirect_to home_user_path
-      end
+      @u = User.authenticate(params[:name], params[:password])
+      #go to success login user handler
+      return login_success if @u and @u.valid?
+      #login faild
+      flash[:error] = 'user login faild'
     end   
+    #regenerate session key which is empty
+    reset_session if request.session_options[:id].nil? or request.session_options[:id].empty?
   end
+
+  def login_success
+    #TODO: this is debug nop, remove it somedat
+    cookies[:double_check_id] = 'Q_Q'
+    s = @u.sessions.new
+    s.session_key = request.session_options[:id]
+    if(s.session_key.nil? || s.session_key.empty?)
+      #a fake session, back to login page
+      reset_session
+      flash.now[:message] = 'session is broken, plz login again'
+      redirect_to login_user_path
+      return
+    end
+    s.save
+    if params[:return_url] and !params[:return_url].empty?
+      redirect_to params[:return_url] 
+    else
+      flash.now[:message] = 'user login success'
+      redirect_to home_user_path
+    end
+  end
+  private :login_success
 
   def logout
     if request.post?
-      s = Session.find_by_session_key(cookies[SITE_SESSION_ID])
-      (render :text => "Session error cookie= #{cookies[SITE_SESSION_ID]}";return) unless s
-      #cookies.delete(:key => SITE_SESSION_ID)
       begin
         require 'curb'
-        c = Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{s.user.name}"
+        c = Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{@user.name}"
       end
-      s.delete
+      reset_session
       if params[:return_url]
         redirect_to params[:return_url] 
       else
-        #render :text => "Goodbye"
-        redirect_to home_user_path
+        flash.now[:message] = 'user logout success'
+        redirect_to login_user_path
       end
     end
   end
