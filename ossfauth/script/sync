@@ -1,8 +1,28 @@
 #!/usr/bin/env ruby
 require 'curb'
-c = Curl::Easy.new "http://140.109.22.239/index.php?option=com_ofsso&controller=sso&task=syncusers"
+urls = [
+'http://140.109.22.239/index.php?option=com_ofsso&controller=sso&task=syncusers', 
+'http://140.109.22.15:3000/of/sync_data'
+]
+Message.un_sync.each{|m|
+  rtn = urls.map{|url|
+    c = Curl::Easy.new url
+    c.http_post(
+     Curl::PostField.content('data', m.user.to_json) ,
+     Curl::PostField.content('action', m.action)
+    )
+    puts "--------\n#{url}\nreturn:\n#{c.body_str}\n--------"
+    case c.body_str
+      #sync successfully!
+      when '1','true','ok',1,true then
+        true
+      #sync faild!
+      else
+        false
+    end
+  }
+  m.status = ( rtn.inject{|sum, i|sum and i}? 'ok':'re_sync' )
+  m.save!
+}
 
-c.http_post(
- Curl::PostField.content('data', User.all.to_json) 
-)
-puts c.response_code
+
