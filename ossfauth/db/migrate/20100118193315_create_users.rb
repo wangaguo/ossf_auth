@@ -1,7 +1,7 @@
 class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
-      t.int    'istatus'
+      t.integer :istatus
       t.string :name
       t.string :first_name
       t.string :last_name
