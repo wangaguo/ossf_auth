@@ -47,7 +47,7 @@ ActionController::Routing::Routes.draw do |map|
     :controller => :user, 
     :member => {:signup => :any, :passwd => :any, :email => :any, 
                 :login => :any, :logout => :any, :home => :get, :edit => :get, :destroy => :post,
-                :update => :post, :privacy => :any}
+                :update => :post, :privacy => :any, :integration => :any}
   map.resource :site,
     :only => [ :regist, :deregist, :fetch ],
     :controller => :site,

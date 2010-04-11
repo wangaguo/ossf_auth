@@ -1,0 +1,18 @@
+<% form_for :user, @user, :url => passwd_user_path do |f| %>
+<table>
+  <% [:old_password, :password, :password_confirmation].each do |col| %>
+  <tr>
+    <td>
+      <label>
+        <%= User.human_attribute_name col%>:
+      </label>
+    </td>
+    <td>
+      <%= f.text_field col %>
+    </td>
+  </tr> 
+  <%-end%>
+</table>
+<%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
+<%-end%>
+

@@ -21,7 +21,32 @@ class UserController < ApplicationController
   end
 
   def passwd
-    #do nothing
+    if request.post?
+      #match old password
+      return if !old_password_match and !@user.tags[:forgot_password]
+      @user.tags.delete :forgot_password
+
+      #save password
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+      @user.tags[:change_passwd] = true
+      if @user.save #success
+        flash[:message] = 'change passwd success!'
+        redirect_to home_user_path
+      else
+        flash[:error] = 'error'
+      end
+    end
+  end
+
+  def old_password_match
+    if @user.password != User.encrypt(params[:user][:old_password])
+      flash[:message] = 'old password error'
+    end
+  end
+  protected :old_password_match
+
+  def forgot
   end
 
   def email
@@ -34,9 +59,9 @@ class UserController < ApplicationController
   def update
     @u = check_user
     @u.update_attributes params['user']
-    msg = { 'resource' => 'user', 'action' => 'update', 
-            'description' => @u.changes }
-    publish msg
+    #msg = { 'resource' => 'user', 'action' => 'update', 
+    #        'description' => @u.changes }
+    #publish msg
     @u.save
     flash[:message] = 'Update User Infomation Successfully.'
     redirect_to home_user_path
@@ -54,15 +79,25 @@ class UserController < ApplicationController
 
   def signup
     if request.post?
-      u = User.create(:attributes => {
+      u = User.create!(:attributes => {
         :name => params[:name],
         :password => params[:password],
-        :email => params[:email]
+        :email => params[:email],
+        :first_name => 'empty',
+        :last_name => 'empty',
+        :timezone => 'TW',
+        :language => 'zh'
       })
-      msg = { 'resource' => 'user', 'action' => 'create', 
-            'description' => {:login => u.name, :email => u.email} }
-      publish msg
+      #msg = { 'resource' => 'user', 'action' => 'create', 
+      #      'description' => {:login => u.name, :email => u.email} }
+      #publish msg
       #render :text => "User name: #{u.name}, email: #{u.email}"
+      u.messages.create :action => 'create', :body => {:login => u.name, :email => u.email}
+     #*******-Mailer by hyder-*******
+      #@user = User.new
+      #url = home_user_url
+      #UserNotify.deliver_signup(@user, :password, url)
+     #********-Mailer by hyder-*******
       redirect_to login_user_path
     end   
   end
@@ -98,8 +133,13 @@ class UserController < ApplicationController
     if params[:return_url] and !params[:return_url].empty?
       redirect_to params[:return_url] 
     else
-      flash.now[:message] = 'user login success'
-      redirect_to home_user_path
+      if @u.tags[:istatus] == :no
+        flash[:message] = "istatus: #{@u.tags[:istatus]}" 
+        redirect_to integration_user_path
+      else
+        flash[:message] = 'user login success'
+        redirect_to home_user_path
+      end
     end
   end
   private :login_success
@@ -120,4 +160,7 @@ class UserController < ApplicationController
     end
   end
 
+  def integration
+    @u = check_user 
+  end
 end

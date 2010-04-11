@@ -10,3 +10,7 @@ zh_TW:
   User Login: 使用者登入
   User Name: 帳號名稱
   Password: 密碼 
+  Change Password: 修改密碼
+  Change Email: 修改Email
+  user:
+    signup: 使用者註冊

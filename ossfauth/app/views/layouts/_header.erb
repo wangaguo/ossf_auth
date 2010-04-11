@@ -1,8 +1,8 @@
 <div style='float:left'> 
   <h2>
-    <%= t 'OpenFoundry Account' %> 
+    <%= link_to t('OpenFoundry Account'), home_user_url %> 
   </h2>
-  <%= link_to 'signup', signup_user_path unless @user%>
+  <%= link_to t('user.signup'), signup_user_path unless @user%>
 </div>
 <div style='float:right'> 
   Language Selection: <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
@@ -20,5 +20,5 @@
 <br/>
 <hr/>
 
-<%= show_flash%>
+<%= show_flash %>
 
