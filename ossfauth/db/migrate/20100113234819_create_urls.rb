@@ -1,7 +1,8 @@
 class CreateUrls < ActiveRecord::Migration
   def self.up
     create_table :urls do |t|
-      t.string :type
+      t.integer :site_id
+      t.string :action
       t.string :content
 
       t.timestamps

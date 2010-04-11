@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :autobiography
       t.string :password
       t.string :email
+      t.string :tags
       t.string :timezone
       t.string :language
 
