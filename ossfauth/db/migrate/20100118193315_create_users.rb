@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :first_name
       t.string :last_name
       t.string :autobiography
-      t.string :password
+      t.string :shadow_password
       t.string :email
       t.string :tags
       t.string :timezone
@@ -15,8 +15,8 @@ class CreateUsers < ActiveRecord::Migration
       t.timestamps
     end
     %W{tim kaworu river hyder aguo}.each{|n|
-      User.create!(:name => n, :first_name => n, :last_name => 'ossf\'s', 
-        :password => n, :email => "#{n}@ossf.org")
+      User.add_user(:name => n, :first_name => n, :last_name => 'ossf\'s', 
+        :password => n, :email => "servermail@openfoundry.org")
     }
   end
 
