@@ -1,20 +1,24 @@
 class UserController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:logout]
-  before_filter :login_require, :except => [:signup, :login]
+  before_filter :login_require, :except => [:signup, :login, :forgot_password]
 
   def check_session 
     sid = cookies[SITE_SESSION_ID]
     if(sid and !sid.empty?)
-      s = Session.find_by_session_key(sid) 
+      s = Session.find_by_session_key(sid, :include => :user) 
     end
     return s || Session.new
   end
-  protected :check_session
 
   def check_user
-    check_session.user 
+    check_session.user || begin
+      e = User.authenticate_by_token(params[:t])
+      return nil unless e
+      e.user.eval e.body
+      redirect_to e.action
+      e.user
+    end
   end
-  protected :check_user
   
   def edit
     #do nothing
@@ -23,30 +27,50 @@ class UserController < ApplicationController
   def passwd
     if request.post?
       #match old password
-      return if !old_password_match and !@user.tags[:forgot_password]
-      @user.tags.delete :forgot_password
+      #return if !old_password_match #and !@user.tags[:forgot_password]
+      #@user.tags.delete :forgot_password
 
       #save password
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
-      @user.tags[:change_passwd] = true
+      #@user.password = params[:user][:password]
+      #@user.password_confirmation = params[:user][:password_confirmation]
+      #@user.tags[:change_passwd] = true
+      @user.update_attributes params[:user]
+      @user.change_password = true
       if @user.save #success
         flash[:message] = 'change passwd success!'
         redirect_to home_user_path
       else
-        flash[:error] = 'error'
+        #flash[:error] = 'error'
       end
     end
   end
 
-  def old_password_match
-    if @user.password != User.encrypt(params[:user][:old_password])
-      flash[:message] = 'old password error'
+  def forgot_password
+    u = nil
+    return if generate_blank
+    if params['email'].empty?#==""
+      flash.now[:message] = "Please enter your E-Mail."
+    elsif User.find_by_email(params['email']).nil?
+      flash.now[:message] = "#{params['email']}" + " has not found!"
+    else
+      u = User.find_by_email(params['email'])
     end
-  end
-  protected :old_password_match
 
-  def forgot
+    if u
+      begin
+#        tk = u.generate_token
+        url = "/sso"
+        url += "?user=#{u.name}&token=#{tk}"
+#        UserNotify.deliver_forgot_password(u, url)
+        flash.now[:message] = "user_forgotten_password_emailed"
+        unless u?
+          redirect_to login_user_path
+          return
+        end
+      rescue
+        flash.now[:message] = "user forgotten password email error"
+      end
+    end
   end
 
   def email
@@ -79,27 +103,27 @@ class UserController < ApplicationController
 
   def signup
     if request.post?
-      u = User.create!(:attributes => {
-        :name => params[:name],
-        :password => params[:password],
-        :email => params[:email],
-        :first_name => 'empty',
-        :last_name => 'empty',
-        :timezone => 'TW',
-        :language => 'zh'
-      })
-      #msg = { 'resource' => 'user', 'action' => 'create', 
-      #      'description' => {:login => u.name, :email => u.email} }
-      #publish msg
-      #render :text => "User name: #{u.name}, email: #{u.email}"
-      u.messages.create :action => 'create', :body => {:login => u.name, :email => u.email}
-     #*******-Mailer by hyder-*******
-      #@user = User.new
-      #url = home_user_url
-      #UserNotify.deliver_signup(@user, :password, url)
-     #********-Mailer by hyder-*******
-      redirect_to login_user_path
-    end   
+      @user = User.new params[:user]
+      if @user.save
+        return signup_success
+      end
+    end
+  end
+  
+  def signup_success
+    flash.now[:message] = 'User SignUp Success'
+    @user.messages.create :action => 'create'
+    @user.events.create :action => home_user_path, :token => @user.generate_token, :body => 
+<<BODY
+tags[:email_verified] = true
+status = 1
+save!
+BODY
+    #********-Mailer by hyder-*******
+    url = home_user_url
+    UserNotify.deliver_signup(@user, params[:password], url)
+    #********-Mailer by hyder-*******
+    redirect_to login_user_path
   end
 
   def login
@@ -109,7 +133,7 @@ class UserController < ApplicationController
     if request.post?
       @u = User.authenticate(params[:name], params[:password])
       #go to success login user handler
-      return login_success if @u and @u.valid?
+      return login_success if @u #and @u.valid?
       #login faild
       flash[:error] = 'user login faild'
     end   
@@ -163,4 +187,13 @@ class UserController < ApplicationController
   def integration
     @u = check_user 
   end
+
+  def generate_blank
+    case request.method
+    when :get
+      return true
+    end
+    return false
+  end
+
 end
