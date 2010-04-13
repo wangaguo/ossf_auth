@@ -30,8 +30,8 @@ Feature: Manage sites
         |ip     |user_id|session_key     |
         |2.2.2.2|10001  |abcd223456789def|
     Given the following users:
-        |id     |name     |email           |
-        |10001  |test_user|tim@iis.ccc.xd  |
+	|id     |first_name|last_name|name  |password|email   |
+	|10001  |k         |kk       |kerker|kerker  |k@kk.ker|
     When I go to session fetch page
     When I fill in the following:
 	|regist_key |1234567890|

@@ -4,15 +4,16 @@ Given /^the following users:$/ do |users|
     user.keys.each do |key|
       u.send("#{key}=", user[key])
     end
-    u.save
+    u.save_without_validation!
   end
 end
 
-Given /^I am login as "([^\"]*)" with password "([^\"]*)"$/ do |user, password|
-  visit login_user_path
-  fill_in 'name',user
-  fill_in 'password', password
-  click_button 'login'
+Given /^I login as "([^\"]*)" with password "([^\"]*)"$/ do |user, password|
+  Given %{I am on the user login page}
+    When %{I fill in "name" with "#{user}"}
+      And %{I fill in "password" with "#{password}"}
+      And %{I press "login"}
+    Then %{I should see "success"}
 end
 
 Then /^I should have cookie "([^\"]*)"$/ do |arg1|
