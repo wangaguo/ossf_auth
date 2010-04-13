@@ -5,31 +5,36 @@ Feature: Manage users
   
   Scenario: New user Signup
     Given I am on the user signup page
-    When I fill in "name" with "name 1"
-      And I fill in "email" with "email 1"
-      And I press "submit"
-    Then I should see "name 1"
-    And I should see "email 1"
+    When I fill in "user_name" with "name 1"
+      And I fill in "user_password" with "password 1"
+      And I fill in "user_password_confirmation" with "password 1"
+      And I fill in "user_email" with "email 1"
+      And I fill in "user_email_confirmation" with "email 1"
+      And I fill in "user_first_name" with "xx"
+      And I fill in "user_last_name" with "xxx"
+      And I press "signup"
+    Then I should see "Success"
 
   Scenario: User Login
     Given the following users:
-	|name  |password|email   |
-	|kerker|kerker  |k@kk.ker|
+	|first_name|last_name|name  |password|email   |status|
+	|k         |kk       |kerker|kerker  |k@kk.ker|     1| 
     Given I am on the user login page
     When I fill in "name" with "kerker"
       And I fill in "password" with "kerker"
-      And I press "submit"
-    Then I should see "Welcome, kerker"
+      And I press "login"
+    Then I should see "success"
     #And I should have cookie "session"
 
   Scenario: User Logout
     Given the following users:
-	|id    |name  |password|email   |
-	|10001 |kerker|kerker  |k@kk.ker|
-    Given I am login as "kerker" with password "kerer"
+	|first_name|last_name|name  |password|email   |status|
+	|k         |kk       |zzz   |zzz     |k@kk.ker|     1|
+    Given I login as "zzz" with password "zzz"
+    Then I should see "success"
     Given I am on the user logout page
     When I press "logout"
-    Then I should see "Goodbye"
+    Then I should see "success"
   # Rails generates Delete links that use Javascript to pop up a confirmation
   # dialog and then do a HTTP POST request (emulated DELETE request).
   #
