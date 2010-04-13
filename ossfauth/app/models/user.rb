@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     write_attribute(:shadow_password, User.encrypt(password) )
   end
   def should_crypt_password
-    (not password.empty?) and ( new_record? or change_password )
+    (password and not password.empty?) and ( new_record? or change_password )
   end
   private :crypt_password, :should_crypt_password
   before_save :crypt_password, :if => :should_crypt_password
@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :if => :should_crypt_password
 
   def validate
-    if User.encrypt(old_password) != shadow_password 
+    #verify old password
+    if change_password and User.encrypt(old_password) != shadow_password 
       errors.add :old_password, ' mismatch'
     end  
   end
