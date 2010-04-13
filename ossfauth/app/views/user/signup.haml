@@ -1,0 +1,14 @@
+%h3.subtitle 
+  = t 'user.signup'
+= error_messages_for :user
+- form_for :user, @user, :url => signup_user_path do |f|
+  %p
+    %table
+      - User.columns_for_signup.each do |col|
+        %tr
+          %td 
+            = User.human_attribute_name col
+            \:
+          %td
+            = case col.to_s;when /password/ then f.password_field col;else f.text_field col;end
+    = submit_tag t('SignUp'), :id => :signup

@@ -1,0 +1,19 @@
+- form_tag(login_user_path) do
+  = hidden_field_tag :return_url, params[:return_url]
+  %h3
+    = t 'User Login'
+  %table
+    %tr
+      %td
+        = t 'User Name'
+        \:
+      %td
+        = text_field_tag :name
+    %tr
+      %td
+        = t 'Password'
+        \:
+      %td
+        = password_field_tag :password
+
+  = submit_tag t('Login'), :name => :login, :id => :login
