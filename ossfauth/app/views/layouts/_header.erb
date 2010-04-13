@@ -2,7 +2,11 @@
   <h2>
     <%= link_to t('OpenFoundry Account'), home_user_url %> 
   </h2>
-  <%= link_to t('user.signup'), signup_user_path unless @user%>
+  <%- unless @user %>
+    <%= link_to t('user.signup'), signup_user_path %> 
+    |
+    <%= link_to t('user.forgot_password'), forgot_password_user_path %>
+  <%- end %>
 </div>
 <div style='float:right'> 
   Language Selection: <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
