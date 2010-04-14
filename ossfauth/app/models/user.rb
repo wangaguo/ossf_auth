@@ -4,12 +4,13 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :events
 
-  #for private tags, implements as a hash, serialized in string field(yml) 
-  serialize :tags
+  #for private params, implements as a hash, serialized in string field(yml) 
+  serialize :params
 
   #named scopes ------------------------------------
   #  normal => verified, can login
   named_scope :normal, :conditions => {:status => 1} 
+  named_scope :verified, :conditions => {:status => 2} 
 
   #for change password, new password ---------------
   attr_accessor :password, :old_password, :password_confirmation, :change_password
@@ -22,24 +23,31 @@ class User < ActiveRecord::Base
   private :crypt_password, :should_crypt_password
   before_save :crypt_password, :if => :should_crypt_password
   #for change email -------------------------------
-  attr_accessor :email_confirmation
+  attr_accessor :email_confirmation, :new_email
  
   #validators --------------------------------------
-  validates_presence_of :name, :first_name, :last_name, :password, :email
+  validates_presence_of :name, :first_name, :last_name, :email
+  validates_presence_of :password, :if => :change_password
   #make sure :password == :password_confirmation
   validates_confirmation_of :password, :if => :should_crypt_password
 
   def validate
-    #verify old password
-    if change_password and User.encrypt(old_password) != shadow_password 
-      errors.add :old_password, ' mismatch'
-    end  
+    unless self.params[:forgot_password]
+      #verify old password
+      if change_password and User.encrypt(old_password) != shadow_password 
+        errors.add :old_password, ' mismatch'
+      end  
+    end
   end
 
-  #overload attribute tags, by default is empty hash
-  def tags
-    read_attribute(:tags) || {}
+  #overload attribute params, by default is empty hash
+  def params
+    read_attribute(:params) || begin 
+      write_attribute(:params, {} )
+      read_attribute(:params)
+    end
   end
+  
 
   #generate random security token 
   def generate_token
@@ -78,7 +86,7 @@ class User < ActiveRecord::Base
     #for add user from CLI
     def add_user(atts)
       u = User.new(atts)
-      u.crypt_password
+      #u.change_password
       u.status = 1
       u.save!
     end

@@ -11,13 +11,7 @@ class UserController < ApplicationController
   end
 
   def check_user
-    check_session.user || begin
-      e = User.authenticate_by_token(params[:t])
-      return nil unless e
-      e.user.eval e.body
-      redirect_to e.action
-      e.user
-    end
+    check_session.user || session[:user]
   end
   
   def edit
@@ -31,13 +25,12 @@ class UserController < ApplicationController
       #@user.tags.delete :forgot_password
 
       #save password
-      #@user.password = params[:user][:password]
-      #@user.password_confirmation = params[:user][:password_confirmation]
-      #@user.tags[:change_passwd] = true
       @user.update_attributes params[:user]
       @user.change_password = true
       if @user.save #success
         flash[:message] = 'change passwd success!'
+        @user.params.delete :forgot_password
+        @user.save_without_validation
         redirect_to home_user_path
       else
         #flash[:error] = 'error'
@@ -48,7 +41,7 @@ class UserController < ApplicationController
   def forgot_password
     u = nil
     return if generate_blank
-    if params['email'].empty?#==""
+    if params['email'].empty?
       flash.now[:message] = "Please enter your E-Mail."
     elsif User.find_by_email(params['email']).nil?
       flash.now[:message] = "#{params['email']}" + " has not found!"
@@ -58,17 +51,16 @@ class UserController < ApplicationController
 
     if u
       begin
-#        tk = u.generate_token
-        url = "/sso"
-        url += "?user=#{u.name}&token=#{tk}"
-#        UserNotify.deliver_forgot_password(u, url)
+        tk = UUID.new.generate :compact #u.generate_token
+        u.events.create! :action => passwd_user_path, :token => tk
+        url = "http://ssodev.openfoundry.org" + root_path
+        url += "?t=#{tk}"
+        UserNotify.deliver_forgot_password(u, url)
         flash.now[:message] = "user_forgotten_password_emailed"
-        unless u?
-          redirect_to login_user_path
-          return
-        end
+        u.params = {:forgot_password => true}
+        u.save
       rescue
-        flash.now[:message] = "user forgotten password email error"
+        flash.now[:message] = "user forgotten password email error: #{$!}"
       end
     end
   end
@@ -104,6 +96,8 @@ class UserController < ApplicationController
   def signup
     if request.post?
       @user = User.new params[:user]
+      @user.status = 1
+      @user.change_password = true
       if @user.save
         return signup_success
       end
@@ -111,19 +105,18 @@ class UserController < ApplicationController
   end
   
   def signup_success
-    flash.now[:message] = 'User SignUp Success'
+    flash[:message] = 'User SignUp Success'
     @user.messages.create :action => 'create'
-    @user.events.create :action => home_user_path, :token => @user.generate_token, :body => 
+    tk = @user.generate_token
+    @user.events.create :action => home_user_path, :token => tk, :body => 
 <<BODY
-tags[:email_verified] = true
+params[:email_verified] = true
 status = 1
 save!
 BODY
-    #********-Mailer by hyder-*******
     url = home_user_url
-    UserNotify.deliver_signup(@user, params[:password], url)
-    #********-Mailer by hyder-*******
-    redirect_to login_user_path
+    url += "?t=#{tk}"
+    UserNotify.deliver_signup(@user, params[:user][:password], url)
   end
 
   def login
@@ -132,8 +125,10 @@ BODY
       
     if request.post?
       @u = User.authenticate(params[:name], params[:password])
+
       #go to success login user handler
-      return login_success if @u #and @u.valid?
+      return login_success if @u 
+
       #login faild
       flash[:error] = 'user login faild'
     end   
@@ -154,11 +149,12 @@ BODY
       return
     end
     s.save
+    session[:user] = @u
     if params[:return_url] and !params[:return_url].empty?
       redirect_to params[:return_url] 
     else
-      if @u.tags[:istatus] == :no
-        flash[:message] = "istatus: #{@u.tags[:istatus]}" 
+      if @u.params[:istatus] == :no
+        flash[:message] = "istatus: #{@u.params[:istatus]}" 
         redirect_to integration_user_path
       else
         flash[:message] = 'user login success'

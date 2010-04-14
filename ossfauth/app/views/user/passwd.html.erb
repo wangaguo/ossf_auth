@@ -1,16 +1,16 @@
 <%= error_messages_for :user %>
 <% form_for :user, @user, :url => passwd_user_path do |f| %>
 <table>
+  <% unless @user.params[:forgot_password] %>
   <tr>
-    <%# unless f.object.t_forgot_password  %>
-      <td>
-        <%= f.label :old_password, "舊密碼：" %>
-      </td>
-      <td>
-        <%= f.text_field "old_password", :size => 30 %>
-      </td>
-    <%# end %>  
+    <td>
+      <%= f.label :old_password, "舊密碼：" %>
+    </td>
+    <td>
+      <%= f.text_field "old_password", :size => 30 %>
+    </td>
   </tr>
+  <% end %>
   <% [:password, :password_confirmation].each do |col| %>
   <tr>
     <td>
