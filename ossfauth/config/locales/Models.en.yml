@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    models:
+      user: User
+    attributes: 
+      user: 
+        name: Account Name
+        password: Password
+        password_confirmation: Password Confirmation
+        email_confirmation: Email Confirmation
+        first_name: First Name
+        last_name: Last Name  
+        autobiography: Autobiography

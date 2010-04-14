@@ -2,6 +2,7 @@ zh_TW:
   OpenFoundry Account: OpenFoundry帳號管理中心
   Login: 登入
   Logout: 登出
+  SignUp: 註冊
   Welcome: 歡迎
   Save: 儲存
   Cancel: 取消
@@ -14,3 +15,5 @@ zh_TW:
   Change Email: 修改Email
   user:
     signup: 使用者註冊
+    forgot_password: 我忘記密碼
+

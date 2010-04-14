@@ -9,7 +9,15 @@
   <%- end %>
 </div>
 <div style='float:right'> 
-  Language Selection: <%= select_tag 'Language', @locales.map{|m| "<option>#{m}</option>"}.join('')%>
+  Language Selection: 
+  <%= select_tag 'Language', 
+   @locales.map{|k,v| 
+    params[:lang] = k
+    url_with_lang = "#{request.protocol}#{request.host_with_port}#{url_for params}"
+    "<option #{'selected' if I18n.locale == k.to_s} value='#{url_with_lang}'>#{v}</option>\n"
+    } .join(''),
+       :onchange => "location.href = this.value"
+       %>
 </div>
 <div>
   <p>

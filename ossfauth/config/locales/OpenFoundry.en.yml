@@ -1,0 +1,19 @@
+en:
+  OpenFoundry Account: OpenFoundry Account Service
+  Login: Login
+  Logout: Logout
+  SignUp: Signup
+  Welcome: Welcome
+  Save: Save
+  Cancel: Cancel
+  Edit Profile: Edit Profile
+  Control Privacy: Control Privacy
+  User Login: User Login
+  User Name: User Name
+  Password: Password 
+  Change Password: Change Password
+  Change Email: Change Email
+  user:
+    signup: User Signup
+    forgot_password: Forgot Password
+
