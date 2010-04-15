@@ -1,6 +1,6 @@
 <% form_for :user, @user, :url => email_user_path do |f| %>
 <table>
-  <% [:email, :email_confirmation].each do |col| %>
+  <% [:email, :new_email, :email_confirmation].each do |col| %>
   <tr>
     <td>
       <label>
@@ -8,11 +8,11 @@
       </label>
     </td>
     <td>
-      <%= f.text_field col %>
+      <%= case col;when :email then @user.email ;else f.text_field col;end  %>
     </td>
   </tr> 
   <%-end%>
 </table>
-<%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
+<%= submit_tag t('Change Email')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
 <%-end%>
 
