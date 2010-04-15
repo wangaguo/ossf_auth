@@ -66,7 +66,33 @@ class UserController < ApplicationController
   end
 
   def email
-    #do nothing
+    return if generate_blank
+    @user.new_email = params[:user][:new_email]
+    @user.email_confirmation = params[:user][:email_confirmation]
+    if params[:user][:new_email] != params[:user][:email_confirmation]
+      flash[:error] = 'email is different'
+      return
+    elsif params[:user][:new_email] == @user.email
+      flash[:message] = 'email not change'
+      return
+    else
+      begin
+        tk = UUID.new.generate :compact 
+        @user.new_email = params[:user][:new_email]
+        @user.events.create! :action => home_user_path, :token => tk, :body =>
+<<BODY
+self.email = "#{@user.new_email}"
+self.params[:change_email] = nil
+save!
+BODY
+        UserNotify.deliver_change_email(@user, "http://ssodev.openfoundry.org/sso?t=#{tk}")
+        flash.now[:message] = "user_change_email_msg_send"
+        @user.params[:change_email] = true
+        @user.save
+      rescue
+        flash[:error] = 'send email error: '+$!      
+      end 
+    end
   end
 
   def privacy
@@ -110,8 +136,8 @@ class UserController < ApplicationController
     tk = @user.generate_token
     @user.events.create :action => home_user_path, :token => tk, :body => 
 <<BODY
-params[:email_verified] = true
-status = 1
+self.params[:email_verified] = true
+self.status = 1
 save!
 BODY
     url = home_user_url
@@ -165,7 +191,7 @@ BODY
   private :login_success
 
   def logout
-    if request.post?
+    #if request.post?
       begin
         require 'curb'
         c = Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{@user.name}"
@@ -177,7 +203,7 @@ BODY
         flash.now[:message] = 'user logout success'
         redirect_to login_user_path
       end
-    end
+    #end
   end
 
   def integration
