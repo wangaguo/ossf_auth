@@ -61,9 +61,12 @@ class User < ActiveRecord::Base
       e = Event.find_by_token t
     end
     #authn an user
-    def authenticate(name, password)
-      User.normal.find_by_name_and_shadow_password(name, 
-          User.encrypt(password) )
+    def authenticate(name, password = '')
+      u = User.normal.find_by_name(name) 
+      if u and password.crypt(u.shadow_password) == u.shadow_password
+        return u
+      end
+      return nil
     end
     
     #what column is editable?
