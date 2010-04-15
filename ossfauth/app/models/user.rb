@@ -32,9 +32,9 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :if => :should_crypt_password
 
   def validate
-    unless self.params[:forgot_password]
+    if (not self.params[:forgot_password]) and (not new_record?) and change_password
       #verify old password
-      if change_password and User.encrypt(old_password) != shadow_password 
+      if User.encrypt(old_password) != shadow_password 
         errors.add :old_password, ' mismatch'
       end  
     end
