@@ -33,8 +33,7 @@ Feature: Manage users
     Given I login as "zzz" with password "zzz"
     Then I should see "success"
     Given I am on the user logout page
-    When I press "logout"
-    Then I should see "success"
+    Then I should be on the user login page
   # Rails generates Delete links that use Javascript to pop up a confirmation
   # dialog and then do a HTTP POST request (emulated DELETE request).
   #
