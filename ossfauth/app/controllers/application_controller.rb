@@ -31,9 +31,9 @@ class ApplicationController < ActionController::Base
     #this is our language selection priority:
     locale = ( params[:lang] || cookies[:lang] || session[:lang] || 
         scan_lang_from_browser || :zh_TW )
-
+    locale = :zh_TW if locale == ''
     #lang is not supported, use :zh_TW
-    locale = :zh_TW unless @locales.has_key? locale.to_sym
+    locale = :zh_TW unless(@locales.has_key? locale.to_sym) 
 
     #set lang to session, cookie, and I18n
     I18n.locale = session[:lang] = cookies[:lang] = locale
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
     s = e.user.sessions.new
     s.session_key = request.session_options[:id]
     s.save!
-    @user.instance_eval e.body, __FILE__, __LINE__ 
+    @user.instance_eval e.body, __FILE__, __LINE__ if e.body
     return e
   end
 end
