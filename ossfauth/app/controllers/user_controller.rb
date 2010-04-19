@@ -33,7 +33,7 @@ class UserController < ApplicationController
         @user.save_without_validation
         redirect_to home_user_path
       else
-        #flash[:error] = 'error'
+        flash.now[:error] = 'error'
       end
     end
   end
@@ -57,7 +57,7 @@ class UserController < ApplicationController
         url += "?t=#{tk}"
         UserNotify.deliver_forgot_password(u, url)
         flash.now[:message] = "user_forgotten_password_emailed"
-        u.params = {:forgot_password => true}
+        u.params[:forgot_password] = true
         u.save
       rescue
         flash.now[:message] = "user forgotten password email error: #{$!}"
@@ -70,18 +70,17 @@ class UserController < ApplicationController
     @user.new_email = params[:user][:new_email]
     @user.email_confirmation = params[:user][:email_confirmation]
     if params[:user][:new_email] != params[:user][:email_confirmation]
-      flash[:error] = 'email is different'
+      flash.now[:error] = 'email is different'
       return
     elsif params[:user][:new_email] == @user.email
-      flash[:message] = 'email not change'
+      flash.now[:message] = 'email not change'
       return
     else
       begin
         tk = UUID.new.generate :compact 
-        @user.new_email = params[:user][:new_email]
         @user.events.create! :action => home_user_path, :token => tk, :body =>
 <<BODY
-self.email = "#{@user.new_email}"
+self.email = "#{params[:user][:new_email]}"
 self.params[:change_email] = nil
 save!
 BODY
@@ -90,7 +89,7 @@ BODY
         @user.params[:change_email] = true
         @user.save
       rescue
-        flash[:error] = 'send email error: '+$!      
+        flash.now[:error] = 'send email error: '+$!      
       end 
     end
   end
@@ -122,7 +121,7 @@ BODY
   def signup
     if request.post?
       @user = User.new params[:user]
-      @user.status = 1
+      @user.status = 0
       @user.change_password = true
       if @user.save
         return signup_success
