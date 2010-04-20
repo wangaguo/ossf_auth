@@ -16,6 +16,14 @@ module NavigationHelpers
       login_user_path
     when /the user signup page/
       signup_user_path
+    when /the user email page/
+      email_user_path
+    when /the user home page/
+      home_user_path
+    when /user forgot_password page/
+      forgot_password_user_path
+    when /user passwd page/
+      passwd_user_path
     when /site regist page/
       '/site/regist'
     when /site deregist page/
