@@ -1,23 +1,17 @@
-<html>
-  <head>
-    <% wsw_css_host = 'http://freenix.iis.sinica.edu.tw'%>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/components/com_gantry/css/gantry.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/components/com_gantry/css/grid-12.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/components/com_gantry/css/joomla.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/joomla.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/splitmenu.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/style1.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/light-body.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/demo-styles.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/template.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/template-firefox.css' %>
-    <%=stylesheet_link_tag wsw_css_host+'/wsw/templates/rt_quantive_j15/css/typography.css' %>
-    <title>
-      <%= 'My OpenFoundry Account' %>
-    </title>
-  </head>
-  <body>
-    <%= render :partial => 'layouts/header'%>
+<% content_for :head_content do -%>
+  <title>
+    <%= 'My OpenFoundry Account' %>
+  </title>
+  <%=javascript_include_tag :defaults%>
+<% end -%>
+
+<% content_for :header_content do -%>
+  <%= render :partial => 'layouts/header'%>
+<% end -%>
+
+<% content_for :body_content do -%>
+  <div id="sso-body">
     <%= yield %>
-  </body>
-</html>
+  </div>
+<% end -%>
+<%= render :file => 'layouts/integration' %>
