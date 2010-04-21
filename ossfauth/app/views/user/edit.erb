@@ -1,5 +1,17 @@
-<% form_for :user, @user, :url => update_user_path do |f| %>
+<% form_for :user, @user, :url => update_user_path,:html => { :multipart => true }  do |f| %>
 <table>
+<tr><td><%= image_tag @user.avatar.url %>
+</td><td/></tr>
+  <tr>
+    <td>
+      <p>
+        User Avatar
+      </p>
+    </td>
+    <td>
+      <%= f.file_field :avatar %>
+    </td>
+  </tr>
   <% User.editable_columns.each do |col| %>
   <tr>
     <td>
