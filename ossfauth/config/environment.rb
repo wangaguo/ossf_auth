@@ -18,6 +18,11 @@ Rails::Initializer.run do |config|
   # Specify gems that this application depends on and have them installed with rake gems:install
   config.gem "uuid"
   config.gem "haml"
+  config.gem "email_spec"
+    #attachments
+  config.gem "paperclip"
+    #jquery for rails
+  config.gem "aaronchi-jrails", :lib => 'jrails', :source => 'http://gems.github.com'
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
