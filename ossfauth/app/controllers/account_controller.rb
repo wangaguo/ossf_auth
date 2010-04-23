@@ -7,7 +7,7 @@ class AccountController < ApplicationController
       return check_account_name_available if params[:name]
       return check_account_email_available if params[:email]
     end
-    render :test => 'Ajax only!', :layout =>false
+    render :text => '', :layout => false
   end
 
   def check_account_name_available
@@ -18,8 +18,10 @@ class AccountController < ApplicationController
     else
       "user.account_name_ok"
     end
-    
-    render :text => t(text_key, :name => name), :layout => false
+
+    text = name.empty? ? '' : t(text_key, :name => name) 
+    render :text => "$('#name_availability_result').html('#{text}');",
+           :layout => false
   end
 
   def check_account_email_available
@@ -31,6 +33,8 @@ class AccountController < ApplicationController
       "user.account_email_ok"
     end
     
-    render :text => t(text_key, :name => email), :layout => false
+    text = email.empty? ? '' : t(text_key, :name => email) 
+    render :text => "$('#email_availability_result').html('#{text}');",
+           :layout => false
   end
 end
