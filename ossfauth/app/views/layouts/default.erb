@@ -1,8 +1,12 @@
 <% content_for :head_content do -%>
+  <link rel="shortcut icon" href="http://www.openfoundry.org/images/favicon.ico" />
   <title>
     <%= 'My OpenFoundry Account' %>
   </title>
-  <%=javascript_include_tag :defaults%>
+  <%= javascript_include_tag 'jquery' %>
+  <%= javascript_include_tag 'jquery-ui' %>
+  <%= javascript_include_tag 'jrails' %>
+  <%= javascript_include_tag 'langsync' %>
 <% end -%>
 
 <% content_for :header_content do -%>
