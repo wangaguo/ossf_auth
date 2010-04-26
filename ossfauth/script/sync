@@ -1,28 +1,42 @@
 #!/usr/bin/env ruby
 require 'curb'
-urls = [
-'http://140.109.22.239/index.php?option=com_ofsso&controller=sso&task=syncusers', 
-'http://140.109.22.15:3000/of/sync_data'
-]
-Message.un_sync.each{|m|
-  rtn = urls.map{|url|
-    c = Curl::Easy.new url
-    c.http_post(
-     Curl::PostField.content('data', m.user.to_json) ,
-     Curl::PostField.content('action', m.action)
-    )
-    puts "--------\n#{url}\nreturn:\n#{c.body_str}\n--------"
-    case c.body_str
-      #sync successfully!
-      when '1','true','ok',1,true then
-        true
-      #sync faild!
-      else
-        false
-    end
+
+def load_urls
+  @urls = Url.find :all
+end
+
+def load_unsync_message_ids
+  @mid = Message.un_sync.find( :all, :select => :id)
+end
+
+load_urls
+
+logger = Logger.new('log/sync.log')
+loop do
+  Message.un_sync.each{|m|
+    rtn = @urls.map{|url|
+      c = Curl::Easy.new url.content
+      c.http_post(
+       Curl::PostField.content('data', m.user.to_json) ,
+       Curl::PostField.content('action', m.action)
+      )
+      logger.info "-#{url.id}-#{url.content}-uid:#{m.user_id}-rtn:\n---#{c.body_str}"
+      case c.body_str
+        #sync successfully!
+        when '1','true','ok' then
+          true
+        #sync faild!
+        else
+          n = m.clone
+          n.user_id = nil
+          n.site_id = url.site_id
+          n.status = 're_sync'
+          n.save!
+          false
+      end
+    }
+    m.status = ( rtn.inject{|sum, i|sum and i}? 'ok':'error' )
+    m.save!
   }
-  m.status = ( rtn.inject{|sum, i|sum and i}? 'ok':'re_sync' )
-  m.save!
-}
-
-
+  sleep 1
+end
