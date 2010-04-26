@@ -4,7 +4,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :user_id
       t.string :token
       t.string :action
-      t.string :body
+      t.text :body, :size => 1024
 
       t.timestamps
     end
