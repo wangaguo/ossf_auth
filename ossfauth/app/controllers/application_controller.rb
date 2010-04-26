@@ -5,16 +5,22 @@ require 'activemessaging/processor'
 require 'yaml'
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  #self.allow_forgery_protection = false
+  #####################
+  # default settings
+  #####################
+  helper :all 
+  protect_from_forgery 
 
-  # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :old_password, :password_confirmation, 
                            :email, :email_confirmation
   layout 'default'
   before_filter :set_locale
  
+  rescue_from ActionController::RoutingError, :with => :not_found
+
+  #####################
+  # activemessaging
+  #####################
   include ActiveMessaging::MessageSender
   def publish_with_yaml(body, header = {}, timeout = 10)
     yaml_str = YAML.dump(body)
@@ -24,6 +30,16 @@ class ApplicationController < ActionController::Base
   alias_method_chain :publish, :yaml
 
   private
+  #####################
+  # error handler
+  #####################
+  def not_found
+    flash[:error] = t 'not_found'
+    redirect_to not_found_rescue_path
+  end
+  #####################
+  # locale setting
+  #####################
   def set_locale  
     #what language we support
     @locales = {:en => 'English', :zh_TW => '繁體中文'}
@@ -43,6 +59,10 @@ class ApplicationController < ActionController::Base
     ( request.env['HTTP_ACCEPT_LANGUAGE'] || '' ).scan(/^[a-z]{2}/).first
   end
 
+  #####################
+  # access control
+  # (authn, authn by token)
+  #####################
   def login_require
     #the user from session
     @user = check_user 
