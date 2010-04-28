@@ -1,0 +1,10 @@
+<H3>Oops...Dear user,</H3><br/>
+OpenFoundry has the same E-Mail:<br/>
+Who's Who E-Mail: <font color=#FF0000><%= session[:wsw_profile]["email"] %></font><br/>
+Who's Who UserName: <%= session[:wsw_profile]["username"]%><br/>
+OpenFoundry E-Mail: <font color=#FF0000><%= session[:of_profile]["email"] %></font><br/>
+OpenFoundry UserName: <%= session[:of_profile]["name"]%><br/>
+<br/>
+Please login through OpenFoundry<br/>
+<%= button_to "Integration", :action => "email_collision_whoswho" %>
+<input id = "signup_new" type="button" value="New Sign Up!" onclick="javascript:window.location='<%= signup_user_path %>';return false;"/>

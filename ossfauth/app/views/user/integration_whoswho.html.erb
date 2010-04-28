@@ -1,0 +1,35 @@
+<% form_tag(integration_whoswho_user_path) do %>
+<h3>Nice to see you, <%= session[:wsw_profile]["name"] %></h3>
+<h4>Here is the profile you registered in Who's Who:</h4>
+<table>
+  <tr>
+    <td>
+      <label>Your Name:</label>
+    </td>
+    <td>
+      <%= session[:wsw_profile]["name"] %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>User ID:</label>
+    </td>
+    <td>
+      <%= session[:wsw_profile]["username"] %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>E-Mail:</label>
+    </td>
+    <td>
+      <%= session[:wsw_profile]["email"] %>
+    </td>
+  </tr>
+</table><br/>
+Would you like to sign up in OpenFoundry with the same data?<br/>
+<br/>
+<div class="button-bar">
+  <input id = "Yes" type="button" value="Yes" onclick="javascript:window.location='<%= signup_user_path + "?wsw=1" %>';return false;"/>
+  <input id = "No" type="button" value="No" onclick="javascript:window.location='<%= signup_user_path %>';return false;"/>
+<% end %>

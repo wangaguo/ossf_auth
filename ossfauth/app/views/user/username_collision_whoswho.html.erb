@@ -1,0 +1,10 @@
+<H3>Oops...Dear user,</H3><br/>
+OpenFoundry has the same UserName:<br/>
+Who's Who UserName: <font color=#FF0000><%= session[:wsw_profile]["username"] || 'UserName' %></font><br/>
+Who's Who E-Mail: <%= session[:wsw_profile]["email"] || 'Email' %><br/>
+OpenFoundry UserName: <font color=#FF0000><%= session[:of_profile]["name"] || 'Name' %></font><br/>
+OpenFoundry E-Mail: <%= session[:of_profile]["email"] || 'Email' %><br/>
+<br/>
+Please check up!<br/>
+<input id="return" type="button" value="Return to login" onclick="javascript:window.location='<%= login_user_path %>';return false;"/>
+<input id="signup" type="button" value="New Sign Up!" onclick="javascript:window.location='<%= signup_user_path %>';return false;"/>
