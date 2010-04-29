@@ -15,5 +15,15 @@
         \:
       %td
         = password_field_tag :password
+    - unless params[:wsw]
+      %tr
+        %td
+          = check_box_tag :whoswho
+        %td
+          = t 'I am Who\'s Who User'
+    - else
+      %tr
+        %td{:colspan => "2"}
+          = t 'please_enter_your_OpenFoundry_account'
 
   = submit_tag t('Login'), :name => :login, :id => :login
