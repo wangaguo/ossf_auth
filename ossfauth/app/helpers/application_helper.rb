@@ -6,4 +6,7 @@ module ApplicationHelper
                                      :class => "flash#{key}") if flash[key]
                  }.join
   end
+  def display_signup
+    ( not @user ) and ( not session[:whoswho] )
+  end
 end
