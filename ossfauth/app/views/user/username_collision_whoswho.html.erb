@@ -1,9 +1,23 @@
 <H3><%= t 'integration.dear_user', :name => session[:wsw_profile]["name"] %></H3><br/>
 <%= t 'integration.the_same_email_of' %><br/>
-<%= t 'integration.whoswho_account' %> <font color=#FF0000><%= session[:wsw_profile]["username"] || 'UserName' %></font><br/>
-<%= t 'integration.whoswho_email' %> <%= session[:wsw_profile]["email"] || 'Email' %><br/>
-<%= t 'integration.of_account' %> <font color=#FF0000><%= session[:of_profile]["name"] || 'Name' %></font><br/>
-<%= t 'integration.of_email' %> <%= session[:of_profile]["email"] || 'Email' %><br/>
+<table>
+  <tr>
+    <td><%= t 'integration.whoswho_account' %></td> 
+    <td><font color=#FF0000><%= session[:wsw_profile]["username"] || 'UserName' %></font></td>
+  </tr>
+  <tr>
+    <td><%= t 'integration.whoswho_email' %></td> 
+    <td><%= session[:wsw_profile]["email"] || 'Email' %></td>
+  </tr>
+  <tr>
+    <td><%= t 'integration.of_account' %></td> 
+    <td><font color=#FF0000><%= session[:of_profile]["name"] || 'Name' %></font></td>
+  </tr>
+  <tr>
+    <td><%= t 'integration.of_email' %></td> 
+    <td><%= session[:of_profile]["email"] || 'Email' %></td>
+  </tr>
+</table>
 <br/>
 <%= t 'integration.please_checkup_integration' %><br/>
 <input id="return" type="button" value="<%= t 'integration.yes_relogin_of' %>" onclick="javascript:window.location='<%= login_user_path + "?wsw=1" %>';return false;"/>

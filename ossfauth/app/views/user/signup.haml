@@ -14,9 +14,25 @@
             = User.human_attribute_name col
             \:
           %td
-            = case col.to_s; when 'name' then f.text_field col, :onkeypress => "new Ajax.Updater(\'name_availability_result\', \'#{availability_user_path}\', {asynchronous:true, evalScripts:true, parameters:'name=' + encodeURIComponent(value)});return true;";when /password/ then f.password_field col;when 'email' then  f.text_field col, :onkeypress => "new Ajax.Updater(\'email_availability_result\', \'#{availability_user_path}\', {asynchronous:true, evalScripts:true, parameters:'email=' + encodeURIComponent(value)});return true;";else f.text_field col;end
-            - if col == :name
-              #name_availability_result
-            - if col == :email
-              #email_availability_result
+            = case col.to_s; when 'name' then f.text_field col, :onkeyup => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;";when /password/ then f.password_field col;when 'email' then f.text_field col, :onkeyup => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;";else f.text_field col;end
+        - if col == :name
+          %tr
+            %td
+              %td
+                #name_availability_result
+        - if col == :email
+          %tr
+            %td
+              %td
+                #email_availability_result
+      %tr
+        %td
+          = User.human_attribute_name :language
+        %td
+          = "" #f.select :language, @locale
+      %tr
+        %td
+          = User.human_attribute_name :timezone
+        %td
+          = "" #f.select :language, @locale
     = submit_tag t('SignUp'), :id => :signup

@@ -24,6 +24,6 @@
   </tr> 
   <%-end%>
 </table>
-<%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
+<%= submit_tag t('Save'), options={:id => "commit"}%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
 <%-end%>
 

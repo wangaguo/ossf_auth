@@ -1,9 +1,22 @@
 <H3><%= t 'integration.dear_user', :name => session[:wsw_profile]["name"] %></H3><br/>
 <%= t 'integration.the_same_email_of' %><br/>
-<%= t 'integration.whoswho_email' %> <font color=#FF0000><%= session[:wsw_profile]["email"] %></font><br/>
-<%= t 'integration.whoswho_account' %> <%= session[:wsw_profile]["username"]%><br/>
-<%= t 'integration.of_email' %> <font color=#FF0000><%= session[:of_profile]["email"] %></font><br/>
-<%= t 'integration.of_account' %> <%= session[:of_profile]["name"]%><br/>
+<table>
+  <tr>
+    <td><%= t 'integration.whoswho_email' %></td>
+    <td><font color=#FF0000><%= session[:wsw_profile]["email"] %></font></td>
+    </tr>
+    <tr>
+      <td><%= t 'integration.whoswho_account' %></td>
+      <td><%= session[:wsw_profile]["username"]%></td>
+    </tr>
+    <tr>
+      <td><%= t 'integration.of_email' %></td>
+      <td><font color=#FF0000><%= session[:of_profile]["email"] %></font></td>
+    </tr>
+    <tr>
+      <td><%= t 'integration.of_account' %> </td><td><%= session[:of_profile]["name"]%></td>
+    </tr>
+  </table>
 <br/>
 <%= t 'integration.please_checkup_integration' %><br/>
 <%#= button_to "#{ t 'integration.yes_relogin_of' }", :action => "email_collision_whoswho" %>

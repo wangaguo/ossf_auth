@@ -13,6 +13,6 @@
   </tr> 
   <%-end%>
 </table>
-<%= submit_tag t('Change Email')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
+<%= submit_tag t('Change Email'), options = {:id => "commit"} %> <input id = "cancel" type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
 <%-end%>
 
