@@ -2,7 +2,7 @@
   <h2>
     <%= link_to t('OpenFoundry Account'), home_user_url %> 
   </h2>
-  <%- unless @user %>
+  <%- if display_signup %>
     <%= link_to t('user.signup'), signup_user_path %> 
     |
     <%= link_to t('user.forgot_password'), forgot_password_user_path %>
