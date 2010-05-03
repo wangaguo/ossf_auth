@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:logout]
-  before_filter :login_require, :except => [:availability, :signup, :login, :forgot_password, :integration_whoswho, :email_collision_whoswho, :username_collision_whoswho]
+  before_filter :login_require, :except => [:availability, :signup, :login, :forgot_password, :integration_whoswho, :email_collision_whoswho, :username_collision_whoswho, :image]
 
   def check_session 
     sid = cookies[SITE_SESSION_ID]
@@ -423,8 +423,13 @@ save!
     redirect_to home_user_path
   end
   
-  def availability
-    render :text => 'kerker', :layout =>false
+  def image
+    user = User.find_by_name params[:name]
+    return render :text => 'not found', :layout => false unless user
+    #send_file(image_cache_file, :type => meta, :disposition => "inline")
+    image = user.avatar
+    send_file "#{RAILS_ROOT}/public#{image.url(:original, false)}", 
+              :type => image.content_type, :disposition => "inline"
   end
 
   def generate_blank
