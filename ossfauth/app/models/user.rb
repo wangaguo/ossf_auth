@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
   #####################
   # mixins
   #####################
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  has_attached_file :avatar, :styles => 
+    { :medium => "60x60>", :thumb => "16x16>" }
 
   #####################
   # named scopes 
@@ -87,7 +88,7 @@ class User < ActiveRecord::Base
     
     #what column is editable?
     def editable_columns
-      a = [:first_name, :last_name, :autobiography]
+      a = [:first_name, :last_name]
       self.content_columns.select{|col|a.member? col.name.to_sym}
     end
   
