@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
                            :email, :email_confirmation
   layout 'default'
   before_filter :set_locale
+  before_filter :is_embedded
  
   rescue_from ActionController::RoutingError, :with => :not_found
 
@@ -57,6 +58,14 @@ class ApplicationController < ActionController::Base
   
   def scan_lang_from_browser
     ( request.env['HTTP_ACCEPT_LANGUAGE'] || '' ).scan(/^[a-z]{2}/).first
+  end
+  
+  #####################
+  # for embedded within wsw 
+  #####################
+  def is_embedded
+    @render_options = {}
+    @render_options[:layout] = "embedded" if params[:embedded]
   end
 
   #####################
