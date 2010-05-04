@@ -28,11 +28,13 @@
       %tr
         %td
           = User.human_attribute_name :language
+          \:
         %td
-          = "" #f.select :language, @locale
+          = f.select :language, @locales.collect{|l|[l[1],l[0]]}
       %tr
         %td
           = User.human_attribute_name :timezone
+          \:
         %td
-          = "" #f.select :language, @locale
+          = f.select :timezone, -13.upto(12).map{|i|[i,i]}
     = submit_tag t('SignUp'), :id => :signup
