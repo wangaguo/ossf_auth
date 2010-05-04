@@ -1,6 +1,6 @@
 <% form_for :user, @user, :url => update_user_path,:html => { :multipart => true }  do |f| %>
 <table>
-<tr><td><%= image_tag @user.avatar.url(:thumb)%>
+<tr><td><%= image_tag @user.avatar.url(:medium)%>
 </td><td/></tr>
   <tr>
     <td>
