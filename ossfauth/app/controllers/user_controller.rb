@@ -15,6 +15,7 @@ class UserController < ApplicationController
   end
   
   def edit
+    render @render_options if params[:embedded]
   end
 
   def passwd
@@ -191,6 +192,8 @@ save!
     end   
     #regenerate session key which is empty
     reset_session if request.session_options[:id].nil? or request.session_options[:id].empty?
+    #render :layout => false if request.xhr?
+    render @render_options if params[:embedded]
   end
   
   def validate_whoswho_user
@@ -225,7 +228,7 @@ save!
   def integration_whoswho
     session[:wsw_profile] = fetch_userdata_from_whoswho(session[:whoswho])
     session[:wsw_profile]["username"] = session[:wsw_profile]["username"].delete("!") if session[:wsw_profile]["username"].index("!")
-    if session[:of_profile] = User.find_by_name(session[:wsw_profile]["username"])
+    if session[:of_profile] == User.find_by_name(session[:wsw_profile]["username"])
       if session[:wsw_profile]["email"].strip == session[:of_profile]["email"].strip
         redirect_to email_collision_whoswho_user_path
       elsif session[:wsw_profile]["username"].strip == session[:of_profile]["name"].strip
@@ -235,19 +238,12 @@ save!
   end
 
   def email_collision_whoswho
-    #Hey hey...
     unless session[:wsw_profile]
       redirect_to login_user_path
     end
-#    if request.post?
-#      session[:login] = session[:of_profile]["name"]
-#      @u = User.find_by_name(session[:of_profile]["name"])
-#      login_success
-#    end
   end
 
   def username_collision_whoswho
-    #Ker ker...
     unless session[:wsw_profile]
       redirect_to login_user_path
     end
@@ -425,10 +421,13 @@ save!
   
   def image
     user = User.find_by_name params[:name]
+    size = params[:size]||:original
+    size = :original unless [:thumb, :original, :medium].member? size.to_sym
+
     return render :text => 'not found', :layout => false unless user
     #send_file(image_cache_file, :type => meta, :disposition => "inline")
     image = user.avatar
-    send_file "#{RAILS_ROOT}/public#{image.url(:original, false)}", 
+    send_file "#{RAILS_ROOT}/public#{image.url(size.to_sym, false)}", 
               :type => image.content_type, :disposition => "inline"
   end
 
