@@ -1,24 +1,24 @@
-/#########################
-/#show basic info edit panel
-/#########################
+-#########################
+-#show basic info edit panel
+-#########################
 -module_title = capture do 
   %h2.title Basic Information
 -module_content = capture do
   =render :file => 'user/basic_info'
 =render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content}
 
-/#########################
-/#show password edit panel
-/#########################
+-#########################
+-#show password edit panel
+-#########################
 -module_title = capture do 
   %h2.title Change Password
 -module_content = capture do
   =render :file => 'user/passwd'
 =render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content}
 
-/#########################
-/#show email edit panel
-/#########################
+-#########################
+-#show email edit panel
+-#########################
 -module_title = capture do 
   %h2.title Change Email
 -module_content = capture do
