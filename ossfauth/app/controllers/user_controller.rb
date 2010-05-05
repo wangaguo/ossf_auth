@@ -413,6 +413,7 @@ save!
     # mark the user integrated
     @u = check_user 
     @u.params[ :istatus ] = :yes
+    @u.status = 0
     @u.save
 
     flash[ :message ] = "Congratulation!! Your Account has been integrated."
