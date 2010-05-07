@@ -15,17 +15,13 @@ class UserController < ApplicationController
   end
   
   def edit
-    render @render_options if params[:embedded]
   end
 
   def passwd
     if request.post?
-      #match old password
-      #return if !old_password_match #and !@user.tags[:forgot_password]
-      #@user.tags.delete :forgot_password
-
       #save password
-      @user.update_attributes params[:user]
+      @user.update_attributes params[:user].reject{|k,v|
+                    not User.columns_for_change_password.member? k}
       @user.change_password = true
       if @user.save #success
         flash[:message] = 'change passwd success!'
@@ -41,20 +37,20 @@ class UserController < ApplicationController
   def forgot_password
     u = nil
     return if generate_blank
-    if params['email'].empty?
+    email = params['email'] 
+    if email.nil? or email.empty?
       flash.now[:message] = t "user.plz_enter_your_email"
-    elsif User.find_by_email(params['email']).nil?
-      flash.now[:message] = "#{params['email']}" + " has not found!"
+    elsif User.normal.find_by_email(email).nil?
+      flash.now[:message] = "#{email}" + " has not found!"
     else
-      u = User.find_by_email(params['email'])
+      u = User.normal.find_by_email(email)
     end
 
     if u
       begin
-        tk = UUID.new.generate :compact #u.generate_token
+        tk = UUID.new.generate :compact #generate token for mail
         u.events.create! :action => passwd_user_path, :token => tk
-        url = "http://ssodev.openfoundry.org" + root_path
-        url += "?t=#{tk}"
+        url = "#{request.protocol}#{request.host_with_port}#{root_path}?t=#{tk}"
         UserNotify.deliver_forgot_password(u, url)
         flash.now[:message] = t "user.forgotten_password_emailed"
         u.params[:forgot_password] = true
@@ -98,7 +94,9 @@ BODY
   def update
     if request.post?
       @user = check_user
-      @user.update_attributes params[:user]
+      User.editable_columns.each{|col|
+        @user[col] =  params[:user][col] if params[:user][col]
+      }
       flash[:message] = 'Update User Infomation Successfully.'
       redirect_to home_user_path
     end
@@ -128,8 +126,12 @@ BODY
       @user.change_password = true
       @user.params[:from_wsw] = true if session[:wsw_profile]
       @user.params[:wsw_name] = session[:wsw_profile]["username"] if session[:wsw_profile]
-      if @user.save
-        return signup_success
+      if (User.normal.find_by_email(@user.email).nil?) && (User.normal.find_by_name(@user.name).nil?)
+        if @user.save
+          return signup_success
+        end
+      else
+        flash.now[:error] = t 'user.your_username_or_email_cannot_register'
       end
     else
       #session["whoswho"] = nil
@@ -137,7 +139,7 @@ BODY
   end
   
   def signup_success
-    flash[:message] = 'User SignUp Success'
+    flash[:message] = t 'user.user_signup_success'
     tk = @user.generate_token
     @user.events.create :action => home_user_path, :token => tk, :body => 
 '
@@ -147,21 +149,21 @@ if self.params[:from_wsw] == true
       "http://ssodev.openfoundry.org/index.php?option=com_ofsso&controller=sso&task=integrateuser",
       "u=#{self.params[:wsw_name]}&nu=#{self.name}")
     self.messages.create :action => "update"
-    self.params.delete :from_wsw
-    self.params.delete :wsw_name
 end
 self.params[:email_verified] = true
 self.status = 1
+self.params[:istatus] = :yes
 save!
 '
     url = home_user_url
     url += "?t=#{tk}"
     UserNotify.deliver_signup(@user, params[:user][:password], url)
+    redirect_to login_user_path
   end
 
   def login
     #clear cache
-    session[:whoswho], session[:wsw_profile], session[:of_profile] = nil
+    session[:whoswho], session[:wsw_profile], session[:of_profile], session[:login], session[:wswlogin], session[:mail], session[:dupuname], session[:dupemail] = nil
     #if already login, go home
     (redirect_to home_user_path;return) if check_user
       
@@ -192,8 +194,6 @@ save!
     end   
     #regenerate session key which is empty
     reset_session if request.session_options[:id].nil? or request.session_options[:id].empty?
-    #render :layout => false if request.xhr?
-    render @render_options if params[:embedded]
   end
   
   def validate_whoswho_user
@@ -228,7 +228,7 @@ save!
   def integration_whoswho
     session[:wsw_profile] = fetch_userdata_from_whoswho(session[:whoswho])
     session[:wsw_profile]["username"] = session[:wsw_profile]["username"].delete("!") if session[:wsw_profile]["username"].index("!")
-    if session[:of_profile] == User.find_by_name(session[:wsw_profile]["username"])
+    if session[:of_profile] = User.find_by_name(session[:wsw_profile]["username"])
       if session[:wsw_profile]["email"].strip == session[:of_profile]["email"].strip
         redirect_to email_collision_whoswho_user_path
       elsif session[:wsw_profile]["username"].strip == session[:of_profile]["name"].strip
@@ -250,8 +250,6 @@ save!
   end
 
   def login_success
-    #TODO: this is debug nop, remove it somedat
-    cookies[:double_check_id] = 'Q_Q'
     s = @u.sessions.new
     s.session_key = request.session_options[:id]
     if(s.session_key.nil? || s.session_key.empty?)
@@ -304,6 +302,11 @@ save!
       case params[ :of_itype ]
         when "REG_WHOSWHO"
           # no WSW account ( create a WSW account immediately ) 
+          @user.create(:action => 'create')
+          # log this process
+          h = @session[:integration_log] || {}
+          h[:of] = @user.name
+          @session[:integration_log] = h
 
           return integrate_success
         when "LOGIN_WHOSWHO"
@@ -317,6 +320,12 @@ save!
             # determine the next step according to the WSW account 
             validate_whoswho_user { | wsw_response |
               if wsw_response == "true"
+                # log this process
+                h = @session[:integration_log] || {}
+                h[:wsw] = params['name']
+                h[:of] = @user.name
+                h[:sso] = :none
+                @session[:integration_log] = h
                 redirect_to( :action => 'integrate_diff_accounts', :user => params[ :name ] )
               else
                 flash.now[ :error ] = "Whoswho Login Error"
@@ -332,8 +341,8 @@ save!
       if session[ :login ]
         # check duplicate email
         if u = User.find( :first, :conditions => { :name => session[ :login ] } )
-            session[ :mail ] = u.email
-            session[ :dupemail ] = true if fetch_userdata_from_whoswho( u.email )
+          session[ :mail ] = u.email
+          session[ :dupemail ] = true if fetch_userdata_from_whoswho( u.email )
         end
 
         # check duplicate username
@@ -352,8 +361,12 @@ save!
       session[ :wswlogin ] = params[ :user ]
 
       # select user data from two sites 
-      @ofudata = User.find( :first, :conditions => { :name => session[ :login ] } )
+      @ofudata = User.normal.find( :first, :conditions => { :name => session[ :login ] } )
       @wswudata = fetch_userdata_from_whoswho( params[ :user ] )
+      h = @session[:integration_log] || {}
+      h[:wswudata] = @wswudata
+      h[:ofudata] = @ofudata
+      @session[:integration_log] = h
 
       # default optional columns of user data
       # NOTE: The keys here are the same to the columns of sso-DB.
@@ -363,7 +376,12 @@ save!
       #
       # 1) E-mail
       #
-      if session[ :dupemail ]
+      if session[ :dupemail ] || ( not User.normal.find( :first, :conditions => { :email => @wswudata[ "email" ] } ).nil? )
+        #
+        # no choice for email in two conditions
+        # 1. email is duplicate
+        # 2. the email in WSW has been registered in OF
+        #
         @opt_columns.delete :email
       else
         @opt_columns[ :email ] = [ @ofudata[ "email" ], @wswudata[ "email" ] ]
@@ -372,39 +390,68 @@ save!
       #
       # 2) First Name & Last Name
       #
-      if @wswudata[ "name" ] == @ofudata[ "last_name" ] + " " + @ofudata[ "first_name" ]
-        @opt_columns.delete :first_name
+      if @ofudata[ "last_name" ] == @wswudata[ "name" ].split( " " )[ 0 ]
         @opt_columns.delete :last_name
       else
         @opt_columns[ :last_name ] = [ @ofudata[ "last_name" ], @wswudata[ "name" ].split( " " )[ 0 ] || "" ]
+      end  
+
+      if @ofudata[ "first_name" ] == @wswudata[ "name" ].split( " " )[ 1 ]
+        @opt_columns.delete :first_name
+      else
         @opt_columns[ :first_name ] = [ @ofudata[ "first_name" ], @wswudata[ "name" ].split( " " )[ 1 ] || "" ]
       end
 
+      # if the data is empty, then the optional column(s) will be cancelled.
+      @opt_columns.delete :last_name if @opt_columns[ :last_name ] and @opt_columns[ :last_name ].include?( "" )
+      @opt_columns.delete :first_name if @opt_columns[ :first_name ] and @opt_columns[ :first_name ].include?( "" )
+
       # When data of two sites are concurrent, no choice...
-      integrate_success if @opt_columns.blank?   
+      if @opt_columns.blank?
+        require "curb"
+        c = Curl::Easy.http_post( "http://ssodev.openfoundry.org/index.php?option=com_ofsso&controller=sso&task=integrateuser",
+                                  "u=#{ session[ :wswlogin ] }&nu=#{ session[ :login ] }" )
+        return integrate_success if c.body_str == 'true'
+        render :text => "Whoswho Error: #{ c.body_str }"
+      end
     else
     #
     # integrate the data of user's options to DB
     #
 
       if request.post? and session[ :login ]
+        updatechk = true
+
         # preserve the attributes needed to update the OF DB, and update it!!
-        if alterdata = params.delete_if { | k, v | !k.start_with?( "WSW_" ) }
+        if ( alterdata = params.delete_if { | k, v | !k.start_with?( "WSW_" ) } ) and ( not alterdata.empty? )
           alterhash = {}
 
           # remove the prefixes of attributes for corresponding with the columns of WSW DB 
           alterdata.each { | k, v | alterhash[ k.gsub( "WSW_", "" ) ] = v }
 
-          ssouser = User.find( :first, :conditions => { :name => session[ :login ] } )
-          ssouser.update_attributes( alterhash )
+          # update data to SSO DB 
+          ssouser = User.normal.find( :first, :conditions => { :name => session[ :login ] } )
+          begin
+            ssouser.update_attributes!( alterhash )
+            h = @session[:integration_log] || {}
+            h[:alterhash] = alterhash
+            @session[:integration_log] = h
+            
+          rescue
+            updatechk = false
+          end
         end
        
         # remove prefix of WSW 
-        require "curb"
-        c = Curl::Easy.http_post( "http://ssodev.openfoundry.org/index.php?option=com_ofsso&controller=sso&task=integrateuser", 
-                                  "u=#{ session[ :wswlogin ] }&nu=#{ session[ :login ] }" )
-        return integrate_success if c.body_str == 'true'
-        render :text => "Whoswho Error: #{ c.body_str }"
+        if updatechk
+          require "curb"
+          c = Curl::Easy.http_post( "http://ssodev.openfoundry.org/index.php?option=com_ofsso&controller=sso&task=integrateuser", 
+                                    "u=#{ session[ :wswlogin ] }&nu=#{ session[ :login ] }" )
+          return integrate_success if c.body_str == 'true'
+          render :text => "Whoswho Error: #{ c.body_str }"
+        else
+          render :text => "Database Update Error"
+        end
       end
     end
   end
@@ -413,8 +460,11 @@ save!
     # mark the user integrated
     @u = check_user 
     @u.params[ :istatus ] = :yes
-    @u.status = 0
     @u.save
+
+    # log this integration process into messages
+    @u.messages.create(:status => 'integrated', :action => 'log', 
+      :body => session[:intgration_log])
 
     flash[ :message ] = "Congratulation!! Your Account has been integrated."
     redirect_to home_user_path
