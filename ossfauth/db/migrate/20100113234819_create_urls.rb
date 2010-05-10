@@ -3,16 +3,21 @@ class CreateUrls < ActiveRecord::Migration
     create_table :urls do |t|
       t.integer :site_id
       t.string :action
-      t.string :content
+      t.text :content
 
       t.timestamps
     end
 
-
-    Url.create!(:site_id => 1, :action => 'sync', 
-    :content => 'http://140.109.22.239/index.php?option=com_ofsso&controller=sso&task=syncusers' )
-    Url.create!(:site_id => 2, :action => 'sync', 
-    :content => 'http://140.109.22.15:3000/of/sync_data')
+    wsw = Site.find_by_name 'wsw'
+    of =  Site.find_by_name 'of'
+    #create sync urls
+    wsw.urls.create!( :action => 'sync', 
+      :content => '/index.php?option=com_ofsso&controller=sso&task=syncusers' )
+    of.urls.create!( :action => 'sync', 
+      :content => '/of/sync_data')
+    #create logout urls
+    wsw.urls.create!( :action => 'logout', 
+      :content => '/index.php?option=com_ofsso&controller=sso&task=logout&username=')
   end
 
   def self.down
