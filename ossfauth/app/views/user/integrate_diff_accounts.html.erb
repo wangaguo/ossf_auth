@@ -1,0 +1,14 @@
+<% if not @opt_columns.blank? %>
+  You can make a choice for the following data...<br><br>
+  <% form_for :opt_result, :url => { :action => "integrate_diff_accounts" } do -%>
+    <% @opt_columns.each do | k, v | %>
+      <%="You have two #{k.to_s.humanize.downcase}s can be chosen:" %>
+      <%=radio_button_tag "WSW_#{ k }", "#{ v[ 0 ] }", true %><%="#{ v[ 0 ] }"%>
+      <%=radio_button_tag "WSW_#{ k }", "#{ v[ 1 ] }"  %><%="#{ v[ 1 ] }"%>
+      <br>
+  <% end %>
+
+    <br>
+    <%=submit_tag "Integrate" %>
+  <% end -%>
+<% end %>

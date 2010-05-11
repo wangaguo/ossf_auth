@@ -1,0 +1,23 @@
+<% if session[ :dupemail ] || session[ :dupuname ] %>
+  There is something the matter with your account...<br>
+  <%="Duplicate Username" if session[ :dupuname ] %><br>
+  <%="Duplicate Email" if session[ :dupemail ] %><br>
+<% end %><br>
+  
+I have no Who's Who account, I want to register a new one and continue...<br>
+<% form_for :offm_itype_new, :url => { :action => "integration" } do -%>
+<p>
+  <%=hidden_field_tag  'of_itype', 'REG_WHOSHOW' %>
+  <%=submit_tag 'continue' %>
+<p>
+<% end %>
+  
+Please fill out the following form for integrating with above suggestion, or other accounts...
+<% form_for :offm_itype_com, :url => { :action => "integration" } do -%>
+  <p>
+    <%=hidden_field_tag 'of_itype', 'LOGIN_WHOSWHO' %>
+    id: <%=text_field( "iuser", "name" ) %><br>
+    password: <%=password_field( "iuser", "password" ) %><br>
+    <%=submit_tag 'integrate' %><a href="/index.php?option=com_user&view=reset&Itemid=62"><%="#{t 'user.forgot_password_whoswho'}" %></a>
+  </p>
+<% end %>
