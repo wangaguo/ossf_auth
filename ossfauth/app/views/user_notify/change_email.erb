@@ -1,10 +1,18 @@
-哩後 <%= @name %>, <br/>
-哇洗 <%= @app_name %> A狼, <br/>
-
-因尾哩瓦新A 衣妹嚕: <%= @new_email%>  <br/>
-
-縮衣掐哩啟幾勒link: <%= @url%>  <br/>
-
-多蝦, <br/>
-安子雖~ <br/>
-
+<p>
+Dear User, this message is from <%= @app_name %><br/>
+<br/>
+You had change your email address on 'of.openfoundry.org'.<br/>
+<br/>
+<br/>
+NOTICE!<br/>
+<br/>
+**DO NOT CLICK THE LINK**, if you havn't regist on our website.<br/>
+<br/>
+<br/>
+<br/>
+Click on the following link to confirm your email modification:<br/>
+<br/>
+<a href="<%= @url%>">Click Me!</a><br/>
+Or Click:<br/>
+<a href="<%= @url%>"><%= @url %></a><br/>
+</p>
