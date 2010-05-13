@@ -1,36 +1,68 @@
-<div style='float:left'> 
-  <h2>
-    <%= link_to t('OpenFoundry Account'), home_user_url %> 
-  </h2>
-  <%- if display_signup %>
-    <%= link_to t('user.signup'), signup_user_path %> 
-    |
-    <%= link_to t('user.forgot_password'), forgot_password_user_path %>
-  <%- end %>
-</div>
-<div style='float:right'> 
-  Language Selection: 
-  <%= select_tag 'Language', 
-   @locales.map{|k,v| 
-    params[:lang] = k
-    url_with_lang = "#{request.protocol}#{request.host_with_port}#{url_for params}"
-    "<option #{'selected' if I18n.locale == k.to_s} value='#{url_with_lang}'>#{v}</option>\n"
-    } .join(''),
-       :onchange => "location.href = this.value"
-       %>
-</div>
-<div>
-  <p>
-    <h3>
-      [Center Panel]
-    </h3>
-    <h5>
-      [Put Something Here]
-    </h5>
-  </p>
-<div>
-<br/>
-<hr/>
 
-<%= show_flash %>
+    <!-- header Start -->
+        <div id="rt-header">
+    <!-- Logo -->
+          <div class="rt-grid-7 rt-alpha">
+                  <div class="rt-block">
+                        <a href="/" id="rt-logo"></a>
+                    </div>
+                    </div>
+
+                    <div class="rt-grid-5 rt-omega">
+    <!-- Input Account Login and Logout and Search -->
+                        <div class="square9">
+                            <div class="rt-block">
+                                <div class="rt-module-surround">
+                                   <div class="rt-module-top">
+                                        <div class="rt-module-top2">
+                                            <div class="rt-module-top3">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="rt-module-inner">
+                                    <div class="module-content">
+                                    <div class="ofssologin_square9">
+                                        <a href="/sso/user/login?return_url=/of/user/dashboard">登入</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="/sso/user/signup">註冊</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <span>
+                                        <%=   @locales.map{|k,v| 
+                                            params[:lang] = k
+                                            url_with_lang = "#{request.protocol}#{request.host_with_port}#{url_for params}"
+                                            if I18n.locale != k.to_s 
+                                              "<a href='#{url_with_lang}'><span lang =\"#{k}\" xml:lang=\"#{k}\">#{v}</span></a>\n"
+                                            end  
+                                            } .join('')
+                                        %>
+                                        </span>
+
+                                    <div class="ofssologin_search_square9">
+                                       <form onsubmit="of_search(); return false;" method="get" action="/of/openfoundry/search" id="of_search">
+                                            <select id="of_search_type">
+                                                 <option value="Projects"> 專案 </option>
+                                                 <option value="Content"> 內容 </option>
+                                                 <option value="People"> 人才 </option>
+
+                                            </select>
+                                            <input type="text" onfocus="if(this.value=='search...') this.value='';" onblur="if(this.value=='') this.value='search...';" value="search..." size="28" class="inputbox" alt="search" maxlength="20" id="query" name="query" gtbfieldid="7">
+                                             <input type="hidden" value="search" name="commit">
+                                     </form>
+                                   </div>
+                                </div>
+                                </div>
+                             </div>
+                             <div class="rt-module-bottom">
+
+                                  <div class="rt-module-bottom2">
+                                    <div class="rt-module-bottom3"></div>
+                                </div>
+                            </div>
+                         </div>
+                       </div>
+                   </div>
+                    </div>
+          <div class="clear"></div>
+
+        </div>
+    <!-- header END-->
 
