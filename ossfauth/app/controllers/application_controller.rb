@@ -46,14 +46,14 @@ class ApplicationController < ActionController::Base
     @locales = {:en => 'English', :zh_TW => '繁體中文'}
    
     #this is our language selection priority:
-    locale = ( params[:lang] || cookies[:lang] || session[:lang] || 
+    locale = ( params[:lang] || cookies[:oflang] || session[:lang] || 
         scan_lang_from_browser || :zh_TW )
     locale = :zh_TW if locale == ''
     #lang is not supported, use :zh_TW
     locale = :zh_TW unless(@locales.has_key? locale.to_sym) 
 
     #set lang to session, cookie, and I18n
-    I18n.locale = session[:lang] = cookies[:lang] = locale
+    I18n.locale = session[:lang] = cookies[:oflang] = locale
   end
   
   def scan_lang_from_browser
