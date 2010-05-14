@@ -13,23 +13,24 @@
                 <div class="rt-surround">
                     <div class="rt-surround2">
                         <div class="rt-surround3">
-                            <div class="rt-main-surround">
-  <%= breadcrumb %>
+                            <div id="rt-main-surround">
+  <%#= breadcrumb %>
     <!--MainBody Full Area Header Start-->
 
-                                <div id="rt-main" class="mb12">
-                                    <div class="rt-main-inner">
-                                        <div class="rt-grid-12 ">
-    <!--MainBody Full Area Header End-->
+                                <div id="rt-main" class="sa3-mb9">
+                                  <div class="rt-main-inner">
+                                      <div class="rt-grid-9 rt-push-3">
+                                          <%= yield :body_content%>
+                                        <!--Input OF main body here -->
+                                      </div>
+                                      <div class="rt-grid-3 rt-pull-9">
+                                          <div id="rt-sidebar-a">
+                                            <%= yield :note_content%> 
+                                          </div>
+                                      </div>
 
-    <!--Input OF main body here -->
-    <%= yield :body_content%>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-
+                                  </div>
                                 </div>
-                            </div>
 
     <!--Footer Start -->
                             <div id="rt-copyright">
