@@ -1,6 +1,9 @@
 class UserController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:logout]
-  before_filter :login_require, :except => [:availability, :signup, :login, :forgot_password, :integration_whoswho, :email_collision_whoswho, :username_collision_whoswho, :image]
+  before_filter :login_require, :except => [:availability, :signup, :login, 
+      :forgot_password, :integration_whoswho, :email_collision_whoswho,
+      :username_collision_whoswho, :image,
+      :integration, :integrate_diff_accounts, :integrate_success]
 
   def check_session 
     sid = cookies[SITE_SESSION_ID]
@@ -110,9 +113,13 @@ BODY
       redirect_to login_user_path
       return
     end 
+    #go to user's 'official' home
+    redirect_to '/of/user/dashboard'
   end
 
   def signup
+    #if already login, go home
+    (flash[:message] = 'You already login';redirect_to home_user_path;return) if check_user
     if request.get? and params[:wsw] and session[:wsw_profile]
       @user = User.new
       @user.first_name = session[:wsw_profile]["name"]
@@ -153,6 +160,7 @@ end
 self.params[:email_verified] = true
 self.status = 1
 self.params[:istatus] = :yes
+self.messages.create :action => "create" unless self.params[:from_wsw]
 save!
 '
     url = home_user_url
@@ -167,6 +175,11 @@ save!
     #if already login, go home
     (redirect_to home_user_path;return) if check_user
       
+    #for UI adjusting
+    @extra_note = 'user/login_note'
+    @grid_style = 'rt-grid-5 rt-push-7'
+    @square_style = 'square10'  
+
     if request.post?
       # keep the login username
       session[ :login ] = params[ :name ]
@@ -186,6 +199,12 @@ save!
       #verify sso account
       @u = User.authenticate(params[:name], params[:password])
 
+      if (@u and @u.params[:istatus] != :yes)
+        session[:user_to_integrate] = @u
+        redirect_to integration_user_path
+        return
+      end 
+
       #go to success login user handler
       return login_success if @u 
 
@@ -193,7 +212,7 @@ save!
       flash.now[:error] = 'user login faild'
     end   
     #regenerate session key which is empty
-    reset_session if request.session_options[:id].nil? or request.session_options[:id].empty?
+    #reset_session if request.session_options[:id].nil? or request.session_options[:id].empty?
   end
   
   def validate_whoswho_user
@@ -261,13 +280,10 @@ save!
     end
     s.save
 
-    if (@u.params[:istatus] != :yes)
-      redirect_to integration_user_path
-      return
-    end 
 
     session[:user] = @u
-    if params[:return_url] and !params[:return_url].empty?
+    if params[:return_url] and !params[:return_url].empty? and
+    params[:return_url].match /^\//  
       redirect_to params[:return_url] 
     else
       flash[:message] = 'user login success'
@@ -284,7 +300,8 @@ save!
         c = Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{@user.name}"
       end
       reset_session
-      if params[:return_url]
+      if params[:return_url] and !params[:return_url].empty? and
+      params[:return_url].match /^\//  
         redirect_to params[:return_url] 
       else
         flash.now[:message] = 'user logout success'
@@ -302,11 +319,11 @@ save!
       case params[ :of_itype ]
         when "REG_WHOSWHO"
           # no WSW account ( create a WSW account immediately ) 
-          @user.create(:action => 'create')
+          session[:user_to_integrate].messages.create(:action => 'create')
           # log this process
-          h = @session[:integration_log] || {}
-          h[:of] = @user.name
-          @session[:integration_log] = h
+          h = session[:integration_log] || {}
+          h[:of] = session[:user_to_integrate].name
+          session[:integration_log] = h
 
           return integrate_success
         when "LOGIN_WHOSWHO"
@@ -321,11 +338,11 @@ save!
             validate_whoswho_user { | wsw_response |
               if wsw_response == "true"
                 # log this process
-                h = @session[:integration_log] || {}
+                h = session[:integration_log] || {}
                 h[:wsw] = params['name']
-                h[:of] = @user.name
+                h[:of] = session[:user_to_integrate].name
                 h[:sso] = :none
-                @session[:integration_log] = h
+                session[:integration_log] = h
                 redirect_to( :action => 'integrate_diff_accounts', :user => params[ :name ] )
               else
                 flash.now[ :error ] = "Whoswho Login Error"
@@ -363,10 +380,10 @@ save!
       # select user data from two sites 
       @ofudata = User.normal.find( :first, :conditions => { :name => session[ :login ] } )
       @wswudata = fetch_userdata_from_whoswho( params[ :user ] )
-      h = @session[:integration_log] || {}
+      h = session[:integration_log] || {}
       h[:wswudata] = @wswudata
       h[:ofudata] = @ofudata
-      @session[:integration_log] = h
+      session[:integration_log] = h
 
       # default optional columns of user data
       # NOTE: The keys here are the same to the columns of sso-DB.
@@ -433,9 +450,9 @@ save!
           ssouser = User.normal.find( :first, :conditions => { :name => session[ :login ] } )
           begin
             ssouser.update_attributes!( alterhash )
-            h = @session[:integration_log] || {}
+            h = session[:integration_log] || {}
             h[:alterhash] = alterhash
-            @session[:integration_log] = h
+            session[:integration_log] = h
             
           rescue
             updatechk = false
@@ -458,16 +475,15 @@ save!
 
   def integrate_success
     # mark the user integrated
-    @u = check_user 
+    @u = session[:user_to_integrate]
     @u.params[ :istatus ] = :yes
     @u.save
-
     # log this integration process into messages
     @u.messages.create(:status => 'integrated', :action => 'log', 
       :body => session[:intgration_log])
 
     flash[ :message ] = "Congratulation!! Your Account has been integrated."
-    redirect_to home_user_path
+    login_success
   end
   
   def image
