@@ -1,15 +1,18 @@
-.rt-block
-  .square1
-    .rt-module-surround
-      .rt-module-top
-        .rt-module-top2
-          .rt-module-top3
-      .rt-module-inner
-        .module-title
-          =module_title
-        .clear
-        .module-content
-          =module_content
-      .rt-module-bottom
-        .rt-module-bottom2
-          .rt-module-bottom3
+-grid_style||='rt-grid-9 rt-push-3'
+-square_style||='square1'
+%div{:class => grid_style }
+  .rt-block
+    %div{:class => square_style}
+      .rt-module-surround
+        .rt-module-top
+          .rt-module-top2
+            .rt-module-top3
+        .rt-module-inner
+          .module-title
+            =module_title
+          .clear
+          .module-content
+            =module_content
+        .rt-module-bottom
+          .rt-module-bottom2
+            .rt-module-bottom3

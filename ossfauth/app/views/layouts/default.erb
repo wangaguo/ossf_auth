@@ -13,7 +13,9 @@
 <% content_for :body_content do -%>
     <%= yield %>
 <% end -%>
+
 <% content_for :note_content do -%>
-  <%= render :file => 'user/login_note' %>
-<% end -%>
+  <%= render :file => @extra_note %>
+<% end if @extra_note -%>
+
 <%= render :file => 'layouts/integration' ,:locals => {:head_content => head_content }%>

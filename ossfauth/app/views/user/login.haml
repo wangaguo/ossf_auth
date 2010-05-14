@@ -1,29 +1,39 @@
-- form_tag(login_user_path) do
-  = hidden_field_tag :return_url, params[:return_url]
-  %h3
-    = t 'User Login'
-  %table
-    %tr
-      %td
-        = t 'User Name'
-        \:
-      %td
-        = text_field_tag :name
-    %tr
-      %td
-        = t 'Password'
-        \:
-      %td
-        = password_field_tag :password
-    - unless params[:wsw]
+-module_title = capture do
+  %h2.title= t('User Login')
+-module_content = capture do  
+  - form_tag(login_user_path) do
+    = hidden_field_tag :return_url, params[:return_url]
+    - size = 25
+    = show_flash
+    %table
       %tr
         %td
-          = check_box_tag :whoswho
+          = t 'User Name'
+          \:
         %td
-          = t 'I am Who\'s Who User'
-    - else
+          = text_field_tag :name, '', :size => size
       %tr
-        %td{:colspan => "2"}
-          = t 'please_enter_your_OpenFoundry_account'
+        %td
+          = t 'Password'
+          \:
+        %td
+          = password_field_tag :password, '', :size => size
+      %tr
+        %td
+        %td
+          = link_to t('user.forgot_password'), forgot_password_user_path
+      - unless params[:wsw]
+        %tr
+          %td
+            = check_box_tag :whoswho
+          %td
+            = t 'I am Who\'s Who User'
+            = link_to "#{t 'user.forgot_password_whoswho'}", '/index.php?option=com_user&view=reset&Itemid=62'
+      - else
+        %tr
+          %td{:colspan => "2"}
+            = t 'please_enter_your_OpenFoundry_account'
 
-  = submit_tag t('Login'), :name => :login, :id => :login
+    = submit_tag t('Login'), :name => :login, :id => :login
+    
+=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => @grid_style, :square_style => @square_style}

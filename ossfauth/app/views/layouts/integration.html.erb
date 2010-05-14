@@ -17,17 +17,11 @@
   <%#= breadcrumb %>
     <!--MainBody Full Area Header Start-->
 
-                                <div id="rt-main" class="sa3-mb9">
+                                <div id="rt-main" class="sa5-mb7">
                                   <div class="rt-main-inner">
-                                      <div class="rt-grid-9 rt-push-3">
-                                          <%= yield :body_content%>
-                                        <!--Input OF main body here -->
-                                      </div>
-                                      <div class="rt-grid-3 rt-pull-9">
-                                          <div id="rt-sidebar-a">
-                                            <%= yield :note_content%> 
-                                          </div>
-                                      </div>
+                                          <%= yield :body_content%> 
+                                          <!--Input OF main body here --> 
+                                                <%= yield :note_content%>
 
                                   </div>
                                 </div>
