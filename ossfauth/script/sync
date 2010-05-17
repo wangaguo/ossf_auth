@@ -2,7 +2,7 @@
 require 'curb'
 
 def load_urls
-  @urls = Url.find :all
+  @urls = Url.action('sync')
 end
 
 def load_unsync_message_ids
@@ -15,12 +15,15 @@ logger = Logger.new('log/sync.log')
 loop do
   Message.un_sync.each{|m|
     rtn = @urls.map{|url|
-      c = Curl::Easy.new url.content
-      c.http_post(
-       Curl::PostField.content('data', m.user.to_json) ,
-       Curl::PostField.content('action', m.action)
-      )
-      logger.info "-#{url.id}-#{url.content}-uid:#{m.user_id}-rtn:\n---#{c.body_str}"
+      c = Curl::Easy.new url.link
+      begin
+        c.http_post(
+         Curl::PostField.content('data', m.user.to_json) ,
+         Curl::PostField.content('action', m.action)
+        )
+      rescue
+      end
+      logger.info "-#{url.id}-#{url.link}-uid:#{m.user_id}-rtn:\n-#{Time.now}--#{c.body_str}"
       case c.body_str
         #sync successfully!
         when '1','true','ok' then
