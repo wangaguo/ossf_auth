@@ -15,7 +15,6 @@ class ApplicationController < ActionController::Base
                            :email, :email_confirmation
   layout 'default'
   before_filter :set_locale
-  before_filter :is_embedded
  
   rescue_from ActionController::RoutingError, :with => :not_found
 
@@ -47,7 +46,7 @@ class ApplicationController < ActionController::Base
    
     #this is our language selection priority:
     locale = ( params[:lang] || cookies[:oflang] || session[:lang] || 
-        scan_lang_from_browser || :zh_TW )
+        scan_lang_from_browser || scan_lang_from_user || :zh_TW )
     locale = :zh_TW if locale == ''
     #lang is not supported, use :zh_TW
     locale = :zh_TW unless(@locales.has_key? locale.to_sym) 
@@ -59,13 +58,9 @@ class ApplicationController < ActionController::Base
   def scan_lang_from_browser
     ( request.env['HTTP_ACCEPT_LANGUAGE'] || '' ).scan(/^[a-z]{2}/).first
   end
-  
-  #####################
-  # for embedded within wsw 
-  #####################
-  def is_embedded
-    @render_options = {}
-    @render_options[:layout] = "embedded" if params[:embedded]
+
+  def scan_lang_from_user
+    session[:user].lang if session[:user] 
   end
 
   #####################
