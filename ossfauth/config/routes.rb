@@ -44,15 +44,21 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account,
     :only => [:availability],
     :controller => :account,
-    :member => {:availability => :post}
+    :member => {:availability => :get}
+  map.resource :rescue,
+    :only => [:not_found],
+    :controller => :rescue,
+    :member => {:not_found => :get}
   map.resource :user, 
     :only => [:signup, :login, :logout, :home, :edit, :update,
              :destroy, :privacy, :passwd, :email, :forgot_password],
     :controller => :user, 
     :member => {:signup => :any, :passwd => :any, :email => :any, 
                 :login => :any, :logout => :any, :home => :get, :edit => :get, :destroy => :post,
-                :update => :post, :privacy => :any, :integration => :any, :forgot_password => :any,
-                :integration_whoswho => :any }
+                :update => :post, :privacy => :any, :integration => :any, :image => :get,
+                :integrate_diff_accounts => :any, :forgot_password => :any,
+                :integration_whoswho => :any , :integrate_of_with_wsw => :any, 
+                :email_collision_whoswho => :any, :username_collision_whoswho => :any}
   map.resource :site,
     :only => [ :regist, :deregist, :fetch ],
     :controller => :site,
