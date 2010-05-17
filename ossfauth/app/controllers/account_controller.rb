@@ -13,8 +13,12 @@ class AccountController < ApplicationController
   def check_account_name_available
     name = params[:name]
     text_key = 
-    if User.normal.exists?(['name = ?', name])
+    if User.normal.exists?(['name = ?', name]) 
       "user.account_name_used"
+    elsif %w{admin administrator superuser root openfoundry}.member? name
+      "user.account_name_preserved"
+    elsif not name.match /^[a-zA-Z][0-9a-zA-Z_]{2,13}$/
+      "user.account_name_invaild"
     else
       "user.account_name_ok"
     end
@@ -27,8 +31,10 @@ class AccountController < ApplicationController
   def check_account_email_available
     email = params[:email]
     text_key = 
-    if User.normal.exists?(['email = ?', email])
+    if User.normal.exists?(['email = ?', email]) 
       "user.account_email_used"
+    elsif not email.match  /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+      "user.account_email_invaild"
     else
       "user.account_email_ok"
     end
