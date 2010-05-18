@@ -14,7 +14,7 @@
             = User.human_attribute_name col
             \:
           %td
-            = case col.to_s; when 'name' then f.text_field col, :onkeyup => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;";when /password/ then f.password_field col;when 'email' then f.text_field col, :onkeyup => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;";else f.text_field col;end
+            = case col.to_s; when 'name' then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;";when /password/ then f.password_field col;when 'email' then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;";else f.text_field col;end
         - if col == :name
           %tr
             %td
@@ -36,5 +36,5 @@
           = User.human_attribute_name :timezone
           \:
         %td
-          = f.select :timezone, -13.upto(12).map{|i|[i,i]}
+          = f.select :timezone, -13.upto(12).map{|i|[" #{i}:00 ",i]}
     = submit_tag t('SignUp'), :id => :signup
