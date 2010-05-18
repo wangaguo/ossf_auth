@@ -1,0 +1,57 @@
+zh_TW:
+  OpenFoundry Account: OpenFoundry帳號管理中心
+  Login: 登入
+  Logout: 登出
+  SignUp: 註冊
+  Welcome: 歡迎
+  Save: 儲存
+  Cancel: 取消
+  Edit Profile: 編輯個人檔案
+  Control Privacy: 個人隱私項目設定
+  User Login: 使用者登入
+  Login Note: 注意事項 - 帳號整合
+  Login Note Content: 您好，自由軟體鑄造場為了提供使用者更完善的服務，OSSF所有對外的服務系統，將進行整合的動作，若要登入任何服務平台，請務必先進行帳號整合後，方可正常使用，整合過程約略一至二分鐘。  
+  Intergrate Step 1: 步驟一：請使用OpenFoundry的帳號登入此平台。
+  Intergrate Step 1 Note: 若無OpenFoundry帳號的使用者，請使用Who'sWho 帳號登入，進行整合步驟，並勾選您使用Who'sWho 帳號登入。 
+  User Name: 帳號
+  Password: 密碼 
+  Change Password: 修改密碼
+  Change Email: 修改Email
+  "I am Who's Who User": "我要用Who's Who的帳號登入"
+  please_enter_your_OpenFoundry_account: "請輸入您的 OpenFoundry 帳號及密碼進行帳號整合流程。"
+  user:
+    signup: 使用者註冊
+    forgot_password: 忘記 OpenFoundry 密碼
+    forgot_password_whoswho: "忘記 Who's Who 的密碼"
+    account_name_used: "帳號名稱{{name}}註冊過了喔"
+    account_email_used: "Email帳號{{name}}註冊過了喔"
+    account_name_ok: "帳號名稱{{name}}可以使用"
+    account_email_ok: "Email帳號{{name}}可以使用"
+    account_name_invaild: "帳號名稱{{name}}是無效的喔"
+    account_name_preserved: "帳號名稱{{name}}是保留字喔"
+    account_email_invaild: "Email帳號{{name}}是無效的喔"
+    your_email: "您的電子郵件："
+    plz_enter_your_email: "請輸入您的電子郵件！"
+    forgotten_password_emailed: "請至您的郵件信箱收取密碼變更驗證信"
+    cancel: "取消"
+    reset_password: "重設密碼"
+    your_username_or_email_cannot_register: "您輸入的帳號名稱或電子郵件無法註冊(也許已註冊過)"
+    user_signup_success: "註冊成功，請至您所輸入的電子郵件收取驗證信！"
+  integration:
+    profile_you_registered_in_whoswho: "以下是您在 Who's Who 已註冊的資料："
+    your_name: "姓名："
+    your_account: "帳號："
+    your_email: "電子郵件："
+    would_you_signup_with_the_same_data: "您是否要以相同資料註冊於 OpenFoundry ？"
+    yes_the_same: "是，以相同資料註冊"
+    no_new_signup: "否，以新資料註冊"
+    dear_user: "親愛的 Who's Who 用戶 {{name}} 您好，"
+    the_same_email_of: "您的電子郵件在 OpenFoundry 已有註冊資料，資料如下："
+    the_same_account_of: "您的帳號名稱在 OpenFoundry 已有註冊資料，資料如下："
+    whoswho_email: "Who's Who 的電子郵件："
+    of_email: "OpenFoundry 的電子郵件："
+    whoswho_account: "Who's Who 的帳號："
+    of_account: "OpenFoundry 的帳號："
+    please_checkup_integration: "請確認相關資訊。(可能您在 OpenFoundry 已註冊過，請透過 OpenFoundry 帳號登入以進行整合；或重新註冊一個新帳號。)"
+    yes_integration_whoswho: "是，這是我的 OpenFoundry 帳號，進入帳號整合"
+    yes_relogin_of: "是，這是我的 OpenFoundry 帳號，我要登入 OpenFoundry 進行帳號整合"

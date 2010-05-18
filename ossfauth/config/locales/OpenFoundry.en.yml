@@ -9,11 +9,47 @@ en:
   Edit Profile: Edit Profile
   Control Privacy: Control Privacy
   User Login: User Login
-  User Name: User Name
+  Login Note: Note 
+  Login Note Content: Note Info
+  Intergrate Step 1: Step One
+  Intergrate Step 1 Note: Step One Info
+  User Name: ID
   Password: Password 
   Change Password: Change Password
   Change Email: Change Email
+  "I am Who's Who User": "I am Who's Who User"
+  please_enter_your_OpenFoundry_account: "Please enter your account and password in OpenFoundry."
   user:
     signup: User Signup
-    forgot_password: Forgot Password
-
+    forgot_password: Forgot OpenFoundry Password
+    forgot_password_whoswho: "Forgot Who'sWho Password"
+    account_name_used: "Account name: {{name}} has taken"
+    account_email_used: "Email: {{name}} has taken"
+    account_name_ok: "Account name: {{name}} is available"
+    account_email_ok: "Email: {{name}} is available"
+    account_name_invaild: "Account name: {{name}} is invaild"
+    account_name_preserved: "Account name: {{name}} is preserved"
+    account_email_invaild: "Email: {{name}} is invaild"
+    your_email: "Your E-Mail:"
+    plz_enter_your_email: "Enter your E-Mail please!"
+    forgotten_password_emailed: "The forgotten-password mail has send to your mailbox, check up please!"
+    cancel: "Cancel"
+    reset_password: "Reset Password"
+  integration:
+    profile_you_registered_in_whoswho: "Here is the profile you registered in Who's Who:"
+    your_name: "Name:"
+    your_account: "Account:"
+    your_email: "E-mail:"
+    would_you_signup_with_the_same_data: "Would you sign up OpenFoundry with the same data?"
+    yes_the_same: "Yes, sign up OpenFoundry with the same data."
+    no_new_signup: "No, I'll sign up OpenFoundry in a new profile."
+    dear_user: "Dear User {{name}},"
+    the_same_email_of: "Your E-Mail has already registered in OpenFoundry:"
+    the_same_account_of: "Your account name has already registered in OpenFoundry:"
+    whoswho_email: "Who's Who E-Mail:"
+    of_email: "OpenFoundry E-Mail:"
+    whoswho_account: "Who's Who Account:"
+    of_account: "OpenFoundry Account:"
+    please_checkup_integration: "Please check up.(Maybe you have already registered in OpenFoundry. Login OpenFoundry to integrate your account or sign up in new profile.)"
+    yes_integration_whoswho: "Yes, the OpenFoundry account is mine, go to account integration."
+    yes_relogin_of: "Yes, the OpenFoundry account is mine, I'll login OpenFoundry to integrate my account."

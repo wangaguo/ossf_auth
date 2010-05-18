@@ -7,6 +7,7 @@
         name: 帳號名稱
         password: 密碼
         password_confirmation: 密碼確認
+        new_email: 新Email
         email_confirmation: Email確認
         first_name: 姓
         last_name: 名 
