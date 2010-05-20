@@ -23,8 +23,19 @@
                                     <div class="rt-module-inner">
                                     <div class="module-content">
                                     <div class="ofssologin_square9">
-                                        <a href="/sso/user/login?return_url=/of/user/dashboard">登入</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="/sso/user/signup">註冊</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                          <% if(check_user) -%>
+                                            <%=_('Hi')%>,<%= link_to check_user.name, '/user/userprofile' %>
+                                            &nbsp;|&nbsp; 
+                                            <%= link_to _('Dashboard'), '/of/user/dashboard' %>
+                                            &nbsp;|&nbsp; 
+                                            <%= link_to _('Settings'), edit_user_path %>  
+                                            &nbsp;|&nbsp; 
+                                            <%= link_to _("Logout"), logout_user_path %>
+                                          <% else -%>
+                                            <%= link_to _('Login'), login_user_path%>
+                                            &nbsp;|&nbsp; 
+                                            <%= link_to _('Sign Up'), signup_user_path %>
+                                          <% end -%>
                                         <span>
                                         <%=   @locales.map{|k,v| 
                                             params[:lang] = k
@@ -39,9 +50,9 @@
                                     <div class="ofssologin_search_square9">
                                        <form onsubmit="of_search(); return false;" method="get" action="/of/openfoundry/search" id="of_search">
                                             <select id="of_search_type">
-                                                 <option value="Projects"> 專案 </option>
-                                                 <option value="Content"> 內容 </option>
-                                                 <option value="People"> 人才 </option>
+                                                 <option value="Projects"><%= t 'Project'%></option>
+                                                 <option value="Content"> <%= t 'Content'%> </option>
+                                                 <option value="People"> <%= t 'People'%> </option>
 
                                             </select>
                                             <input type="text" onfocus="if(this.value=='search...') this.value='';" onblur="if(this.value=='') this.value='search...';" value="search..." size="28" class="inputbox" alt="search" maxlength="20" id="query" name="query" gtbfieldid="7">
