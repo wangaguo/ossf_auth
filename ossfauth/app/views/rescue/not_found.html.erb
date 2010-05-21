@@ -1,3 +1,7 @@
-<%= 'You requested page not found'%>
-
-please goes to <%=link_to 'Homepage' ,root_path%> 
+<% module_title = capture do -%>
+  <h2 class="title"><%= t 'The page you requested was not found' %></h2>
+<% end %> 
+<% module_content = capture do -%>
+  <%= t 'not found page contact'%>
+<% end %>
+<%=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }%>
