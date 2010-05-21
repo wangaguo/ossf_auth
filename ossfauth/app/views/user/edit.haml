@@ -5,8 +5,7 @@
   %h2.title Basic Information
 -module_content = capture do
   =render :file => 'user/basic_info'
-=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content}
-
+=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }
 -#########################
 -#show password edit panel
 -#########################
@@ -14,7 +13,7 @@
   %h2.title Change Password
 -module_content = capture do
   =render :file => 'user/passwd'
-=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content}
+=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }
 
 -#########################
 -#show email edit panel
@@ -23,5 +22,5 @@
   %h2.title Change Email
 -module_content = capture do
   =render :file => 'user/email'
-=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content}
+=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }
 
