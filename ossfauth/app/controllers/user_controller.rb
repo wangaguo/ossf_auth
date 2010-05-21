@@ -66,7 +66,7 @@ class UserController < ApplicationController
 
   def email
     return if generate_blank
-    if params[:user][:new_email] != params[:user][:email_confirmation]
+    if params[:user][:new_email].strip != params[:user][:email_confirmation].strip
       flash.now[:error] = 'email is different'
       return
     elsif params[:user][:new_email].strip == @user.email.strip
@@ -81,7 +81,7 @@ self.email = "#{params[:user][:new_email]}"
 self.params.delete :change_email
 save!
 BODY
-        UserNotify.deliver_change_email(@user, "http://ssodev.openfoundry.org/sso?t=#{tk}")
+        UserNotify.deliver_change_email(@user, params[:user][:new_email], "http://ssodev.openfoundry.org/sso?t=#{tk}")
         flash.now[:message] = "user_change_email_msg_send"
         @user.params[:change_email] = true
         @user.save
@@ -99,8 +99,6 @@ BODY
       @user = check_user
       User.editable_columns.each{|col|
         @user[col] =  params[:user][col] if params[:user][col]
-      }
-      flash[:message] = 'Update User Infomation Successfully.'
       redirect_to home_user_path
     end
   end
