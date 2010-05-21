@@ -24,18 +24,19 @@
                                     <div class="module-content">
                                     <div class="ofssologin_square9">
                                           <% if(check_user) -%>
-                                            <%=_('Hi')%>,<%= link_to check_user.name, '/user/userprofile' %>
+                                            <%=t('Hi')%>,<%= link_to check_user.name, '/user/userprofile' %>
                                             &nbsp;|&nbsp; 
-                                            <%= link_to _('Dashboard'), '/of/user/dashboard' %>
+                                            <%= link_to t('Dashboard'), '/of/user/dashboard' %>
                                             &nbsp;|&nbsp; 
-                                            <%= link_to _('Settings'), edit_user_path %>  
+                                            <%= link_to t('Settings'), edit_user_path %>  
                                             &nbsp;|&nbsp; 
-                                            <%= link_to _("Logout"), logout_user_path %>
+                                            <%= link_to t("Logout"), logout_user_path %>
                                           <% else -%>
-                                            <%= link_to _('Login'), login_user_path%>
+                                            <%= link_to t('Login'), login_user_path%>
                                             &nbsp;|&nbsp; 
-                                            <%= link_to _('Sign Up'), signup_user_path %>
+                                            <%= link_to t('SignUp'), signup_user_path %>
                                           <% end -%>
+                                            &nbsp;|&nbsp; 
                                         <span>
                                         <%=   @locales.map{|k,v| 
                                             params[:lang] = k
