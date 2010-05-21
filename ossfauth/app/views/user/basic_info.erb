@@ -24,6 +24,20 @@
     </td>
   </tr> 
   <%-end%>
+  <tr>
+    <td>
+      <label>
+        <%= User.human_attribute_name :timezone%>:
+      </label>
+    </td>
+    <td>
+      <%- if session[:lang] == "zh_TW" %>
+        <%= f.select :timezone, options_for_select(time_zone_zh_TW.sort.map{|i,j|[j,i]}, @user.timezone.to_i | 8) %>
+      <%- else %>
+        <%= f.select :timezone, options_for_select(time_zone_en.sort.map{|i,j|[j,i]}, @user.timezone.to_i | 8) %>
+      <%- end %>
+    </td>
+  </tr> 
 </table>
 <%= submit_tag t('Save')%> <input type="button" value="<%= t 'Cancel'%>" onclick="javascript:window.location='<%= home_user_path%>';return false;"/> 
 <%-end%>

@@ -1,40 +1,46 @@
-%h3.subtitle 
-  = t 'user.signup'
-= error_messages_for :user
-- if session[:whoswho] != nil
-  == You are who's who user: #{session[:whoswho]}.
-  %br
-  == Please enter your new openfoundry accout & check exist.
-- form_for :user, @user, :url => signup_user_path do |f|
-  %p
-    %table
-      - User.columns_for_signup.each do |col|
+-module_title = capture do
+  %h2.title= t('user.signup')
+-module_content = capture do  
+  = error_messages_for :user
+  - if session[:whoswho] != nil
+    == You are who's who user: #{session[:whoswho]}.
+    %br
+    == Please enter your new openfoundry accout & check exist.
+  - form_for :user, @user, :url => signup_user_path do |f|
+    %p
+      %table
+        - User.columns_for_signup.each do |col|
+          %tr
+            %td{:style=>"text-align:right;"}
+              = User.human_attribute_name col
+              \:
+            %td
+              = case col.to_s; when 'name' then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;";when /password/ then f.password_field col;when 'email' then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;";else f.text_field col;end
+          - if col == :name
+            %tr
+              %td
+                %td
+                  #name_availability_result
+          - if col == :email
+            %tr
+              %td
+                %td
+                  #email_availability_result
         %tr
-          %td 
-            = User.human_attribute_name col
+          %td
+            = User.human_attribute_name :language
             \:
           %td
-            = case col.to_s; when 'name' then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;";when /password/ then f.password_field col;when 'email' then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;";else f.text_field col;end
-        - if col == :name
-          %tr
-            %td
-              %td
-                #name_availability_result
-        - if col == :email
-          %tr
-            %td
-              %td
-                #email_availability_result
-      %tr
-        %td
-          = User.human_attribute_name :language
-          \:
-        %td
-          = f.select :language, @locales.collect{|l|[l[1],l[0]]}
-      %tr
-        %td
-          = User.human_attribute_name :timezone
-          \:
-        %td
-          = f.select :timezone, -13.upto(12).map{|i|[" #{i}:00 ",i]}
-    = submit_tag t('SignUp'), :id => :signup
+            = f.select :language, @locales.collect{|l|[l[1],l[0]]}
+        %tr
+          %td
+            = User.human_attribute_name :timezone
+            \:
+          %td
+            - if session[:lang] == "zh_TW"
+              = f.select :timezone, options_for_select(time_zone_zh_TW.sort.map{|i,j|[j,i]}, 8)
+            - else
+              = f.select :timezone, options_for_select(time_zone_en.sort.map{|i,j|[j,i]}, 8)
+      = submit_tag t('SignUp'), :id => :signup
+
+=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => "square1"}
