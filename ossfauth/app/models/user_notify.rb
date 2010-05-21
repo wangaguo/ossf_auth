@@ -40,10 +40,10 @@ class UserNotify < ActionMailer::Base
     @body["app_name"] = "OpenFoundry"
   end
 
-  def change_email(user, url) 
+  def change_email(user, new_email, url) 
     setup_email(user)
 
-    @recipients = user.new_email
+    @recipients = new_email
 
     # Set Contenti-Type for Sending mails
     @content_type = "text/html"
@@ -52,8 +52,6 @@ class UserNotify < ActionMailer::Base
     @subject += "Changed email notification"
 
     # Email body substitutions
-    @body["name"] = "#{user.first_name} " + "#{user.last_name}"
-    @body["new_email"] = user.new_email
     @body["url"] = url || "http://ssodev.openfoundry.org/"
     @body["app_name"] = "OpenFoundry"
   end
