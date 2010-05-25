@@ -6,6 +6,7 @@
     == You are who's who user: #{session[:whoswho]}.
     %br
     == Please enter your new openfoundry accout & check exist.
+  = show_flash
   - form_for :user, @user, :url => signup_user_path do |f|
     %p
       %table
