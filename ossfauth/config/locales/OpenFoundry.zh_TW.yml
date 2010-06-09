@@ -1,8 +1,11 @@
 zh_TW:
   OpenFoundry Account: OpenFoundry帳號管理中心
+  Hi: Hi
   Login: 登入
   Logout: 登出
   SignUp: 註冊
+  Settings: 帳號設定
+  Dashboard: 專案管理
   Welcome: 歡迎
   Save: 儲存
   Cancel: 取消
@@ -12,15 +15,34 @@ zh_TW:
   Login Note: 注意事項 - 帳號整合
   Login Note Content: 您好，自由軟體鑄造場為了提供使用者更完善的服務，OSSF所有對外的服務系統，將進行整合的動作，若要登入任何服務平台，請務必先進行帳號整合後，方可正常使用，整合過程約略一至二分鐘。  
   Intergrate Step 1: 步驟一：請使用OpenFoundry的帳號登入此平台。
-  Intergrate Step 1 Note: 若無OpenFoundry帳號的使用者，請使用Who'sWho 帳號登入，進行整合步驟，並勾選您使用Who'sWho 帳號登入。 
+  Intergrate Step 1 Note: "若無OpenFoundry帳號的使用者，請使用Who'sWho 帳號登入，進行整合步驟，並勾選您使用Who'sWho 帳號登入。 "
   User Name: 帳號
   Password: 密碼 
   Change Password: 修改密碼
   Change Email: 修改Email
+  Email: Email
   "I am Who's Who User": "我要用Who's Who的帳號登入"
   please_enter_your_OpenFoundry_account: "請輸入您的 OpenFoundry 帳號及密碼進行帳號整合流程。"
+  Project: 專案
+  Content: 內容
+  Account Information: 帳號資料
+  Change Password: 變更密碼
+  Change Email: 變更E-Mail
+  People: 人才
+  The page you requested was not found: 喔!喔!發生一點錯誤，你要的頁面找不到
+  not found page contact: 很抱歉，您要找的頁面目前發生一些錯誤，您可以透過OpenFoundry的問題回報，說明系統問題，我們會有專人處理，或來信<a href="mailto:contact@openfoundry.org">連絡我們</a>。
+  menu:
+    home: 首頁
+    project: 專案
+    community: 社群
+    news: 新聞
+    lawandlicenses: 法律源地
+    workshop: 工作坊
+    resourcecatalog: 資源表列
+    about: 關於
   user:
     signup: 使用者註冊
+    login_faild: 帳號密碼錯誤喔
     forgot_password: 忘記 OpenFoundry 密碼
     forgot_password_whoswho: "忘記 Who's Who 的密碼"
     account_name_used: "帳號名稱{{name}}註冊過了喔"
@@ -38,6 +60,7 @@ zh_TW:
     your_username_or_email_cannot_register: "您輸入的帳號名稱或電子郵件無法註冊(也許已註冊過)"
     user_signup_success: "註冊成功，請至您所輸入的電子郵件收取驗證信！"
   integration:
+    integration_process: "帳號整合程序"
     profile_you_registered_in_whoswho: "以下是您在 Who's Who 已註冊的資料："
     your_name: "姓名："
     your_account: "帳號："
@@ -55,3 +78,12 @@ zh_TW:
     please_checkup_integration: "請確認相關資訊。(可能您在 OpenFoundry 已註冊過，請透過 OpenFoundry 帳號登入以進行整合；或重新註冊一個新帳號。)"
     yes_integration_whoswho: "是，這是我的 OpenFoundry 帳號，進入帳號整合"
     yes_relogin_of: "是，這是我的 OpenFoundry 帳號，我要登入 OpenFoundry 進行帳號整合"
+    duplicate_message: "我們發現在 Who'sWho 有重複的帳號資料，包含" 
+    duplicate_message_field: "重複的" 
+    not_whoswho_user: "我並沒有在Who'sWho註冊過，請協助我建立新的帳號" 
+    create_a_new_account: "建立新帳號" 
+    of_combine_wsw_message: "如您欲合併您Who'sWho的帳號，請提供帳號密碼登入"
+    combine_wsw_account: "整合帳號"
+  sso:
+    of_sync_not_complete: "帳號尚未開啟完全, 煩請您連絡系統管理員"
+

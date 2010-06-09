@@ -1,8 +1,11 @@
 en:
   OpenFoundry Account: OpenFoundry Account Service
+  Hi: Hi 
   Login: Login
   Logout: Logout
   SignUp: Signup
+  Settings: Settings
+  Dashboard: Dashboard
   Welcome: Welcome
   Save: Save
   Cancel: Cancel
@@ -17,8 +20,26 @@ en:
   Password: Password 
   Change Password: Change Password
   Change Email: Change Email
+  Email: Email
   "I am Who's Who User": "I am Who's Who User"
   please_enter_your_OpenFoundry_account: "Please enter your account and password in OpenFoundry."
+  Project: Project
+  Content: Content
+  People: People
+  Account Information: Account Information
+  Change Password: Change Password
+  Change Email: Change Email
+  The page you requested was not found: The page you requested was not found
+  not found page contact: Need english word
+  menu:
+    home: Home
+    project: Project
+    community: Community
+    news: News
+    lawandlicenses: Law and Licenses
+    workshop: Workshop
+    resourcecatalog: Resource Catalog
+    about: About
   user:
     signup: User Signup
     forgot_password: Forgot OpenFoundry Password
@@ -36,6 +57,7 @@ en:
     cancel: "Cancel"
     reset_password: "Reset Password"
   integration:
+    integration_process: "Integration Process"
     profile_you_registered_in_whoswho: "Here is the profile you registered in Who's Who:"
     your_name: "Name:"
     your_account: "Account:"
@@ -53,3 +75,8 @@ en:
     please_checkup_integration: "Please check up.(Maybe you have already registered in OpenFoundry. Login OpenFoundry to integrate your account or sign up in new profile.)"
     yes_integration_whoswho: "Yes, the OpenFoundry account is mine, go to account integration."
     yes_relogin_of: "Yes, the OpenFoundry account is mine, I'll login OpenFoundry to integrate my account."
+    duplicate_message: "need message" 
+    not_whoswho_user: "need message" 
+  sso:
+    of_sync_not_complete: "Your account is not created completely, please contact the webmaster."
+

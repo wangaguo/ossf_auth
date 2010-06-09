@@ -6,6 +6,7 @@
       user: 
         name: 帳號名稱
         password: 密碼
+        old_password: 舊密碼
         password_confirmation: 密碼確認
         new_email: 新Email
         email_confirmation: Email確認
