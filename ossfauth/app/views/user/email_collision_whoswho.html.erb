@@ -1,4 +1,8 @@
-<H3><%= t 'integration.dear_user', :name => session[:wsw_profile]["name"] %></H3><br/>
+<% module_title = capture do -%>
+  <h2 class="title"><%= t 'integration.integration_process' %></h2>
+<% end %> 
+<% module_content = capture do -%>
+<H4 class="title"><%= t 'integration.dear_user', :name => session[:wsw_profile]["name"] %></H4><br/>
 <%= t 'integration.the_same_email_of' %><br/>
 <table>
   <tr>
@@ -18,7 +22,9 @@
     </tr>
   </table>
 <br/>
-<%= t 'integration.please_checkup_integration' %><br/>
+<%= t 'integration.please_checkup_integration' %><br/><br>
 <%#= button_to "#{ t 'integration.yes_relogin_of' }", :action => "email_collision_whoswho" %>
-<input id="return" type="button" value="<%= t 'integration.yes_relogin_of' %>" onclick="javascript:window.location='<%= login_user_path + "?wsw=2" %>';return false;"/>
-<input id = "signup_new" type="button" value="<%= t 'integration.no_new_signup' %>" onclick="javascript:window.location='<%= signup_user_path + '?wsw=1' %>';return false;"/>
+<input id="return" type="button" value="<%= t 'integration.yes_relogin_of' %>" onclick="javascript:window.location='<%= login_user_path + "?wsw=2" %>';return false;"/>&nbsp;&nbsp;
+<input id = "signup_new" type="button" value="<%= t 'integration.no_new_signup' %>" onclick="javascript:window.location='<%= signup_user_path + '?wsw=1' %>';return false;"/><br><br>
+<% end %>
+<%=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }%>
