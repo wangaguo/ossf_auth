@@ -5,26 +5,17 @@ class UserController < ApplicationController
       :username_collision_whoswho, :image,
       :integration, :integrate_diff_accounts, :integrate_success]
 
-  def check_session 
-    sid = cookies[SITE_SESSION_ID]
-    if(sid and !sid.empty?)
-      s = Session.find_by_session_key(sid, :include => :user) 
-    end
-    return s || Session.new
-  end
-
-  def check_user
-    check_session.user || session[:user]
-  end
-  
   def edit
   end
 
   def passwd
     if request.post?
       #save password
-      @user.update_attributes params[:user].reject{|k,v|
-                    not User.columns_for_change_password.member? k}
+      #@user.update_attributes params[:user].reject{|k,v|
+      #              not User.columns_for_change_password.member? k}
+      @user.old_password = params[:user][:old_password]
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
       @user.change_password = true
       if @user.save #success
         flash[:message] = 'change passwd success!'
@@ -97,8 +88,13 @@ BODY
   def update
     if request.post?
       @user = check_user
-      User.editable_columns.each{|col|
+      User.columns_for_edit.each{|col|
         @user[col] =  params[:user][col] if params[:user][col]
+      }
+      @user.avatar = params[:user][:avatar] if params[:user][:avatar]
+      @user[:timezone] = params[:user][:timezone]
+      @user.save
+      flash[:message] = 'Update User Infomation Successfully.'
       redirect_to home_user_path
     end
   end
@@ -172,13 +168,20 @@ save!
     session[:whoswho], session[:wsw_profile], session[:of_profile], session[:login], session[:wswlogin], session[:mail], session[:dupuname], session[:dupemail] = nil
     #if already login, go home
     (redirect_to home_user_path;return) if check_user
-      
+
     #for UI adjusting
     @extra_note = 'user/login_note'
     @grid_style = 'rt-grid-5 rt-push-7'
     @square_style = 'square10'  
 
     if request.post?
+      # notice the error when account is not synchronized completely
+      if cookies[:sync_error_at_of] == params[:name]
+        cookies.delete :sync_error_at_of
+        flash.now[:error] = t "sso.of_sync_not_complete"
+        return login_user_path
+      end
+
       # keep the login username
       session[ :login ] = params[ :name ]
 
@@ -207,7 +210,7 @@ save!
       return login_success if @u 
 
       #login faild
-      flash.now[:error] = 'user login faild'
+      flash.now[:error] = t 'user.login_faild'
     end   
     #regenerate session key which is empty
     #reset_session if request.session_options[:id].nil? or request.session_options[:id].empty?
@@ -278,7 +281,6 @@ save!
     end
     s.save
 
-
     session[:user] = @u
     if params[:return_url] and !params[:return_url].empty? and
     params[:return_url].match /^\//  
@@ -322,7 +324,6 @@ save!
           h = session[:integration_log] || {}
           h[:of] = session[:user_to_integrate].name
           session[:integration_log] = h
-
           return integrate_success
         when "LOGIN_WHOSWHO"
           # login WSW for integration
@@ -357,11 +358,11 @@ save!
         # check duplicate email
         if u = User.find( :first, :conditions => { :name => session[ :login ] } )
           session[ :mail ] = u.email
-          session[ :dupemail ] = true if fetch_userdata_from_whoswho( u.email )
+          session[ :dupemail ] = fetch_userdata_from_whoswho( u.email )
         end
 
         # check duplicate username
-        session[ :dupuname ] = true if fetch_userdata_from_whoswho( session[ :login ] ) 
+        session[ :dupuname ] = fetch_userdata_from_whoswho( session[ :login ] ) 
       end
     end
   end

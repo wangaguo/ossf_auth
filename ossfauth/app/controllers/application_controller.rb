@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   # default settings
   #####################
   helper :all 
+  helper_method :check_user
   protect_from_forgery 
 
   filter_parameter_logging :password, :old_password, :password_confirmation, 
@@ -98,5 +99,16 @@ class ApplicationController < ActionController::Base
     s.save!
     @user.instance_eval e.body, __FILE__, __LINE__ if e.body
     return e
+  end
+  def check_session
+    sid = cookies[SITE_SESSION_ID]
+    if(sid and !sid.empty?)
+      s = Session.find_by_session_key(sid, :include => :user)
+    end
+    return s || Session.new
+  end
+
+  def check_user
+    check_session.user || session[:user]
   end
 end
