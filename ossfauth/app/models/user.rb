@@ -103,6 +103,10 @@ class User < ActiveRecord::Base
       a = [:first_name, :last_name]
       self.content_columns.select{|col|a.member? col.name.to_sym}
     end
+
+    def columns_for_edit
+      [:first_name, :last_name]
+    end
   
     def columns_for_signup
       [ :name, :first_name, :last_name, 
