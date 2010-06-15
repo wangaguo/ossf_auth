@@ -9,4 +9,25 @@ module ApplicationHelper
   def display_signup
     ( not @user ) and ( not session[:whoswho] )
   end
+
+  def breadcrumb
+  aa = <<END
+    <!--Pathway Start -->
+      <div id="rt-breadcrumbs">
+          <div class="rt-breadcrumb-surround">
+
+              <a id="breadcrumbs-home" href="http://ssodev.openfoundry.org/"></a>
+                  <span class="breadcrumbs pathway">
+                      <a class="pathway" href="URL">Level One</a>
+                      <span class="no-link">Level Two</span>
+                      <span class="no-link">Level Three</span>
+                  </span>
+          </div>
+
+         <div class="clear"></div>
+      </div>
+    <!--Pathway END -->
+END
+  aa
+  end
 end
