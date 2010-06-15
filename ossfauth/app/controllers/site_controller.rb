@@ -35,7 +35,7 @@ end
       (render :text => 'Error, no such key';return) unless s
       s = Session.find_by_session_key(params[:session_key])
       (render :text => 'Error, no such session';return) unless s
-      (render :text => 'Error, user invaild';return) unless s.user.status == 0
+      (render :text => 'Error, user invaild';return) if s.user.status == 0
       render :text => "id: #{s.user.id}, email: #{s.user.email}, name: #{s.user.name}"    
     end
   end
