@@ -33,9 +33,9 @@
     </td>
     <td>
       <%- if session[:lang] == "zh_TW" %>
-        <%= f.select :timezone, options_for_select(time_zone_zh_TW.sort.map{|i,j|[j,i]}, (@user.timezone || 8 if @user.timezone.nil?).to_f ) %>
+        <%= f.select :timezone, options_for_select(time_zone_zh_TW.sort.map{|i,j|[j,i]}, @user.timezone.to_f) %>
       <%- else %>
-        <%= f.select :timezone, options_for_select(time_zone_en.sort.map{|i,j|[j,i]}, (@user.timezone || 8 if @user.timezone.nil?).to_f ) %>
+        <%= f.select :timezone, options_for_select(time_zone_en.sort.map{|i,j|[j,i]}, @user.timezone.to_f ) %>
       <%- end %>
     </td>
   </tr> 
