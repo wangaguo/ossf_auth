@@ -297,7 +297,7 @@ save!
     #if request.post?
       begin
         require 'curb'
-        c = Curl::Easy.perform "http://140.109.22.15/index.php?option=com_ofsso&controller=sso&task=logout&username=#{@user.name}"
+        c = Curl::Easy.perform "http://#{ UI_SCHEMA_CSS_HOST }/index.php?option=com_ofsso&controller=sso&task=logout&username=#{@user.name}"
       end
       reset_session
       if params[:return_url] and !params[:return_url].empty? and
