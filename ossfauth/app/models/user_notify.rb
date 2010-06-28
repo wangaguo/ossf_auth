@@ -10,7 +10,7 @@ class UserNotify < ActionMailer::Base
   def signup(user, password, url=nil)
     setup_email(user)
 
-    # Set Contenti-Type for Sending mails
+    # Set Content-Type for Sending mails
     @content_type = "text/html"
 
     # Email header info
@@ -27,7 +27,7 @@ class UserNotify < ActionMailer::Base
   def forgot_password(user, url=nil)
     setup_email(user)
 
-    # Set Contenti-Type for Sending mails
+    # Set Content-Type for Sending mails
     @content_type = "text/html"
 
     # Email header info
@@ -45,7 +45,7 @@ class UserNotify < ActionMailer::Base
 
     @recipients = new_email
 
-    # Set Contenti-Type for Sending mails
+    # Set Content-Type for Sending mails
     @content_type = "text/html"
 
     # Email header info
