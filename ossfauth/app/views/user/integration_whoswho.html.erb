@@ -1,21 +1,27 @@
-<h3><%= t 'integration.dear_user',:name => session[:wsw_profile]["name"] %></h3>
-<h4><%= t 'integration.profile_you_registered_in_whoswho' %></h4>
+<% module_title = capture do -%>
+  <h2 class="title"><%= t 'integration.integration_process' %></h2>
+<% end %> 
+<% module_content = capture do -%>
+<h4 class="title"><%= t 'integration.dear_user',:name => session[:wsw_profile]["name"] %>
+<%= t 'integration.profile_you_registered_in_whoswho' %></h4>
 <table>
   <tr>
-    <td><label><%= t 'integration.your_name' %></label></td>
+    <td style='text-align:right;'><b><%= t 'integration.your_name' %></b></td>
     <td><%= session[:wsw_profile]["name"] %></td>
   </tr>
   <tr>
-    <td><label><%= t 'integration.your_account' %></label></td>
+    <td style='text-align:right;'><b><%= t 'integration.your_account' %></b></td>
     <td><%= session[:wsw_profile]["username"] %></td>
   </tr>
   <tr>
-    <td><label><%= t 'integration.your_email' %></label></td>
+    <td style='text-align:right;'><b><%= t 'integration.your_email' %></b></td>
     <td><%= session[:wsw_profile]["email"] %></td>
   </tr>
 </table><br/>
-<%= t 'integration.would_you_signup_with_the_same_data' %><br/>
+<h3><%= t 'integration.would_you_signup_with_the_same_data' %></h3>
 <br/>
 <div class="button-bar">
-  <input id = "Yes" type="button" value="<%= t 'integration.yes_the_same' %>" onclick="javascript:window.location='<%= signup_user_path + "?wsw=1" %>';return false;"/>
+  <input id = "Yes" type="button" value="<%= t 'integration.yes_the_same' %>" onclick="javascript:window.location='<%= signup_user_path + "?wsw=1" %>';return false;"/>&nbsp;&nbsp;
   <input id = "No" type="button" value="<%= t 'integration.no_new_signup' %>" onclick="javascript:window.location='<%= signup_user_path %>';return false;"/>
+<% end %>
+<%=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }%>

@@ -2,27 +2,28 @@
   <h2 class="title"><%= t 'integration.integration_process' %></h2>
 <% end %> 
 <% module_content = capture do -%>
-<H4 class="title"><%= t 'integration.dear_user', :name => session[:wsw_profile]["name"] %></H4><br/>
-<%= t 'integration.the_same_email_of' %><br/>
+<h4 class="title"><%= t 'integration.dear_user', :name => session[:wsw_profile]["name"] %>
+<%= t 'integration.the_same_email_of' %></h4>
 <table>
   <tr>
-    <td><%= t 'integration.whoswho_email' %></td>
+    <td style='text-align:right;'><b><%= t 'integration.whoswho_email' %></b></td>
     <td><font color=#FF0000><%= session[:wsw_profile]["email"] %></font></td>
     </tr>
     <tr>
-      <td><%= t 'integration.whoswho_account' %></td>
+      <td style='text-align:right;'><b><%= t 'integration.whoswho_account' %></b></td>
       <td><%= session[:wsw_profile]["username"]%></td>
     </tr>
     <tr>
-      <td><%= t 'integration.of_email' %></td>
+      <td style='text-align:right;'><b><%= t 'integration.of_email' %></b></td>
       <td><font color=#FF0000><%= session[:of_profile]["email"] %></font></td>
     </tr>
     <tr>
-      <td><%= t 'integration.of_account' %> </td><td><%= session[:of_profile]["name"]%></td>
+      <td style='text-align:right;'><b><%= t 'integration.of_account' %> </b></td><td><%= session[:of_profile]["name"]%></td>
     </tr>
   </table>
 <br/>
-<%= t 'integration.please_checkup_integration' %><br/><br>
+<h3><%= t 'integration.please_checkup_integration' %></h3>
+<h4><%= t 'integration.please_checkup_integration_note' %></h4>
 <%#= button_to "#{ t 'integration.yes_relogin_of' }", :action => "email_collision_whoswho" %>
 <input id="return" type="button" value="<%= t 'integration.yes_relogin_of' %>" onclick="javascript:window.location='<%= login_user_path + "?wsw=2" %>';return false;"/>&nbsp;&nbsp;
 <input id = "signup_new" type="button" value="<%= t 'integration.no_new_signup' %>" onclick="javascript:window.location='<%= signup_user_path + '?wsw=1' %>';return false;"/><br><br>
