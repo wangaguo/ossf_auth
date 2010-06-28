@@ -13,13 +13,14 @@ Feature: Manage test_emails
       And I fill in "user_first_name" with "Ossf"
       And I fill in "user_last_name" with "User"
       And I press "signup"
-    Then I should see "Success"
+    Then I should see "註冊成功"
     Then "ossfuser@gmail.com" should receive an email
       And "ossfuser@gmail.com" should have an email
     When I open the email
       And I click the first link in the email
-    Then I should be on the user home page
-      And I should see "Success"
+    Then I should be on the of-dashboard page
+    #    And I should see "Success"
+    #    Then I will go to the user home page
 
   Scenario: User Forget the Password
     Given the following users:
@@ -29,7 +30,7 @@ Feature: Manage test_emails
       And I go to the user forgot_password page
       And I fill in "email" with "ossfuser@gmail.com"
       And I press "commit"
-    Then I should see "emailed"
+    Then I should see "信"
     Then "ossfuser@gmail.com" should receive an email
       And "ossfuser@gmail.com" should have an email
     When I open the email
@@ -38,7 +39,7 @@ Feature: Manage test_emails
       And I fill in "user_password" with "12345"
       And I fill in "user_password_confirmation" with "12345"
       And I press "commit"
-    Then I should see "success!"
+    Then I should see "成功"
 
   Scenario: User Change Email
     Given the following users:
@@ -58,7 +59,6 @@ Feature: Manage test_emails
       And I should see "Click Me!" in the email body
       And I follow "Click Me!" in the email
     Then I should be on the user home page
-
 
 
 

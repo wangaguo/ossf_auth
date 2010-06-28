@@ -30,6 +30,10 @@ module NavigationHelpers
       '/site/deregist'
     when /session fetch page/
       '/site/fetch'
+    when /of-dashboard page/
+      '/of/user/dashboard'
+    when /sso-integration page/
+      integration_user_path
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

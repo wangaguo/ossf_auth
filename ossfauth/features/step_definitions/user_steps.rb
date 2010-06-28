@@ -13,7 +13,7 @@ Given /^I login as "([^\"]*)" with password "([^\"]*)"$/ do |user, password|
     When %{I fill in "name" with "#{user}"}
       And %{I fill in "password" with "#{password}"}
       And %{I press "login"}
-    Then %{I should see "integration"}
+    Then %{I should be on sso-integration page}
 end
 
 Then /^I should have cookie "([^\"]*)"$/ do |arg1|
