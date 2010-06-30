@@ -24,8 +24,7 @@
 <br/>
 <h3><%= t 'integration.please_checkup_integration' %></h3>
 <h4><%= t 'integration.please_checkup_integration_note' %></h4>
-<%#= button_to "#{ t 'integration.yes_relogin_of' }", :action => "email_collision_whoswho" %>
-<input id="return" type="button" value="<%= t 'integration.yes_relogin_of' %>" onclick="javascript:window.location='<%= login_user_path + "?wsw=2" %>';return false;"/>&nbsp;&nbsp;
+<input id="return" type="button" value="<%= t 'integration.yes_relogin_of' %>" onclick="javascript:window.location='<%= login_user_path + '?wsw=2' %>';return false;"/>
 <input id = "signup_new" type="button" value="<%= t 'integration.no_new_signup' %>" onclick="javascript:window.location='<%= signup_user_path + '?wsw=1' %>';return false;"/><br><br>
 <% end %>
 <%=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }%>

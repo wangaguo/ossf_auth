@@ -169,6 +169,11 @@ save!
     #if already login, go home
     (redirect_to home_user_path;return) if check_user
 
+    #if integration from wsw and want to integrate openfoundry account
+    if params[:wsw]
+      flash.now[:error]= "#{t('please_enter_your_OpenFoundry_account')}"
+    end
+
     #for UI adjusting
     @extra_note = 'user/login_note'
     @grid_style = 'rt-grid-5 rt-push-7'
@@ -286,7 +291,7 @@ save!
     params[:return_url].match /^\//  
       redirect_to params[:return_url] 
     else
-      flash[:message] = 'user login success'
+      flash.now[:message] = 'user login success'
       redirect_to home_user_path
     end
     #session[:wsw_profile].destroy
