@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
 
   # generate random security token 
   def generate_token
-    User.encrypt "#{name}kkk#{shadow_password}ttt#{Time.now.to_i}"
+    UUID.new.generate :compact
   end
   
   #####################
