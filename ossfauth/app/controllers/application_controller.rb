@@ -98,6 +98,8 @@ class ApplicationController < ActionController::Base
     s.session_key = request.session_options[:id]
     s.save!
     @user.instance_eval e.body, __FILE__, __LINE__ if e.body
+    #force to sync!
+    Message.sync!
     return e
   end
   def check_session
