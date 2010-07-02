@@ -496,11 +496,11 @@ save!
     size = params[:size]||:original
     size = :original unless [:thumb, :original, :medium].member? size.to_sym
 
-    return render :text => 'not found', :layout => false unless user
+    user = User.new unless user
     #send_file(image_cache_file, :type => meta, :disposition => "inline")
     image = user.avatar
     send_file "#{RAILS_ROOT}/public#{image.url(size.to_sym, false)}", 
-              :type => image.content_type, :disposition => "inline"
+              :type => (image.content_type || 'image/png'), :disposition => "inline"
   end
 
   def generate_blank
