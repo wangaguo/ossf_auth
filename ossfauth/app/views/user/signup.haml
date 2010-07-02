@@ -16,7 +16,7 @@
               = User.human_attribute_name col
               \:
             %td
-              = case col.to_s; when 'name' then unless params[:wsw] then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;" else f.text_field col, :disabled => "disabled" end; when /password/ then f.password_field col; when 'email' then unless params[:wsw] then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;" else f.text_field col, :disabled => "disabled" end; when 'email_confirmation' then unless params[:wsw] then f.text_field col else f.text_field col, :disabled => "disabled" end; else f.text_field col; end
+              = case col.to_s; when 'name' then unless params[:wsw] then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{name:value},dataType:'script'});return true;" else f.text_field col, :readonly => "true" end; when /password/ then f.password_field col; when 'email' then unless params[:wsw] then f.text_field col, :onchange => "$.ajax({url:'#{availability_account_path}',data:{email:value},dataType:'script'});return true;" else f.text_field col, :readonly => "true" end; when 'email_confirmation' then unless params[:wsw] then f.text_field col else f.text_field col, :readonly => "true" end; else f.text_field col; end
           - if col == :name
             %tr
               %td
