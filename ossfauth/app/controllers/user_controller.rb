@@ -120,6 +120,7 @@ BODY
       @user.last_name = session[:wsw_profile]["name"]
       @user.name = session[:wsw_profile]["username"]
       @user.email = session[:wsw_profile]["email"]
+      @user.email_confirmation = session[:wsw_profile]["email"]
     end
     if request.post?
       @user = User.new params[:user]
@@ -149,7 +150,7 @@ if self.params[:from_wsw] == true
   c = Curl::Easy.http_post(
       "http://ssodev.openfoundry.org/index.php?option=com_ofsso&controller=sso&task=integrateuser",
       "u=#{self.params[:wsw_name]}&nu=#{self.name}")
-    self.messages.create :action => "update"
+    self.messages.create :action => "create"
 end
 self.params[:email_verified] = true
 self.status = 1
@@ -198,7 +199,7 @@ save!
           #return redirect_to signup_user_path #go to wsw...
           return redirect_to integration_whoswho_user_path
         else
-          return flash.now[:error] = t('You are not a valid Who\'s Who User')
+          return flash.now[:error] = t('integration.You are not a valid Who\'s Who User')
         end  
         } if params[:whoswho] == "1" 
 
