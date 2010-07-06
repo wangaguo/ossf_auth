@@ -46,14 +46,14 @@ ActionController::Routing::Routes.draw do |map|
     :controller => :account,
     :member => {:availability => :get}
   map.resource :rescue,
-    :only => [:not_found],
+    :only => [:not_found, :invalidauthenticitytoken],
     :controller => :rescue,
-    :member => {:not_found => :get}
+    :member => {:not_found => :get, :invalidauthenticitytoken => :get}
   map.resource :user, 
     :only => [:signup, :login, :logout, :home, :edit, :update,
-             :destroy, :privacy, :passwd, :email, :forgot_password],
+             :destroy, :privacy, :basic_info, :passwd, :email, :forgot_password],
     :controller => :user, 
-    :member => {:signup => :any, :passwd => :any, :email => :any, 
+    :member => {:signup => :any, :basic_info => :any, :passwd => :any, :email => :any, 
                 :login => :any, :logout => :any, :home => :get, :edit => :get, :destroy => :post,
                 :update => :post, :privacy => :any, :integration => :any, :image => :get,
                 :integrate_diff_accounts => :any, :forgot_password => :any,
