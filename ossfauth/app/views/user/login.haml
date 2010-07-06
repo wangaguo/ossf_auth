@@ -28,7 +28,8 @@
           %td{:style=>"text-align:right;"}
             = check_box_tag :whoswho
           %td
-            = t 'I am Who\'s Who User'
+            %span{ :onClick => "document.getElementById('whoswho').checked=(!document.getElementById('whoswho').checked);"}
+              = link_to "#{t('I am Who\'s Who User')}", '#'
             %br/
             %span{:style=>"font-size:10px;"}
               = link_to "#{t 'user.forgot_password_whoswho'}", '/index.php?option=com_user&view=reset&Itemid=62'
