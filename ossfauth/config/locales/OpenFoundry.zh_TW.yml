@@ -21,7 +21,9 @@ zh_TW:
   Change Password: 修改密碼
   Change Email: 修改Email
   Email: Email
-  "I am Who's Who User": "我要用Who's Who的帳號登入"
+  "I am Who's Who User": "我要用Who's Who的帳號登入(我並無OpenFoundry帳號)"
+  "Session Expired": "Session過期"
+  "Sorry, your session was expired. Reload the page and relogin in your account please.": "抱歉，您的Session已經過期，麻煩重新整理頁面，並重新登入，謝謝！"
   please_enter_your_OpenFoundry_account: "請輸入您的 OpenFoundry 帳號及密碼進行帳號整合流程。"
   Project: 專案
   Content: 內容
@@ -31,6 +33,10 @@ zh_TW:
   People: 人才
   The page you requested was not found: 喔!喔!發生一點錯誤，你要的頁面找不到
   not found page contact: 很抱歉，您要找的頁面目前發生一些錯誤，您可以透過OpenFoundry的問題回報，說明系統問題，我們會有專人處理，或來信<a href="mailto:contact@openfoundry.org">連絡我們</a>。
+  Terms of Use Agreement: 使用條款
+  I Agree: 我同意
+  I Do Not Agree: 我不同意
+  submit: 送出
   menu:
     home: 首頁
     project: 專案

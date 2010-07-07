@@ -22,6 +22,8 @@ en:
   Change Email: Change Email
   Email: Email
   "I am Who's Who User": "I am Who's Who User"
+  "Session Expired": "Session Expired"
+  "Sorry, your session was expired. Reload the page and relogin in your account please.": "Sorry, your session was expired. Reload the page and relogin in your account please."
   please_enter_your_OpenFoundry_account: "Please enter your account and password in OpenFoundry."
   Project: Project
   Content: Content
@@ -31,6 +33,10 @@ en:
   Change Email: Change Email
   The page you requested was not found: The page you requested was not found
   not found page contact: Need english word
+  Terms of Use Agreement: Terms of Use Agreement
+  I Agree: I Agree
+  I Do Not Agree: I Do Not Agree
+  submit: Submit
   menu:
     home: Home
     project: Project
@@ -43,6 +49,7 @@ en:
   user:
     signup: User Signup
     forgot_password: Forgot OpenFoundry Password
+    login_faild: "Login error, check your account and passwords please!"
     forgot_password_whoswho: "Forgot Who'sWho Password"
     account_name_used: "Account name: {{name}} has taken"
     account_email_used: "Email: {{name}} has taken"
