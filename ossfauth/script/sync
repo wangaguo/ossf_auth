@@ -11,35 +11,39 @@ end
 
 load_urls
 
-logger = Logger.new('log/sync.log')
+logger = Logger.new('log/sync4.log')
 loop do
-  Message.un_sync.each{|m|
-    rtn = @urls.map{|url|
-      c = Curl::Easy.new url.link
-      begin
-        c.http_post(
-         Curl::PostField.content('data', m.user.to_json) ,
-         Curl::PostField.content('action', m.action)
-        )
-      rescue
-      end
-      logger.info "-#{url.id}-#{url.link}-uid:#{m.user_id}-rtn:\n-#{Time.now}--#{c.body_str}"
-      case c.body_str
-        #sync successfully!
-        when '1','true','ok' then
-          true
-        #sync faild!
-        else
-          n = m.clone
-          n.user_id = nil
-          n.site_id = url.site_id
-          n.status = 're_sync'
-          n.save!
-          false
-      end
+  begin 
+    Message.un_sync.each{|m|
+      rtn = @urls.map{|url|
+        c = Curl::Easy.new url.link
+        begin
+          c.http_post(
+           Curl::PostField.content('data', m.user.to_json) ,
+           Curl::PostField.content('action', m.action)
+          )
+        rescue
+        end
+        logger.info "-#{url.id}-#{url.link}-uid:#{m.user_id}-rtn:\n-#{Time.now}--#{c.body_str}"
+        case c.body_str
+          #sync successfully!
+          when '1','true','ok' then
+            true
+          #sync faild!
+          else
+            n = m.clone
+            n.user_id = nil
+            n.site_id = url.site_id
+            n.status = 're_sync'
+            n.save!
+            false
+        end
+      }
+      m.status = ( rtn.inject{|sum, i|sum and i}? 'ok':'error' )
+      m.save!
     }
-    m.status = ( rtn.inject{|sum, i|sum and i}? 'ok':'error' )
-    m.save!
-  }
+  rescue
+    ActiveRecord::Base.connection.reconnect!
+  end
   sleep 1
 end
