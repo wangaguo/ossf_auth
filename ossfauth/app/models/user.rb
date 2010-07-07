@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   # mixins
   #####################
   has_attached_file :avatar, :styles => 
-    { :medium => "60x60>", :thumb => "16x16>" }
+    { :large => "128x128", :medium => "60x60>", :thumb => "16x16>" }
 
   #####################
   # named scopes 
@@ -84,8 +84,7 @@ class User < ActiveRecord::Base
       return nil unless e
       u = e.user
       if u.status == 0 and User.normal.find_by_email(u.email)
-        flash[:error] = 'Email already used'
-        return nil
+        raise SignUpDuplicationError.new()
       end
       e
     end

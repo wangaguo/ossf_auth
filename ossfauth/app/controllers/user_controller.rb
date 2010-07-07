@@ -114,6 +114,8 @@ BODY
   def signup
     #if already login, go home
     (flash[:message] = 'You already login';redirect_to home_user_path;return) if check_user
+    #show term of user agreement, proceed if passed
+    return if toua
     if request.get? and params[:wsw] and session[:wsw_profile]
       @user = User.new
       @user.first_name = session[:wsw_profile]["name"]
@@ -494,13 +496,46 @@ save!
   def image
     user = User.find_by_name params[:name]
     size = params[:size]||:original
-    size = :original unless [:thumb, :original, :medium].member? size.to_sym
+    size = :original unless [:thumb, :original, :medium, :large].member? size.to_sym
 
     user = User.new unless user
     #send_file(image_cache_file, :type => meta, :disposition => "inline")
     image = user.avatar
     send_file "#{RAILS_ROOT}/public#{image.url(size.to_sym, false)}", 
               :type => (image.content_type || 'image/png'), :disposition => "inline"
+  end
+ 
+  #Generate End User License Agreement for actions on get 
+  #and chack agreement for normal process
+  def toua
+    case request.method
+    when :get
+      session[:toua] = :show
+      render :partial => 'partials/toua', :layout => true, 
+        :locals => {:submit_to => "#{ root_path }user/signup", 
+                    :file_path => "#{RAILS_ROOT}/public/terms_of_use_agreement.#{I18n.locale.to_s}.txt"}
+      return true
+    when :post
+      if( session[:toua] == :show )
+        if( params['agree'] == '1' )
+          # eula check ok, normal process
+          session[:toua] = :pass
+          @user = User.new
+          render
+          return true
+        else
+          # eula disagree, back to root
+          redirect_to '/'
+          return true
+        end
+      elsif( session[:toua] == :pass )
+        #normal process post method!
+        return false
+      else
+        redirect_to '/user/signup'
+        return true
+      end
+    end
   end
 
   def generate_blank
