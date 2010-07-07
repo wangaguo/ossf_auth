@@ -1,0 +1,20 @@
+<h4><%=t('Terms of Use Agreement') %></h4>
+
+<fieldset>
+  <textarea style='height:300px; width:99%; overflow-x:hidden;' readonly=true>
+    <% File.open(file_path, 'r').each do |line| %>
+      <%= line.chop -%>  
+    <% end %>  
+  </textarea>
+
+  <% form_tag submit_to do %>
+    <%=hidden_field_tag 'agree', '1' -%>
+
+    <%=submit_tag t( 'I Agree' ) -%>
+    <input type="button" value="<%=t( 'I Do Not Agree' ) %>" onclick="javascript: $( '#agree' ).val( '0' ); $( 'form' ).submit();">
+  <% end %>
+</fieldset>
+
+
+
+
