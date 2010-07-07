@@ -10,7 +10,7 @@ class CreateSites < ActiveRecord::Migration
 
     Site.create!(:name => 'wsw', :ip => '140.109.22.20', 
         :regist_key => 'e3052d90-f7d1-012c-c171-0011254f08ff')
-    Site.create!(:name => 'of', :ip => '140.109.22.15', 
+    Site.create!(:name => 'of', :ip => '140.109.22.15:3000', 
         :regist_key => 'c1cac710-030f-012d-c173-0011254f08ff')
   end
 
