@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
  
   rescue_from ActionController::RoutingError, :with => :not_found
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalidauthenticitytoken
 
   #####################
   # activemessaging
@@ -35,7 +36,7 @@ class ApplicationController < ActionController::Base
   # error handler
   #####################
   def not_found
-    flash[:error] = t 'not_found'
+    flash.now[:error] = t 'not_found'
     redirect_to not_found_rescue_path
   end
   #####################
@@ -90,17 +91,22 @@ class ApplicationController < ActionController::Base
   end
   
   def login_by_token
-    e = User.authenticate_by_token(params[:t])
-    return nil unless e
-    @user = e.user
-    session[:user] = @user
-    s = e.user.sessions.new
-    s.session_key = request.session_options[:id]
-    s.save!
-    @user.instance_eval e.body, __FILE__, __LINE__ if e.body
-    #force to sync!
-    Message.sync!
-    return e
+    begin
+      e = User.authenticate_by_token(params[:t])
+      return nil unless e
+      @user = e.user
+      session[:user] = @user
+      s = e.user.sessions.new
+      s.session_key = request.session_options[:id]
+      s.save!
+      @user.instance_eval e.body, __FILE__, __LINE__ if e.body
+      #force to sync!
+      Message.sync!
+      return e
+    rescue SignUpDuplicationError
+      flash[:error] = t 'integration.email_already_use'
+      nil
+    end
   end
   def check_session
     sid = cookies[SITE_SESSION_ID]
