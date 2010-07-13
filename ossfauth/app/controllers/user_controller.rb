@@ -72,7 +72,7 @@ self.email = "#{params[:user][:new_email]}"
 self.params.delete :change_email
 save!
 BODY
-        UserNotify.deliver_change_email(@user, params[:user][:new_email], "#{request.protocol}#{root_path}sso?t=#{tk}")
+        UserNotify.deliver_change_email(@user, params[:user][:new_email], "#{request.protocol}#{request.host_with_port}#{root_path}sso?t=#{tk}")
         flash.now[:message] = "user_change_email_msg_send"
         @user.params[:change_email] = true
         @user.save
@@ -150,7 +150,7 @@ BODY
 if self.params[:from_wsw] == true
   require "curb"
   c = Curl::Easy.http_post(
-      "#{request.protocol}#{root_path}index.php?option=com_ofsso&controller=sso&task=integrateuser",
+      "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=integrateuser",
       "u=#{self.params[:wsw_name]}&nu=#{self.name}")
     self.messages.create :action => "create"
 end
@@ -227,7 +227,7 @@ save!
   def validate_whoswho_user
     require 'curb'
     c = Curl::Easy.http_post(
-    "#{request.protocol}#{root_path}index.php?option=com_ofsso&controller=sso&task=verifyuser", 
+    "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=verifyuser", 
     "u=#{params[:name]}&p=#{params[:password]}")
     yield c.body_str if block_given?
   end
@@ -239,7 +239,7 @@ save!
     if not key.nil? 
       # concatenate the post url of WSW api  
       postquery = ( ( key =~ /@/ )? "byemail&e=" : "&u=" ) + key
-      postquery = "#{request.protocol}#{root_path}index.php?option=com_ofsso&controller=sso&task=getuser" + postquery
+      postquery = "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=getuser" + postquery
 
       # obtain the user data from WSW
       require 'curb'
@@ -433,7 +433,7 @@ save!
       # When data of two sites are concurrent, no choice...
       if @opt_columns.blank?
         require "curb"
-        c = Curl::Easy.http_post( "#{request.protocol}#{root_path}index.php?option=com_ofsso&controller=sso&task=integrateuser",
+        c = Curl::Easy.http_post( "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=integrateuser",
                                   "u=#{ session[ :wswlogin ] }&nu=#{ session[ :login ] }" )
         return integrate_success if c.body_str == 'true'
         render :text => "Whoswho Error: #{ c.body_str }"
@@ -469,7 +469,7 @@ save!
         # remove prefix of WSW 
         if updatechk
           require "curb"
-          c = Curl::Easy.http_post( "#{request.protocol}#{root_path}index.php?option=com_ofsso&controller=sso&task=integrateuser", 
+          c = Curl::Easy.http_post( "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=integrateuser", 
                                     "u=#{ session[ :wswlogin ] }&nu=#{ session[ :login ] }" )
           return integrate_success if c.body_str == 'true'
           render :text => "Whoswho Error: #{ c.body_str }"

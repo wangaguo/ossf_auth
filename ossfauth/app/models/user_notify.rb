@@ -20,7 +20,7 @@ class UserNotify < ActionMailer::Base
     @body["name"] = "#{user.first_name} " + "#{user.last_name} "
     @body["login"] = "#{user.name}"
     @body["password"] = "#{password}"
-    @body["url"] = url || "#{request.protocol}#{root_path}"
+    @body["url"] = url || "#{request.protocol}#{request.host_with_port}#{root_path}"
     @body["app_name"] = "OpenFoundry"
   end
 
@@ -36,7 +36,7 @@ class UserNotify < ActionMailer::Base
     # Email body substitutions
     @body["name"] = "#{user.first_name} " + "#{user.last_name}"
     @body["login"] = "#{user.name}"
-    @body["url"] = url || "#{request.protocol}#{root_path}"
+    @body["url"] = url || "#{request.protocol}#{request.host_with_port}#{root_path}"
     @body["app_name"] = "OpenFoundry"
   end
 
@@ -52,7 +52,7 @@ class UserNotify < ActionMailer::Base
     @subject += "Changed email notification"
 
     # Email body substitutions
-    @body["url"] = url || "#{request.protocol}#{root_path}"
+    @body["url"] = url || "#{request.protocol}#{request.host_with_port}#{root_path}"
     @body["app_name"] = "OpenFoundry"
   end
 end
