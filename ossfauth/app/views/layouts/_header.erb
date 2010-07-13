@@ -41,13 +41,13 @@
                                         <%=   @locales.map{|k,v| 
                                             params[:lang] = k
                                             url_with_lang = "#{request.protocol}#{request.host_with_port}#{url_for params}"
-                                            if I18n.locale != k.to_s 
+                                            if I18n.locale.to_sym != k.to_sym 
                                               "<a href='#{url_with_lang}'><span lang =\"#{k}\" xml:lang=\"#{k}\">#{v}</span></a>\n"
                                             end  
                                             } .join('')
                                         %>
                                         </span>
-
+					
                                     <div class="ofssologin_search_square9">
                                        <form onsubmit="of_search(); return false;" method="get" action="/of/openfoundry/search" id="of_search">
                                             <select id="of_search_type">
