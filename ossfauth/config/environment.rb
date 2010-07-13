@@ -23,6 +23,8 @@ Rails::Initializer.run do |config|
   config.gem "paperclip"
     #jquery for rails
   config.gem "aaronchi-jrails", :lib => 'jrails', :source => 'http://gems.github.com'
+  # json, for sync
+  config.gem 'json'
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
@@ -46,7 +48,7 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   config.i18n.default_locale = :zh_TW
   
-  UI_SCHEMA_CSS_HOST = 'freenix'
+  UI_SCHEMA_CSS_HOST = 'ofsso.openfoundry.org'
 
   config.action_controller.relative_url_root = '/sso'
 end
