@@ -13,9 +13,9 @@ zh_TW:
   Control Privacy: 個人隱私項目設定
   User Login: 使用者登入
   Login Note: 注意事項 - 帳號整合
-  Login Note Content: 您好，自由軟體鑄造場為了提供使用者更完善的服務，OSSF所有對外的服務系統，將進行整合的動作，若要登入任何服務平台，請務必先進行帳號整合後，方可正常使用，整合過程約略一至二分鐘。  
-  Intergrate Step 1: 請使用OpenFoundry的帳號登入此平台。
-  Intergrate Step 1 Note: "若無OpenFoundry帳號的使用者，請使用Who'sWho 帳號登入，進行整合步驟，並勾選您使用Who'sWho 帳號登入。 "
+  Login Note Content: 您好，自由軟體鑄造場為了提供使用者更完善的服務，將進行系統整合的動作，請務必先進行帳號整合後，方可正常使用。整個過程僅需幾分鐘，請依指示進行，謝謝。
+  Intergrate Step 1: 什麼是帳號整合?
+  Intergrate Step 1 Note: <p>為了提供使用者一致且方便的服務，OSSF 將三大服務平台 (www.openfoundry.org、of.openfoundry.org 及 whoswho.openfoundry.org) 整合成單一入口的服務平台。讓使用者僅以一組帳號即可使用所有的服務，而不必建立多組帳號，造成使用上的不便。</p><p>本次整合是以 OpenFoundry 為主，與 Who's who 進行帳號合併，所以，每位已註冊過的使用者均須經過整合的程序方能繼續使用各項服務。整個過程約需二至四個步驟，因此，不會花費各位太多時間，請耐心完成!</p><p>已註冊使用者請以 OpenFoundry 帳號登入以進行整合! 若僅有 Who's who 帳號者，請在填入 Who's who 帳號密碼後，勾選 "以 Who's who 帳號登入"，進入整合程序。</p>
   User Name: 帳號
   Password: 密碼 
   Change Password: 修改密碼
@@ -88,14 +88,19 @@ zh_TW:
     please_checkup_integration_note: "(可能您在 OpenFoundry 已註冊過，請透過 OpenFoundry 帳號登入以進行整合；或重新註冊一個新帳號。)"
     yes_integration_whoswho: "是，這是我的 OpenFoundry 帳號，進入帳號整合"
     yes_relogin_of: "是，這是我的 OpenFoundry 帳號，我要登入 OpenFoundry 進行帳號整合"
-    duplicate_message: "我們發現在 Who'sWho 有重複的帳號資料，包含" 
-    duplicate_message_field: "重複的" 
-    not_whoswho_user: "我並沒有在Who'sWho註冊過，請協助我建立新的帳號" 
+    duplicate_message: "我們發現在 Who'sWho 中有重複的帳號資料，" 
+    duplicate_message_field: "列表如下: " 
+    not_whoswho_user: "我沒有在 Who'sWho 註冊過，繼續進行整合。" 
     create_a_new_account: "建立新帳號" 
+    go_finish: "完成"
     of_combine_wsw_message: "如您欲合併您Who'sWho的帳號，請提供帳號密碼登入"
     combine_wsw_account: "整合帳號"
     "You are not a valid Who's Who User": "您並非合法的 Who's Who 使用者"
     email_already_use: "您的帳號已被驗證通過，請試著登錄看看！"
+    notice_choice_data: "請確認以下資料..."
+    notice_choice_field_1: "請針對"
+    notice_choice_field_2: "進行選擇: "
+    integrate: "整合"
   sso:
     of_sync_not_complete: "帳號尚未開啟完全, 煩請您連絡系統管理員"
   template:
