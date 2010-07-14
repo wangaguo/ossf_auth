@@ -12,16 +12,16 @@ en:
   Edit Profile: Edit Profile
   Control Privacy: Control Privacy
   User Login: User Login
-  Login Note: Note 
-  Login Note Content: Note Info
-  Intergrate Step 1: Step One
-  Intergrate Step 1 Note: Step One Info
+  Login Note: Note for Account Integration
+  Login Note Content: For better user experience and services, OSSF integrated our three sites WWW, OF, and Who's who. You have to enter the account integration procedure before normal using. Please following the hints that takes you several minutes.
+  Intergrate Step 1: What is Account Integration?
+  Intergrate Step 1 Note: <p>For providing consistent and convenient service, OSSF merged WWW, OF, and Who's who with a single sign-on service. User can login easily with only one account.</p><p>Who's who's user accounts will be merged into OpenFoundry at this time. All registered user have to follow the integration flow before any normal operations. The integration takes you just few minutes and finish it with your patient, please.</p><p> Please login with your account that registered in OpenFoundry for Account Integration. If you did not register in OpenFoundry but registered in Who's who before, please login with your Who's who account and check "I am a Who's who user" for entering the integration.</p>
   User Name: ID
   Password: Password 
   Change Password: Change Password
   Change Email: Change Email
   Email: Email
-  "I am Who's Who User": "I am Who's Who User"
+  "I am Who's Who User": "I never register in OpenFoundry, use Who's Who instead."
   "Session Expired": "Session Expired"
   "Sorry, your session was expired. Reload the page and relogin in your account please.": "Sorry, your session was expired. Reload the page and relogin in your account please."
   please_enter_your_OpenFoundry_account: "Please enter your account and password in OpenFoundry."
@@ -63,6 +63,7 @@ en:
     forgotten_password_emailed: "The forgotten-password mail has send to your mailbox, check up please!"
     cancel: "Cancel"
     reset_password: "Reset Password"
+    user_signup_success: "Success! Please go to your email box and verify yourself"
   integration:
     integration_process: "Integration Process"
     reset_password: "Please reset your password"
@@ -84,10 +85,19 @@ en:
     please_checkup_integration_note: "(Maybe you have already registered in OpenFoundry. Login OpenFoundry to integrate your account or sign up in new profile.)"
     yes_integration_whoswho: "Yes, the OpenFoundry account is mine, go to account integration."
     yes_relogin_of: "Yes, the OpenFoundry account is mine, I'll login OpenFoundry to integrate my account."
-    duplicate_message: "need message" 
-    not_whoswho_user: "need message" 
+    duplicate_message: "Duplicated data was found on Who's Who. " 
+    duplicate_message_field: "Check following data: " 
+    not_whoswho_user: "I'm not a Who's Who user. Go to next step." 
+    create_a_new_account: "Create account" 
+    go_finish: "Finish"
+    of_combine_wsw_message: "Fill with your ID and Password that registered in Who's Who for the integration."
+    combine_wsw_account: "Combine"
     "You are not a valid Who's Who User": "You are not a valid Who's Who User"
     email_already_use: "The E-Mail has already be verified."
+    notice_choice_data: "You can make a choice for the following data..."
+    notice_choice_field_1: "You have"
+    notice_choice_field_2: "can be choice: "
+    integrate: "Integrate"
   sso:
     of_sync_not_complete: "Your account is not created completely, please contact the webmaster."
   template:
