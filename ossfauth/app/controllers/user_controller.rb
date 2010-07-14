@@ -72,7 +72,7 @@ self.email = "#{params[:user][:new_email]}"
 self.params.delete :change_email
 save!
 BODY
-        UserNotify.deliver_change_email(@user, params[:user][:new_email], "#{request.protocol}#{request.host_with_port}#{root_path}sso?t=#{tk}")
+        UserNotify.deliver_change_email(@user, params[:user][:new_email], "#{request.protocol}#{request.host_with_port}#{root_path}?t=#{tk}")
         flash.now[:message] = "user_change_email_msg_send"
         @user.params[:change_email] = true
         @user.save
@@ -352,7 +352,7 @@ save!
                 session[:integration_log] = h
                 redirect_to( :action => 'integrate_diff_accounts', :user => params[ :name ] )
               else
-                flash.now[ :error ] = "Whoswho Login Error"
+                flash.now[ :error ] = t "Whoswho Login Error"
               end
             }
           end
