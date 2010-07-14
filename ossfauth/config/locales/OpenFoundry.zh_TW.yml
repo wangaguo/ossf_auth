@@ -24,6 +24,7 @@ zh_TW:
   "I am Who's Who User": "我要用Who's Who的帳號登入(我並無OpenFoundry帳號)"
   "Session Expired": "Session過期"
   "Sorry, your session was expired. Reload the page and relogin in your account please.": "抱歉，您的Session已經過期，麻煩重新整理頁面，並重新登入，謝謝！"
+  "Whoswho Login Error": "您的 Who's Who 帳號密碼輸入錯誤！"
   please_enter_your_OpenFoundry_account: "請輸入您的 OpenFoundry 帳號及密碼進行帳號整合流程。"
   Project: 專案
   Content: 內容
