@@ -2,18 +2,19 @@
   <h2 class="title"><%= t 'integration.integration_process' %></h2>
 <% end %> 
 <% module_content = capture do -%>
+<%= show_flash %>
 <% if session[ :dupemail ] || session[ :dupuname ] %>
   <%= t 'integration.duplicate_message'%>
-  <%= t 'integration.duplicate_message_field' %>
+  <%= t 'integration.duplicate_message_field' %><br>
   <%= "#{t( 'User Name')} (#{session[ :dupuname ]['username'][1..-1]})" if session[ :dupuname ] %>
   <%= "/ #{t 'Email'} (#{session[ :dupemail ]['email']})" if session[ :dupemail ] %>
-<% end %><br>
+<% end %><br><br>
   
-  <%= t 'integration.not_whoswho_user'%>
 <% form_for :offm_itype_new, :url => { :action => "integration" } do -%>
 <p>
+  <%= t 'integration.not_whoswho_user'%>
+  <%=submit_tag t 'integration.go_finish' %>
   <%=hidden_field_tag  'of_itype', 'REG_WHOSWHO' %>
-  <%=submit_tag t 'integration.create_a_new_account' %>
 <p>
 <% end %>
   
@@ -24,7 +25,7 @@
     <%=hidden_field_tag 'of_itype', 'LOGIN_WHOSWHO' %>
     <%= t 'User Name'%>: <%=text_field( "iuser", "name" ) %><br>
     <%= t 'Password'%>: <%=password_field( "iuser", "password" ) %><br>
-    <%=submit_tag t('integration.combine_wsw_account') %><a href="/index.php?option=com_user&view=reset&Itemid=62"><%="#{t 'user.forgot_password_whoswho'}" %></a>
+    <%=submit_tag t('integration.combine_wsw_account') %>&nbsp;&nbsp;<a href="/index.php?option=com_user&view=reset&Itemid=62"><%="#{t 'user.forgot_password_whoswho'}" %></a>
   </p>
 <% end %>
 <% end %>
