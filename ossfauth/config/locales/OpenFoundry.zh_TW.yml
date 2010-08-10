@@ -38,6 +38,7 @@ zh_TW:
   I Agree: 我同意
   I Do Not Agree: 我不同意
   submit: 送出
+  user_change_email_msg_send: 您的Email確認信已寄出, 請到新的信箱收信
   menu:
     home: 首頁
     project: 專案
@@ -68,6 +69,7 @@ zh_TW:
     user_signup_success: "註冊成功，請至您所輸入的電子郵件收取驗證信！"
     you_are_wsw_user: "您目前在Who'sWho上的帳號為："
     please_enter_your_new_openfoundry_account_check_exist: "請填寫以下資料，以完成您的的帳號整合程序"
+    "Update User Information Successfully": "帳號設定成功"
   integration:
     integration_process: "帳號整合程序"
     reset_password: "重設密碼"
@@ -91,7 +93,7 @@ zh_TW:
     yes_relogin_of: "是，這是我的 OpenFoundry 帳號，我要登入 OpenFoundry 進行帳號整合"
     duplicate_message: "我們發現在 Who'sWho 中有重複的帳號資料，" 
     duplicate_message_field: "列表如下: " 
-    not_whoswho_user: "我沒有在 Who'sWho 註冊過，繼續進行整合。" 
+    not_whoswho_user: "我並未在 Who'sWho 註冊過，毋須整合。" 
     create_a_new_account: "建立新帳號" 
     go_finish: "完成"
     of_combine_wsw_message: "如您欲合併您Who'sWho的帳號，請提供帳號密碼登入"

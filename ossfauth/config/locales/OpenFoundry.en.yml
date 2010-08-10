@@ -38,6 +38,7 @@ en:
   I Agree: I Agree
   I Do Not Agree: I Do Not Agree
   submit: Submit
+  user_change_email_msg_send: Please check your new Email box for change confirmation.
   menu:
     home: Home
     project: Project
@@ -65,6 +66,9 @@ en:
     cancel: "Cancel"
     reset_password: "Reset Password"
     user_signup_success: "Success! Please go to your email box and verify yourself"
+    you_are_wsw_user: "Your registered account in Who'sWho is："
+    please_enter_your_new_openfoundry_account_check_exist: "Please fill out the following form to finish the account integration."
+    "Update User Information Successfully": "Update User Information Successfully"
   integration:
     integration_process: "Integration Process"
     reset_password: "Please reset your password"
