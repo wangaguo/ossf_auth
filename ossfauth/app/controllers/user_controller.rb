@@ -1,4 +1,5 @@
 class UserController < ApplicationController
+
   skip_before_filter :verify_authenticity_token, :only => [:logout]
   before_filter :login_require, :except => [:availability, :signup, :login, 
       :forgot_password, :integration_whoswho, :email_collision_whoswho,
@@ -21,7 +22,7 @@ class UserController < ApplicationController
         flash[:message] = 'change passwd success!'
         @user.params.delete :forgot_password
         @user.save_without_validation
-        redirect_to home_user_path
+        redirect_to edit_user_path
       else
         flash.now[:error] = 'error'
       end
@@ -71,9 +72,11 @@ class UserController < ApplicationController
 self.email = "#{params[:user][:new_email]}"
 self.params.delete :change_email
 save!
+#publish({'type'=>'user','action'=>'update','data'=>{'id' => self.id, 'name' => self.name, 'email' => self.email}})
+self.messages.create :action => 'update'
 BODY
         UserNotify.deliver_change_email(@user, params[:user][:new_email], "#{request.protocol}#{request.host_with_port}#{root_path}?t=#{tk}")
-        flash.now[:message] = "user_change_email_msg_send"
+        flash.now[:message] = t "user_change_email_msg_send"
         @user.params[:change_email] = true
         @user.save
       rescue
@@ -94,8 +97,10 @@ BODY
       @user.avatar = params[:user][:avatar] if params[:user][:avatar]
       @user[:timezone] = params[:user][:timezone]
       @user.save
-      flash[:message] = 'Update User Infomation Successfully.'
-      redirect_to home_user_path
+      #send_msg('user','update',{'id' => @user.id, 'name' => @user.name, 'email' => @user.email})
+      flash[:message] = t 'user.Update User Information Successfully'
+      @user.messages.create :action => 'update'
+      redirect_to edit_user_path
     end
   end
   
@@ -146,20 +151,22 @@ BODY
     flash[:message] = t 'user.user_signup_success'
     tk = @user.generate_token
     @user.events.create :action => home_user_path, :token => tk, :body => 
-'
+"
 if self.params[:from_wsw] == true
-  require "curb"
+  require 'curb'
   c = Curl::Easy.http_post(
-      "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=integrateuser",
-      "u=#{self.params[:wsw_name]}&nu=#{self.name}")
-    self.messages.create :action => "create"
-end
+      \"#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=integrateuser\",
+      \"u=\#{self.params[:wsw_name]}&nu=\#{self.name}\")
+    self.messages.create :action => 'create'
+end 
 self.params[:email_verified] = true
 self.status = 1
 self.params[:istatus] = :yes
-self.messages.create :action => "create" unless self.params[:from_wsw]
+self.messages.create :action => 'create' unless self.params[:from_wsw]
+#publish({'type'=>'user','action'=>'create','data'=>{'id' => id, 'name' => name, 'email' => email}})
 save!
-'
+"
+
     url = home_user_url
     url += "?t=#{tk}"
     UserNotify.deliver_signup(@user, params[:user][:password], url)
@@ -256,7 +263,7 @@ save!
   def integration_whoswho
     session[:wsw_profile] = fetch_userdata_from_whoswho(session[:whoswho])
     session[:wsw_profile]["username"] = session[:wsw_profile]["username"].delete("!") if session[:wsw_profile]["username"].index("!")
-    if session[:of_profile] = User.find_by_name(session[:wsw_profile]["username"])
+    if session[:of_profile] = User.normal.find_by_name(session[:wsw_profile]["username"])
       if session[:wsw_profile]["email"].strip == session[:of_profile]["email"].strip
         redirect_to email_collision_whoswho_user_path
       elsif session[:wsw_profile]["username"].strip == session[:of_profile]["name"].strip
@@ -508,6 +515,9 @@ save!
   #Generate End User License Agreement for actions on get 
   #and chack agreement for normal process
   def toua
+    if session[:wsw_profile]
+       return false
+	end
     case request.method
     when :get
       session[:toua] = :show
