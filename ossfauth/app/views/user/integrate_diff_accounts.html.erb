@@ -1,3 +1,7 @@
+<% module_title = capture do -%>
+  <h2 class="title"><%= t 'integration.integration_process' %></h2>
+<% end %> 
+<% module_content = capture do -%>
 <% if not @opt_columns.blank? %>
   <%= t "integration.notice_choice_data" %><br>
 
@@ -13,3 +17,5 @@
     <%=submit_tag t "integration.integrate" %>
   <% end -%>
 <% end %>
+<% end %>
+<%=render :file => 'layouts/rt_module', :locals => {:module_title => module_title, :module_content => module_content, :grid_style => 'rt-grid-12', :square_style => 'square1' }%>
