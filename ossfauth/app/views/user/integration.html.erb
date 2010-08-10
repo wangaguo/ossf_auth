@@ -10,13 +10,16 @@
   <%= "/ #{t 'Email'} (#{session[ :dupemail ]['email']})" if session[ :dupemail ] %>
 <% end %><br><br>
   
-<% form_for :offm_itype_new, :url => { :action => "integration" } do -%>
-<p>
-  <%= t 'integration.not_whoswho_user'%>
-  <%=submit_tag t 'integration.go_finish' %>
-  <%=hidden_field_tag  'of_itype', 'REG_WHOSWHO' %>
-<p>
+<% unless session[ :dupemail ]%>
+  <% form_for :offm_itype_new, :url => { :action => "integration" } do -%>
+  <p>
+    <%= t 'integration.not_whoswho_user'%>
+    <%=submit_tag t 'integration.go_finish' %>
+    <%=hidden_field_tag  'of_itype', 'REG_WHOSWHO' %>
+  <p>
+  <% end %>
 <% end %>
+
   
 <%= t 'integration.of_combine_wsw_message' %>
 <%#Please fill out the following form for integrating with above suggestion, or other accounts...%>
