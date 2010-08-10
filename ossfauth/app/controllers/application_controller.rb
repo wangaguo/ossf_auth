@@ -1,10 +1,8 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'activemessaging/processor'
-require 'yaml'
-
 class ApplicationController < ActionController::Base
+
   #####################
   # default settings
   #####################
@@ -23,13 +21,9 @@ class ApplicationController < ActionController::Base
   #####################
   # activemessaging
   #####################
+  require 'activemessaging/processor'
   include ActiveMessaging::MessageSender
-  def publish_with_yaml(body, header = {}, timeout = 10)
-    yaml_str = YAML.dump(body)
-    publish_without_yaml(:ossf_message, yaml_str, header, timeout)
-    publish_without_yaml(:joomla_message, yaml_str, header, timeout)
-  end
-  alias_method_chain :publish, :yaml
+  publishes_to :ossf_msg
 
   private
   #####################
@@ -38,6 +32,12 @@ class ApplicationController < ActionController::Base
   def not_found
     flash.now[:error] = t 'not_found'
     redirect_to not_found_rescue_path
+  end
+  def invalidauthenticitytoken 
+    set_locale
+    flash.now[:error] = t 'not_found'
+    #redirect_to not_found_rescue_path
+    render :file => 'rescue/invalidauthenticitytoken' , :layout => 'default'
   end
   #####################
   # locale setting
