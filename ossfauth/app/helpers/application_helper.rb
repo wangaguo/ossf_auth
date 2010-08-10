@@ -16,7 +16,7 @@ module ApplicationHelper
       <div id="rt-breadcrumbs">
           <div class="rt-breadcrumb-surround">
 
-              <a id="breadcrumbs-home" href="http://ssodev.openfoundry.org/"></a>
+              <a id="breadcrumbs-home" href="http://www.openfoundry.org/"></a>
                   <span class="breadcrumbs pathway">
                       <a class="pathway" href="URL">Level One</a>
                       <span class="no-link">Level Two</span>
