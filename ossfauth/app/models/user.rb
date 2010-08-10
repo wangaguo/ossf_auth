@@ -1,3 +1,5 @@
+require 'activemessaging/processor'
+require 'yaml'
 class User < ActiveRecord::Base
   #####################
   # associations 
@@ -10,10 +12,21 @@ class User < ActiveRecord::Base
   serialize :params
 
   #####################
+  # activemessaging
+  #####################
+  include ActiveMessaging::MessageSender
+  def publish_with_yaml(body, header = {}, timeout = 10)
+    yaml_str = YAML.dump(body)
+    #publish_without_yaml(:ossf_message, yaml_str, header, timeout)
+    #publish_without_yaml(:joomla_message, yaml_str, header, timeout)
+    #publish_without_yaml(:ossf_msg, yaml_str, header, timeout)
+  end
+  alias_method_chain :publish, :yaml
+  #####################
   # mixins
   #####################
   has_attached_file :avatar, :styles => 
-    { :large => "128x128", :medium => "60x60>", :thumb => "16x16>" }
+    { :large => "128x128>", :medium => "60x60>", :thumb => "16x16>" }
 
   #####################
   # named scopes 
@@ -44,6 +57,11 @@ class User < ActiveRecord::Base
   #####################
   # validators 
   #####################
+  LOGIN_REGEX = /^[a-zA-Z][0-9a-zA-Z_]{2,13}$/
+  validates_presence_of :name, :on => :create
+  validates_format_of :name, :with => LOGIN_REGEX, :on => :create
+  validates_length_of :name, :within => 3..14, :on => :create
+
   validates_presence_of :name, :first_name, :last_name, :email
   validates_presence_of :password, :if => :change_password
   # make sure :password == :password_confirmation
@@ -52,7 +70,7 @@ class User < ActiveRecord::Base
   def validate
     if (not self.params[:forgot_password]) and (not new_record?) and change_password
       #verify old password
-      if User.encrypt(old_password) != shadow_password 
+      if old_password.crypt(shadow_password) != shadow_password 
         errors.add :old_password, ' mismatch'
       end  
     end
