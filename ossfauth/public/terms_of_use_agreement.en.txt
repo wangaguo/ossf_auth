@@ -5,13 +5,13 @@ OpenFoundry Terms of Use
 
 "OpenFoundry's Content" means the content that is provided by OpenFoundry and stored on the Website. 
 
-”Public Content” means the content that is created by you and stored in the public and open areas on the Website, for example your posts or comments on the forum, comment system or issue tracker.  
+"Public Content" means the content that is created by you and stored in the public and open areas on the Website, for example your posts or comments on the forum, comment system or issue tracker.  
 
-”Related Services” means supplementary services, that are provided by OpenFoundry to facilitate you to use all the functions of the Website completely. For example, each project of OpenFoundry has its own FTP storage. Providing FTP space is one of the Related Services of the Website. 
+"Related Services" means supplementary services, that are provided by OpenFoundry to facilitate you to use all the functions of the Website completely. For example, each project of OpenFoundry has its own FTP storage. Providing FTP space is one of the Related Services of the Website. 
 
-”Terms” means OpenFoundry Terms of Use. 
+"Terms" means OpenFoundry Terms of Use. 
 
-”Website” means OpenFoundry website. 
+"Website" means OpenFoundry website. 
 
 
 2. Acceptance of the Terms 
@@ -30,9 +30,9 @@ Unless otherwise stated, the Terms apply to all the content on the Website and t
 
 You have the full intellectual property rights over the content that is created by you and stored at the Website. You agree to grant OpenFoundry, however, : 
 
-    a. a world-wide, royalty-free, permanent, irrevocable, non-exclusive license to use, reproduce, modify, publish, edit, distribute, perform and display all or part of your Public Content in any form, any media or any so far unknown or un-invented technologies; and 
+a. a world-wide, royalty-free, permanent, irrevocable, non-exclusive license to use, reproduce, modify, publish, edit, distribute, perform and display all or part of your Public Content in any form, any media or any so far unknown or un-invented technologies; and 
  
-    b. a license to reveal statistical data related to your Public Content for the purpose of demonstrating the performance of the OpenFoundry to the public.      
+b. a license to reveal statistical data related to your Public Content for the purpose of demonstrating the performance of the OpenFoundry to the public.      
 
 OpenFoundry follows the Privacy Policy regarding to your non-disclosure information. The Policy is located at: http://www.openfoundry.org/en/privacy-policy  . 
 
@@ -41,11 +41,11 @@ OpenFoundry follows the Privacy Policy regarding to your non-disclosure informat
 
 Unless otherwise stated, intellectual property rights of OpenFoundry Content are owned by Academia Sinica. OpenFoundry Content is licensed under Creative Commons Attribution -NonCommercial-NoDerives 2.5 Taiwan License and its later versions. You are allowed to reproduce and distribute OpenFoundry Content in any form, provided you comply the following obligations: 
 
-    a. No commercial use is allowed. 
+a. No commercial use is allowed. 
 
-    b. A statement that the intellectual property rights belong to Academia Sinica must accompany such reproduction and/or distribution; 
+b. A statement that the intellectual property rights belong to Academia Sinica must accompany such reproduction and/or distribution; 
 
-    c. You are required to cite this copyright text in full. 
+c. You are required to cite this copyright text in full. 
  
 The full legal text of Creative Commons Attribution -NonCommercial-NoDerives 2.5 Taiwan License is located at http://creativecommons.org/licenses/by-nc-nd/2.5/tw/deed.en ; its deed and logo can be found at: http://creativecommons.org/licenses/by-nc-nd/2.5/tw/legalcode. 
 
@@ -92,21 +92,21 @@ If an account or a project sees no activity for a certain period of time, OpenFo
 
 In any of the following cases, OpenFoundry may suspend part or all of your rights to use the Website or the Related Services without any notice: 
  
-    a. Any illegal or improper conduct such as infringement, violation of law, violation of the Terms, or providing the Website with incorrect personal data; 
-    b. Abuse of the services provided by OpenFoundry on the Website or the Related Service by violating the Terms or the law in Taiwan; 
-    c. Conducts that are against the purpose of the Website; 
-    d. Request to suspend the account filed by you; 
-    e. Conducts that cause damage to others or OpebFoundry; 
-    f. Any conduct that is improper according to the purpose of the Website or the Related Services, or the law in Taiwan.  
+a. Any illegal or improper conduct such as infringement, violation of law, violation of the Terms, or providing the Website with incorrect personal data; 
+b. Abuse of the services provided by OpenFoundry on the Website or the Related Service by violating the Terms or the law in Taiwan; 
+c. Conducts that are against the purpose of the Website; 
+d. Request to suspend the account filed by you; 
+e. Conducts that cause damage to others or OpebFoundry; 
+f. Any conduct that is improper according to the purpose of the Website or the Related Services, or the law in Taiwan.  
 
 
 13. Infringement and Violation of Law 
 
 If you have a reasonable suspicion for any infringement or that a conduct violates the law, you can provide OpenFoundry with the following informations so that OpenFoundry is able to investigate internally: 
 
-    a. Facts of such infringement or violation with sufficient data or information to prove the facts; 
-    b. Your real name, postal address, phone number and e-mail address; 
-    c.  A written statement that you have reasons to believe that the conduct in question is an infringement, or violates the law. 
+a. Facts of such infringement or violation with sufficient data or information to prove the facts; 
+b. Your real name, postal address, phone number and e-mail address; 
+c.  A written statement that you have reasons to believe that the conduct in question is an infringement, or violates the law. 
 
 If, after investigation, the reported infringement or violation is true, OpenFoundry will remove the data item and notify you and other users that the item in question is removed or no longer accessible and take proper measures according to the law. 
 
@@ -132,4 +132,4 @@ The Terms are governed by the laws of Republic of China (Taiwan).  Any legal cla
 
 17. Contact Information 
 
-The email address of OpenFoundry is contact@openfoundry.org .
+The email address of OpenFoundry is contact@openfoundry.org.
