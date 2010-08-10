@@ -1,11 +1,7 @@
 <h4><%=t('Terms of Use Agreement') %></h4>
 
 <fieldset>
-  <textarea style='height:300px; width:99%; overflow-x:hidden;' readonly=true>
-    <% File.open(file_path, 'r').each do |line| %>
-      <%= line.chop -%>  
-    <% end %>  
-  </textarea>
+  <textarea style='height:300px; width:99%; overflow-x:hidden;' readonly=true><% File.open(file_path, 'r').each do |line| -%><%=line -%><% end -%></textarea>
 
   <% form_tag submit_to do %>
     <%=hidden_field_tag 'agree', '1' -%>
