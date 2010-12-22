@@ -501,7 +501,7 @@ save!
   end
   
   def image
-    user = User.find_by_name params[:name]
+    user = User.normal.find_by_name params[:name]
     size = params[:size]||:original
     size = :original unless [:thumb, :original, :medium, :large].member? size.to_sym
 
