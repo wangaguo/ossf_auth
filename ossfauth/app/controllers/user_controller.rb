@@ -297,11 +297,11 @@ save!
     s.save
 
     session[:user] = @u
-    if params[:return_url] and !params[:return_url].empty? and
-    params[:return_url].match /^\//  
+    if params[:return_url] and !params[:return_url].empty?# and params[:return_url].match /^\//  
       redirect_to params[:return_url] 
     else
       flash.now[:message] = 'user login success'
+      #redirect_to params[:return_url] 
       redirect_to home_user_path
     end
     #session[:wsw_profile].destroy
@@ -491,7 +491,7 @@ save!
     # mark the user integrated
     @u = session[:user_to_integrate]
     @u.params[ :istatus ] = :yes
-    @u.save
+    @u.save!
     # log this integration process into messages
     @u.messages.create(:status => 'integrated', :action => 'log', 
       :body => session[:intgration_log])
