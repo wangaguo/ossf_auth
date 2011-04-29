@@ -30,10 +30,12 @@ class AccountController < ApplicationController
 
   def check_account_email_available
     email = params[:email]
+    disable_btn = "$('#signup').attr('disabled', '');"
     text_key = 
     if User.normal.exists?(['email = ?', email]) 
       "user.account_email_used"
     elsif fetch_userdata_from_whoswho(email)
+      disable_btn = "$('#signup').attr('disabled', 'disabled');"
       "user.account_wsw_email_used"
     elsif not email.match  /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
       "user.account_email_invaild"
@@ -42,7 +44,7 @@ class AccountController < ApplicationController
     end
     
     text = email.empty? ? '' : t(text_key, :name => email) 
-    render :text => "$('#email_availability_result').html('#{text}');",
+    render :text => disable_btn + "$('#email_availability_result').html('#{text}');",
            :layout => false
   end
 end
