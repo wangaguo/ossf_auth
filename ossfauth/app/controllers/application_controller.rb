@@ -119,4 +119,26 @@ class ApplicationController < ActionController::Base
   def check_user
     check_session.user || session[:user]
   end
+
+  #
+  # fetch a user's data from WSW according to the username, email...
+  #
+  def fetch_userdata_from_whoswho( key )
+    if not key.nil? 
+      # concatenate the post url of WSW api  
+      postquery = ( ( key =~ /@/ )? "byemail&e=" : "&u=" ) + key
+      postquery = "#{request.protocol}#{request.host_with_port}/index.php?option=com_ofsso&controller=sso&task=getuser" + postquery
+
+      # obtain the user data from WSW
+      require 'curb'
+      chk = Curl::Easy.http_post( postquery )
+      begin
+        return JSON.parse( chk.body_str ) if not chk.body_str =~ /false/
+      rescue JSON::ParserError => e
+        flash.now[ :error ] = "Integration Error!!"
+        return nil
+      end
+    end
+  end
+
 end
