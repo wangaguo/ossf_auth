@@ -33,6 +33,8 @@ class AccountController < ApplicationController
     text_key = 
     if User.normal.exists?(['email = ?', email]) 
       "user.account_email_used"
+    elsif fetch_userdata_from_whoswho(email)
+      "user.account_wsw_email_used"
     elsif not email.match  /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
       "user.account_email_invaild"
     else

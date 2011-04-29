@@ -42,7 +42,7 @@ zh_TW:
   menu:
     home: 首頁
     project: 專案
-    community: 社群
+    community: "Who's Who"
     news: 新聞
     lawandlicenses: 法律源地
     workshop: 工作坊
@@ -55,6 +55,7 @@ zh_TW:
     forgot_password_whoswho: "忘記 Who's Who 的密碼"
     account_name_used: "帳號名稱{{name}}註冊過了喔"
     account_email_used: "Email帳號{{name}}註冊過了喔"
+    account_wsw_email_used: <a href="http://www.openfoundry.org/sso/user/login?whoswho=1">"已有Who\'s Who帳號\?"</a> 請透過Who\'s Who帳號登入。
     account_name_ok: "帳號名稱{{name}}可以使用"
     account_email_ok: "Email帳號{{name}}可以使用"
     account_name_invaild: "帳號名稱{{name}}是無效的喔"

@@ -21,7 +21,7 @@ en:
   Change Password: Change Password
   Change Email: Change Email
   Email: Email
-  "I am Who's Who User": "I never register in OpenFoundry, use Who's Who instead."
+  "I am Who's Who User": "I never register in OpenFoundry use Who's Who instead."
   "Session Expired": "Session Expired"
   "Sorry, your session was expired. Reload the page and relogin in your account please.": "Sorry, your session was expired. Reload the page and relogin in your account please."
   "Whoswho Login Error": "Check your account and passwords in Who's Who please."
@@ -41,10 +41,10 @@ en:
   user_change_email_msg_send: Please check your new Email box for change confirmation.
   menu:
     home: Home
-    project: Project
-    community: Community
+    project: Projects
+    community: "Who's Who"
     news: News
-    lawandlicenses: Law and Licenses
+    lawandlicenses: "Law & Licensing"
     workshop: Workshop
     resourcecatalog: Resource Catalog
     about: About
@@ -55,6 +55,7 @@ en:
     forgot_password_whoswho: "Forgot Who'sWho Password"
     account_name_used: "Account name: {{name}} has taken"
     account_email_used: "Email: {{name}} has taken"
+    account_wsw_email_used: <a href="http://www.openfoundry.org/sso/user/login?whoswho=1">"Who\'s Who account has taken\?"</a> Please login within Who\'s Who account.
     account_name_ok: "Account name: {{name}} is available"
     account_email_ok: "Email: {{name}} is available"
     account_name_invaild: "Account name: {{name}} is invaild"
