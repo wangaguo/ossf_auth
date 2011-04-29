@@ -1,6 +1,9 @@
 :javascript
   window.onload=function(){
     document.getElementById('name').focus();
+    if (/whoswho=1/.test(document.location.search)){
+      document.getElementById('whoswho').checked=(!document.getElementById('whoswho').checked);
+    }
   }
 
 -module_title = capture do
