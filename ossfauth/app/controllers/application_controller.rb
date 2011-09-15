@@ -76,7 +76,8 @@ class ApplicationController < ActionController::Base
     @event = login_by_token #unless @user
     if @event
       if @event.user == @user 
-        redirect_to @event.action
+#        redirect_to @event.action
+        redirect_to '/of/user/welcome'
       else
         #session user != token user
         #force session user to logout!
