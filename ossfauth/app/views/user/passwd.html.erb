@@ -1,7 +1,7 @@
-<%= error_messages_for :user %>
-<% form_for :user, @user, :url => passwd_user_path do |f| %>
+<%= error_messages_for 'user', :pw_user %>
+<% form_for :pw_user, @pw_user, :url => passwd_user_path do |f| %>
 <table>
-  <% unless @user.params[:forgot_password] %>
+  <% unless @pw_user.params[:forgot_password] %>
   <tr>
     <td>
       <%= f.label :old_password, User.human_attribute_name( :old_password ) %>

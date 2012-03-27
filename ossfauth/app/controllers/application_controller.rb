@@ -76,8 +76,7 @@ class ApplicationController < ActionController::Base
     @event = login_by_token #unless @user
     if @event
       if @event.user == @user 
-#        redirect_to @event.action
-        redirect_to '/of/user/welcome'
+        redirect_to @event.action
       else
         #session user != token user
         #force session user to logout!
@@ -96,7 +95,12 @@ class ApplicationController < ActionController::Base
       e = User.authenticate_by_token(params[:t])
       return nil unless e
       @user = e.user
-      session[:user] = @user
+      if e.action == passwd_user_path
+        reset_session
+        session[:pw_user] = @user
+      else
+        session[:user] = @user
+      end
       s = e.user.sessions.new
       s.session_key = request.session_options[:id]
       s.save!

@@ -4,25 +4,29 @@ class UserController < ApplicationController
   before_filter :login_require, :except => [:availability, :signup, :login, 
       :forgot_password, :integration_whoswho, :email_collision_whoswho,
       :username_collision_whoswho, :image,
-      :integration, :integrate_diff_accounts, :integrate_success]
+      :integration, :integrate_diff_accounts, :integrate_success,
+      :passwd]
 
   def edit
+    @pw_user = @user
   end
 
   def passwd
+    @pw_user = session[:pw_user] ? session[:pw_user] : check_user
     if request.post?
       #save password
       #@user.update_attributes params[:user].reject{|k,v|
       #              not User.columns_for_change_password.member? k}
-      @user.old_password = params[:user][:old_password]
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
-      @user.change_password = true
-      if @user.save #success
+      @pw_user.old_password = params[:pw_user][:old_password]
+      @pw_user.password = params[:pw_user][:password]
+      @pw_user.password_confirmation = params[:pw_user][:password_confirmation]
+      @pw_user.change_password = true
+      if @pw_user.save #success
+        @pw_user.params.delete :forgot_password
+        @pw_user.save_without_validation
+        reset_session
         flash[:message] = 'change passwd success!'
-        @user.params.delete :forgot_password
-        @user.save_without_validation
-        redirect_to edit_user_path
+        redirect_to login_user_path
       else
         flash.now[:error] = 'error'
       end
@@ -150,7 +154,7 @@ BODY
   def signup_success
     flash[:message] = t 'user.user_signup_success'
     tk = @user.generate_token
-    @user.events.create :action => home_user_path, :token => tk, :body => 
+    @user.events.create :action => '/of/user/welcome', :token => tk, :body => 
 "
 if self.params[:from_wsw] == true
   require 'curb'

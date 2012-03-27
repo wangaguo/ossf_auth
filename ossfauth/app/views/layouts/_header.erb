@@ -23,8 +23,8 @@
                                     <div class="rt-module-inner">
                                     <div class="module-content">
                                     <div class="ofssologin_square9">
-                                          <% if(check_user) -%>
-                                            <%=t('Hi')%>,<%= link_to check_user.name, '/user/userprofile' %>
+                                          <% if(session[:user]) -%>
+                                            <%=t('Hi')%>,<%= link_to session[:user].name, '/user/userprofile' %>
                                             &nbsp;|&nbsp; 
                                             <%= link_to t('Dashboard'), '/of/user/dashboard' %>
                                             &nbsp;|&nbsp; 
