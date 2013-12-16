@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
         errors.add :old_password, ' mismatch'
       end  
     end
-    if new_record? and %w{admin administrator superuser root openfoundry}.member? name
+    if new_record? and %w{admin administrator superuser root openfoundry git gitolite-admin}.member? name
       errors.add :name, 'preserved'
     end
   end
